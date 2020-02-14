@@ -10,21 +10,20 @@ import { ViewNameLookup, ParameterLookup, RouteLookup } from "./lookups/routingL
 import { CommandResponse, Product, ProductDetailPageResponse, ApiResponse, ProductSaveResponse, ProductSaveRequest, ActiveUser } from "./typeDefinitions";
 
 const processStartProductDetailError = (res: Response, error: any): void => {
-	let errorMessage: (string | undefined) = "";
-	if ((error.status != null) && (error.status >= 500)) {
+	let errorMessage: (string | undefined) = '';
+	if (error.status != null && error.status >= 500)
 		errorMessage = error.message;
-	}
 
-	res.status((error.status || 500))
+	res.status(error.status || 500)
 		.render(
 			ViewNameLookup.ProductDetail,
 			<ProductDetailPageResponse>{
 				product: <Product>{
-					id: "",
+					id: '',
 					count: 0,
-					lookupCode: ""
+					lookupCode: ''
 				},
-				errorMessage: errorMessage
+				errorMessage
 			});
 };
 

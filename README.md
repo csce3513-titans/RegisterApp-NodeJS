@@ -1,16 +1,18 @@
- # Basic description
-Browser based register application that interacts with a PostgreSQL database. Implemented in NodeJS with typescript, express, and the sequelize ORM. Edited in Visual Studio Code.  
-  
-If a "PORT" environment variable has not been defined then the application currently defaults to port 15100 (see ./src/app.ts).  
+# Register App
+Browser based register application that interacts with a PostgreSQL database. Implemented in NodeJS with typescript, express, and the sequelize ORM.
 
-To start via the terminal navigate to the source code directory and run the following commands (after install "rebuild" will be run automatically)...  
-`$ npm install`  
-`$ npm run (re)build`  
-`$ npm run start`  
+## Development Environment Setup
+First, install dev dependencies with `npm install`. Once this is done you will be able to lint with `npm run lint`. Make sure you correct all issues before you make a commit.
 
- # Landing page (list available products)
-`https://uarkregappnodejs.herokuapp.com/`  
+Next, create a file at the project root named `.env`. This is used to define local environment variables. Make sure to define the variable `DATABASE_URL=postgres://whatever`. If a `PORT` variable is not defined then the application will default to port 15100 (see ./src/app.ts).
 
- # Helper links
- ## EJS Linter
-`https://stackoverflow.com/questions/48140310/how-to-use-ejs-lint-in-cli/48183883#48183883`
+## Running Locally
+
+To start via the terminal navigate to the source code directory and run the following commands (after install `rebuild` will be run automatically)...
+```bash
+npm run rebuild
+npm run start
+```
+
+## Deployed URL
+http://register-app-titans.herokuapp.com/
