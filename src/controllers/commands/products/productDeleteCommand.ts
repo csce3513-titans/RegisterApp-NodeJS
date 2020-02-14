@@ -1,15 +1,14 @@
-import Sequelize from "sequelize";
-import * as Helper from "../helpers/helper";
-import { ProductModel } from "../models/productModel";
-import { CommandResponse } from "../../typeDefinitions";
-import * as ProductRepository from "../models/productModel";
-import { Resources, ResourceKey } from "../../../resourceLookup";
-import * as DatabaseConnection from "../models/databaseConnection";
+import Sequelize from 'sequelize';
+import * as Helper from '../helpers/helper';
+import { ProductModel } from '../models/productModel';
+import { CommandResponse } from '../../typeDefinitions';
+import * as ProductRepository from '../models/productModel';
+import { Resources, ResourceKey } from '../../../resourceLookup';
+import * as DatabaseConnection from '../models/databaseConnection';
 
 export const execute = async (productId?: string): Promise<CommandResponse<void>> => {
-	if (Helper.isBlankString(productId)) {
+	if (Helper.isBlankString(productId))
 		return <CommandResponse<void>>{ status: 204 };
-	}
 
 	let deleteTransaction: Sequelize.Transaction;
 
@@ -21,9 +20,8 @@ export const execute = async (productId?: string): Promise<CommandResponse<void>
 				<string>productId,
 				deleteTransaction);
 		}).then((queriedProduct: (ProductModel | null)): Promise<void> => {
-			if (queriedProduct == null) {
+			if (queriedProduct == null)
 				return Promise.resolve();
-			}
 
 			return queriedProduct.destroy(
 				<Sequelize.InstanceDestroyOptions>{
@@ -34,14 +32,12 @@ export const execute = async (productId?: string): Promise<CommandResponse<void>
 
 			return <CommandResponse<void>>{ status: 204 };
 		}).catch((error: any): Promise<CommandResponse<void>> => {
-			if (deleteTransaction != null) {
+			if (deleteTransaction != null)
 				deleteTransaction.rollback();
-			}
 
 			return Promise.reject(<CommandResponse<void>>{
-				status: (error.status || 500),
-				message: (error.message
-					|| Resources.getString(ResourceKey.PRODUCT_UNABLE_TO_DELETE))
+				status: error.status || 500,
+				message: error.message || Resources.getString(ResourceKey.PRODUCT_UNABLE_TO_DELETE)
 			});
 		});
 };
