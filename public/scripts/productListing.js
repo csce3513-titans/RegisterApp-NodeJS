@@ -1,34 +1,31 @@
-document.addEventListener("DOMContentLoaded", () => {
-	const productListElements = document.getElementById("productsListing").children;
+document.addEventListener('DOMContentLoaded', () => {
+	const productListElements = document.getElementById('productsListing').children;
 
-	for (let i = 0; i < productListElements.length; i++) {
-		productListElements[i].addEventListener("click", productClick);
-	}
+	for (let i = 0; i < productListElements.length; i++)
+		productListElements[i].addEventListener('click', productClick);
 });
 
 function findClickedListItemElement(clickedTarget) {
-	if (clickedTarget.tagName.toLowerCase() === "li") {
+	if (clickedTarget.tagName.toLowerCase() === 'li')
 		return clickedTarget;
-	} else {
-		let ancestorIsListItem = false;
-		let ancestorElement = clickedTarget.parentElement;
 
-		while (!ancestorIsListItem && (ancestorElement != null)) {
-			ancestorIsListItem = (ancestorElement.tagName.toLowerCase() === "li");
+	let ancestorIsListItem = false;
+	let ancestorElement = clickedTarget.parentElement;
 
-			if (!ancestorIsListItem) {
-				ancestorElement = ancestorElement.parentElement;
-			}
-		}
+	while (!ancestorIsListItem && ancestorElement != null) {
+		ancestorIsListItem = ancestorElement.tagName.toLowerCase() === 'li';
 
-		return (ancestorIsListItem ? ancestorElement : null);
+		if (!ancestorIsListItem)
+			ancestorElement = ancestorElement.parentElement;
 	}
+
+	return ancestorIsListItem ? ancestorElement : null;
 }
 
 function productClick(event) {
-	let listItem = findClickedListItemElement(event.target);
+	const listItem = findClickedListItemElement(event.target);
 
 	window.location.assign(
-		"/productDetail/"
+		'/productDetail/'
 		+ listItem.querySelector("input[name='productId'][type='hidden']").value);
 }
