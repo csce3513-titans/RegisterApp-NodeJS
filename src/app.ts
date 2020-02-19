@@ -44,8 +44,8 @@ app.use(session(<session.SessionOptions>{
 
 app.use(express.static(path.join(__dirname, '../public')));
 
-fileSystem.readdirSync(__dirname + '/routes').forEach(function(routeConfig: string) {
-	if (routeConfig.substr(-3) === '.js') {
+fileSystem.readdirSync(__dirname + '/routes').forEach((routeConfig: string) => {
+	if (routeConfig.endsWith('.js')) {
 		const route = require(__dirname + '/routes/' + routeConfig);
 		route.routes(app);
 	}

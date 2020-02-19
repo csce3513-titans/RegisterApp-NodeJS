@@ -15,6 +15,12 @@ export const formatDate = (dateToFormat: Date): string => {
 		+ (dateToFormat.getHours() <= 12 ? 'AM' : 'PM');
 };
 
+export const isNumberString = (num: string): boolean => {
+	const match: (RegExpExecArray | null) = /^[0-9]*$/.exec(num);
+
+	return match != null;
+};
+
 export const isValidUUID = (uuid: string): boolean => {
 	const match: (RegExpExecArray | null) =
 		/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-5][0-9a-fA-F]{3}-[089ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/i

@@ -1,7 +1,7 @@
-import Sequelize from "sequelize";
-import { DatabaseConnection } from "./databaseConnection";
-import { EmployeeFieldName, DatabaseTableName } from "./constants/databaseNames";
-import { Model, DataTypes, InitOptions, ModelAttributes, ModelAttributeColumnOptions } from "sequelize";
+import Sequelize from 'sequelize';
+import { DatabaseConnection } from './databaseConnection';
+import { EmployeeFieldName, DatabaseTableName } from './constants/databaseNames';
+import { Model, DataTypes, InitOptions, ModelAttributes, ModelAttributeColumnOptions } from 'sequelize';
 
 export class EmployeeModel extends Model {
 	public active!: boolean;
@@ -80,7 +80,7 @@ export const queryById = async (
 
 	return EmployeeModel.findOne(<Sequelize.FindOptions>{
 		transaction: queryTransaction,
-		where: <Sequelize.WhereAttributeHash>{ id: id }
+		where: <Sequelize.WhereAttributeHash>{ id }
 	});
 };
 
@@ -91,13 +91,13 @@ export const queryByEmployeeId = async (
 
 	return EmployeeModel.findOne(<Sequelize.FindOptions>{
 		transaction: queryTransaction,
-		where: <Sequelize.WhereAttributeHash>{ employeeId: employeeId }
+		where: <Sequelize.WhereAttributeHash>{ employeeId }
 	});
 };
 
 export const queryActive = async (): Promise<EmployeeModel[]> => {
 	return EmployeeModel.findAll(<Sequelize.FindOptions>{
-		order: [ [EmployeeFieldName.CreatedOn, "ASC"] ],
+		order: [[EmployeeFieldName.CreatedOn, 'ASC']],
 		where: <Sequelize.WhereAttributeHash>{ active: true }
 	});
 };

@@ -14,6 +14,9 @@ export const DatabaseConnection: Sequelize.Sequelize =
 				min: 0,
 				acquire: 30000,
 				max: defaultMaximumPoolSize
+			},
+			dialectOptions: {
+				ssl: process.env.SEQUELIZE_USE_SSL === 'true'
 			}
 		});
 
