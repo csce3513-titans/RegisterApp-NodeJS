@@ -1,7 +1,7 @@
-import { ActiveUserModel } from "../models/activeUserModel";
-import { Resources, ResourceKey } from "../../../resourceLookup";
-import * as ActiveUserRepository from "../models/activeUserModel";
-import { CommandResponse, ActiveUser } from "../../typeDefinitions";
+import { ActiveUserModel } from '../models/activeUserModel';
+import { Resources, ResourceKey } from '../../../resourceLookup';
+import * as ActiveUserRepository from '../models/activeUserModel';
+import { CommandResponse, ActiveUser } from '../../typeDefinitions';
 
 export const execute = async (sessionKey: string): Promise<CommandResponse<ActiveUser>> => {
 	return ActiveUserRepository.queryBySessionKey(sessionKey)
@@ -17,5 +17,5 @@ export const execute = async (sessionKey: string): Promise<CommandResponse<Activ
 				status: 200,
 				data: queriedActiveUser
 			});
-	});
+		});
 };

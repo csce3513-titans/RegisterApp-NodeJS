@@ -1,11 +1,11 @@
-import { Request, Response } from "express";
-import { ApiResponse } from "../typeDefinitions";
-import { ResourceKey, Resources } from "../../resourceLookup";
-import { RouteLookup, QueryParameterLookup } from "../lookups/routingLookup";
+import { Request, Response } from 'express';
+import { ApiResponse } from '../typeDefinitions';
+import { ResourceKey, Resources } from '../../resourceLookup';
+import { RouteLookup, QueryParameterLookup } from '../lookups/routingLookup';
 
 const baseNoPermissionsRedirectUrl: string = (
-	"/?" + QueryParameterLookup.ErrorCode
-	+ "=" + ResourceKey.USER_NO_PERMISSIONS);
+	'/?' + QueryParameterLookup.ErrorCode
+	+ '=' + ResourceKey.USER_NO_PERMISSIONS);
 
 const defaultNoPermissionsRedirectBaseLocation: string = RouteLookup.MainMenu;
 
@@ -15,8 +15,8 @@ export interface ApiErrorHints {
 }
 
 export const invalidSessionRedirectUrl: string = (RouteLookup.SignIn
-	+ "/?" + QueryParameterLookup.ErrorCode
-	+ "=" + ResourceKey.USER_SESSION_NOT_ACTIVE);
+	+ '/?' + QueryParameterLookup.ErrorCode
+	+ '=' + ResourceKey.USER_SESSION_NOT_ACTIVE);
 
 export const buildNoPermissionsRedirectUrl = (
 	redirectBaseLocation?: string
@@ -42,7 +42,8 @@ export const processStartError = (
 	redirectBaseLocation?: string
 ): boolean => {
 
-	let processedStartError: boolean = false;
+	let processedStartError: boolean;
+	processedStartError = false;
 
 	if ((error.status != null) && (error.status === 404)
 		&& (error.message === Resources.getString(ResourceKey.USER_NOT_FOUND))) {

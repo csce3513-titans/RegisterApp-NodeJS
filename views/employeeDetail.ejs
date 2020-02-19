@@ -46,6 +46,40 @@
 							<input id="employeeEmployeeId" type="text" value="<% if (locals.employee && locals.employee.employeeId) { %><%= locals.employee.employeeId %><% } %>" class="update" disabled />
 						</td>
 					</tr>
+					<tr>
+						<td>First Name:</td>
+						<td>
+							<input id="firstName" type="text" value="<% if (locals.employee && locals.employee.firstName) { %><%= locals.employee.firstName %><% } %>"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Last Name:</td>
+						<td>
+							<input id="lastName" type="text" value="<% if (locals.employee && locals.employee.lastName) { %><%= locals.employee.lastName %><% } %>"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td>
+							<input id="password" type="text" value="<% if (locals.employee && locals.employee.password) { %><%= locals.employee.password %><% } %>"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Confirm Password:</td>
+						<td>
+							<input id="confirmPassword" type="text" value="<% if (locals.employee && locals.employee.confirmPassword) { %><%= locals.employee.confirmPassword %><% } %>"/>
+						</td>
+					</tr>
+					<label for="employeeType">Employee Type:</label>
+
+					<select id="employeeType">
+						<option value="cashier">Cashier</option>
+						<option value="shiftManager">Shift Manager</option>
+						<option value="generalManager">General Manager</option>
+					</select>
+
+					<button type="button">Save</button>
+
 					<!-- TODO: Other employee inputs -->
 				</tbody>
 			</table>

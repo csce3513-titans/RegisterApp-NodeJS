@@ -1,7 +1,7 @@
-import Sequelize from "sequelize";
-import { DatabaseConnection } from "./databaseConnection";
-import { ActiveUserFieldName, DatabaseTableName } from "./constants/databaseNames";
-import { Model, DataTypes, InitOptions, ModelAttributes, ModelAttributeColumnOptions } from "sequelize";
+import Sequelize from 'sequelize';
+import { DatabaseConnection } from './databaseConnection';
+import { ActiveUserFieldName, DatabaseTableName } from './constants/databaseNames';
+import { Model, DataTypes, InitOptions, ModelAttributes, ModelAttributeColumnOptions } from 'sequelize';
 
 export class ActiveUserModel extends Model {
 	public name!: string;
@@ -62,7 +62,7 @@ export const queryById = async (
 
 	return ActiveUserModel.findOne(<Sequelize.FindOptions>{
 		transaction: queryTransaction,
-		where: <Sequelize.WhereAttributeHash>{ id: id }
+		where: <Sequelize.WhereAttributeHash>{ id }
 	});
 };
 
@@ -73,7 +73,7 @@ export const queryBySessionKey = async (
 
 	return ActiveUserModel.findOne(<Sequelize.FindOptions>{
 		transaction: queryTransaction,
-		where: <Sequelize.WhereAttributeHash>{ sessionKey: sessionKey }
+		where: <Sequelize.WhereAttributeHash>{ sessionKey }
 	});
 };
 
@@ -84,6 +84,6 @@ export const queryByEmployeeId = async (
 
 	return ActiveUserModel.findOne(<Sequelize.FindOptions>{
 		transaction: queryTransaction,
-		where: <Sequelize.WhereAttributeHash>{ employeeId: employeeId }
+		where: <Sequelize.WhereAttributeHash>{ employeeId }
 	});
 };

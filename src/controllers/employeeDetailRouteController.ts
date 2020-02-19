@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
-import * as Helper from "./helpers/routeControllerHelper";
-import { Resources, ResourceKey } from "../resourceLookup";
-import * as EmployeeHelper from "./commands/employees/helpers/employeeHelper";
-import * as ValidateActiveUser from "./commands/activeUsers/validateActiveUserCommand";
-import { CommandResponse, Employee, EmployeeSaveRequest, ActiveUser } from "./typeDefinitions";
+import { Request, Response } from 'express';
+import * as Helper from './helpers/routeControllerHelper';
+import { Resources, ResourceKey } from '../resourceLookup';
+import * as EmployeeHelper from './commands/employees/helpers/employeeHelper';
+import * as ValidateActiveUser from './commands/activeUsers/validateActiveUserCommand';
+import { CommandResponse, Employee, EmployeeSaveRequest, ActiveUser } from './typeDefinitions';
 
 interface CanCreateEmployee {
 	employeeExists: boolean;
