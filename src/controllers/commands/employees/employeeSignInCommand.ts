@@ -40,16 +40,15 @@ export const execute = async (signInRequest: SignInRequest, session: Express.Ses
 				message: Resources.getString(ResourceKey.USER_SIGN_IN_CREDENTIALS_INVALID)
 			};
 
-		const activeUserResponse = await ActiveUserModel.queryByEmployeeId(signInRequest.employeeId, authTransaction);
+		const activeUserResponse = await ActiveUserModel.queryByEmployeeId(employeeResponse.id, authTransaction);
 		if (activeUserResponse !== null) {
 			activeUserResponse.set('sessionKey', session.id);
 			await activeUserResponse.save();
 		} else
 			await ActiveUserModel.ActiveUserModel.create({
-				id: employeeResponse.id,
 				name: `${employeeResponse.firstName} ${employeeResponse.lastName}`,
 				createdOn: new Date(),
-				employeeId: employeeResponse.employeeId,
+				employeeId: employeeResponse.id,
 				sessionKey: session.id,
 				classification: employeeResponse.classification
 			});
