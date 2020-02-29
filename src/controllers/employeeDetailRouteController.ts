@@ -7,6 +7,8 @@ import { CommandResponse, Employee, EmployeeSaveRequest, ActiveUser } from './ty
 import { ViewNameLookup, RouteLookup } from '../controllers/lookups/routingLookup';
 // import * as ActiveEmployeeExistsQuery from './commands/employees/activeEmployeeExistsQuery';
 import * as EmployeeQuery from './commands/employees/helpers/employeeQuery';
+import * as EmployeeUpdate from './commands/employees/helpers/employeeUpdateCommand';
+import * as EmployeeCreate from './commands/employees/helpers/employeeCreateCommands';
 
 interface CanCreateEmployee {
 	employeeExists: boolean;
@@ -34,7 +36,6 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 		return;
 	}
 	
-
 	return determineCanCreateEmployee(req)
 		.then((canCreateEmployee: CanCreateEmployee): void => {
 			if (canCreateEmployee.employeeExists
@@ -44,6 +45,9 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 			}
 			else if(!canCreateEmployee.employeeExists || canCreateEmployee.isElevatedUser){
 				return res.render(ViewNameLookup.EmployeeDetail);
+			}
+			else if(!ValidateActiveUser.execute((<Express.Session>req.session).id)){
+				return res.redirect(ViewNameLookup.SignIn);
 			}
 			else{
 				return res.redirect(ViewNameLookup.MainMenu);
@@ -63,10 +67,23 @@ export const startWithEmployee = async (req: Request, res: Response): Promise<vo
 	return ValidateActiveUser.execute((<Express.Session>req.session).id)
 		.then((activeUserCommandResponse: CommandResponse<ActiveUser>): Promise<void> => {
 			if (!EmployeeHelper.isElevatedUser((<ActiveUser>activeUserCommandResponse.data).classification)) {
+				res.redirect(ViewNameLookup.MainMenu);
 				return Promise.reject(<CommandResponse<Employee>>{
 					status: 403,
 					message: Resources.getString(ResourceKey.USER_NO_PERMISSIONS)
 				});
+			}
+			if(activeUserCommandResponse.status !== 200){
+				res.redirect(ViewNameLookup.SignIn);
+			}
+			else{
+				if(!EmployeeQuery.queryById((<Express.Session>req.session).id)){
+					//Does not exist
+				}
+				else{
+					res.render(ViewNameLookup.EmployeeDetail, (req.body));
+				}
+
 			}
 			
 
@@ -88,7 +105,6 @@ const saveEmployee = async (
 		isInitialEmployee?: boolean
 	) => Promise<CommandResponse<Employee>>
 ): Promise<void> => {
-
 	if (Helper.handleInvalidApiSession(req, res)) {
 		return;
 	}
@@ -123,9 +139,51 @@ const saveEmployee = async (
 };
 
 export const updateEmployee = async (req: Request, res: Response): Promise<void> => {
-	return; // TODO: invoke saveEmployee() with the appropriate save functionality
+
+	return ValidateActiveUser.execute((<Express.Session>req.session).id)
+		.then((activeUserCommandResponse: CommandResponse<ActiveUser>): Promise<void> => {
+			if((<ActiveUser>activeUserCommandResponse.data)){
+				res.redirect(ViewNameLookup.SignIn);
+			}
+			if (!EmployeeHelper.isElevatedUser((<ActiveUser>activeUserCommandResponse.data).classification)) {
+				res.redirect(ViewNameLookup.MainMenu);
+			}
+			else{
+				const ExecuteUpdate: CommandResponse<Employee> = EmployeeUpdate.execute(req.body);
+				if(ExecuteUpdate.status !== 200){
+					return Promise.reject(ExecuteUpdate);
+				}
+				else{
+					return req.body;
+				}
+			}
+		});
+	 // TODO: invoke saveEmployee() with the appropriate save functionality
 };
 
 export const createEmployee = async (req: Request, res: Response): Promise<void> => {
-	return; // TODO: invoke saveEmployee() with the appropriate save functionality
+	return ValidateActiveUser.execute((<Express.Session>req.session).id)
+		.then((activeUserCommandResponse: CommandResponse<ActiveUser>): Promise<void> => {
+			if (!EmployeeHelper.isElevatedUser((<ActiveUser>activeUserCommandResponse.data).classification)) {
+				res.redirect(ViewNameLookup.MainMenu);
+				return Promise.reject(<CommandResponse<Employee>>{
+					status: 403,
+					message: Resources.getString(ResourceKey.USER_NO_PERMISSIONS)
+				});
+			}
+			else if(!activeUserCommandResponse.data){
+				res.redirect(ViewNameLookup.SignIn);
+			}
+			else{
+				const ExecuteCreate: CommandResponse<Employee> = EmployeeCreate.execute(req.body);
+				if(ExecuteCreate.status !== 200){
+					return Promise.reject(ExecuteCreate);
+				}
+				else{
+					return req.body;
+				}
+			}
+
+		});
+	 // TODO: invoke saveEmployee() with the appropriate save functionality
 };

@@ -26,6 +26,7 @@
 		</div>
 
 		<div class="inputContent">
+			<!-- <form action="/" method="POST" onsubmit="return validateForm();" class="inputContent" name="employeeDetails"> -->
 			<table id="employeeDetails">
 				<tbody>
 					<tr class="hidden">
@@ -70,20 +71,31 @@
 							<input id="confirmPassword" type="text" value="<% if (locals.employee && locals.employee.confirmPassword) { %><%= locals.employee.confirmPassword %><% } %>"/>
 						</td>
 					</tr>
-					<label for="employeeType">Employee Type:</label>
-
-					<select id="employeeType">
-						<option value="cashier">Cashier</option>
-						<option value="shiftManager">Shift Manager</option>
-						<option value="generalManager">General Manager</option>
-					</select>
-
-					<button type="button" id="employeeSave">Save</button>
-
-					<!-- TODO: Other employee inputs -->
+					<br>
+					<tr>
+						<td>
+							<label for="employeeType">Employee Type:</label>
+						</td>
+						<td>
+							<select id="employeeType">
+								<option value=0>Cashier</option>
+								<option value=1>Shift Manager</option>
+								<option value=2>General Manager</option>
+							</select><br>
+						</td>						
+					</tr>
+					<tr>
+						<td>
+							<button id="employeeSave" type="button">Submit</button>
+						</td>
+					</tr>
+					
 				</tbody>
 			</table>
+			<!-- </form> -->
 		</div>
+		
+
 
 		<!-- TODO: An action element to initiate a save -->
 

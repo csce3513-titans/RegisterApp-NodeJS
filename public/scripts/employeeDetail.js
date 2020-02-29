@@ -1,32 +1,43 @@
 let hideEmployeeSavedAlertTimer = undefined;
 
 document.addEventListener("DOMContentLoaded", () => {
-	button.getElementById("employeeSave").addEventListener("click", event =>{
-		if(event.firstName == ''){
-			alert ("First Name Cannot be Blank");
-			break;
+
+
+	document.getElementById("employeeSave").addEventListener("click", event =>{
+		let firstName = document.getElementById("firstName").value;
+		let lastName = document.getElementById("lastName").value;
+		let password = document.getElementById("password").value;
+		let confirmPassword = document.getElementById("confirmPassword").value;
+		let employeeType = document.getElementById("employeeType").value;
+		if(firstName == ''){
+			let errorMessage = "First name cannot be Blank";
+			document.getElementById("error").style.display = "block";
+			document.getElementById("errorMessage").innerHTML = errorMessage;
+			return false;
 		}
-		if(event.lastName == ''){
-			alert ("Last Name Cannot be Blank");
-			break;
+		else if(lastName == ''){
+			let errorMessage = "Last Name Cannot be Blank";
+			document.getElementById("error").style.display = "block";
+			document.getElementById("errorMessage").innerHTML = errorMessage;
+			return false;
 		}
-		if(event.password == ''){
-			alert ("Password Cannot be Blank");
-			break;
+		else if(password == ''){
+			let errorMessage = "Password Cannot be Blank";
+			document.getElementById("error").style.display = "block";
+			document.getElementById("errorMessage").innerHTML = errorMessage;
+			return false;
 		}
-		if(event.confirmPassword != event.password){
-			alert ("Passwords Must Match");
-			break;
-		}
-		if(event.employeeType != 'Cashier' || 'Shift Manager' || 'General Manager'){
-			alert ("An Employee type Must be selected");
-			break;
+		else if(confirmPassword != password){
+			let errorMessage = "Passwords Must Match";
+			document.getElementById("error").style.display = "block";
+			document.getElementById("errorMessage").innerHTML = errorMessage;
+			return false;
 		}
 		else{
 			saveActionClick(event);
 		}
+		
 	}); 
-	// TODO: Things that need doing when the view is loaded
 });
 
 // Save
@@ -36,15 +47,20 @@ function saveActionClick(event) {
 	const saveActionElement = event.target;
 	saveActionElement.disabled = true;
 
-	const employeeId = getEmployeeId();
-	const employeeIdIsDefined = employeeId != null && employeeId.trim() !== '';
-	const saveActionUrl = ('/api/employeeDetail/' + (employeeIdIsDefined ? employeeId : ''));
+	const newEmployeeId = employeeId.value;
+	const employeeIdIsDefined = newEmployeeId != null;
+	const saveActionUrl = ('/api/employee/' + (employeeIdIsDefined ? newEmployeeId : ''));
 	const saveEmployeeRequest = {
-		id: employeeId,
+		employeeid: newEmployeeId,
+		firstname: firstName.value,
+		lastname: lastName.value,
+		password: password.value,
+		classification: employeeType.value,
 	};
 
+
 	if(employeeIdIsDefined){
-		ajaxPut(saveActionUrl, saveEmployeeRequest, callbackResponse => {
+		ajaxPatch(saveActionUrl, saveEmployeeRequest, callbackResponse => {
 			saveActionElement.disabled = false;
 
 			if (isSuccessResponse(callbackResponse))
@@ -64,7 +80,7 @@ function saveActionClick(event) {
 					&& callbackResponse.data.employee.id.trim() !== '') {
 					// document.getElementById('deleteActionContainer').classList.remove('hidden');
 
-					setEmployeeId(callbackResponse.data.employee.id.trim());
+					setEmployeeId(callbackResponse.data.employee.id);
 				}
 			}
 		});
@@ -90,6 +106,9 @@ function hideEmployeeSavedAlertModal() {
 	}
 
 	getSavedAlertModalElement().style.display = "none";
+}
+function getSavedAlertModalElement() {
+	return document.getElementById('employeeSavedAlertModal');
 }
 function getEmployeeId() {
 	return getEmployeeIdElement().value;

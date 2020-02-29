@@ -10,7 +10,8 @@ function employeeDetailRoutes(server: express.Express) {
 	server.get('/employeeDetail', EmployeeDetailRouteController.start);
 	server.get('/employeeDetail/:employeeId', EmployeeDetailRouteController.startWithEmployee);
 
-	server.post(RouteLookup.EmployeeDetail, EmployeeDetailRouteController.startWithEmployee);
+	server.post('/api/employeeDetail/', EmployeeDetailRouteController.createEmployee);
+	server.patch('/api/employee/:employeeId', EmployeeDetailRouteController.updateEmployee);
 
 	// server.delete(RouteLookup.API + RouteLookup.SignOut, SignInRouteController.clearActiveUser);
 }
