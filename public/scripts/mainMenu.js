@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	cashierReportButton.addEventListener("click", missingFunctionalityError);
 	salesReportButton.addEventListener("click", missingFunctionalityError);
 
-	productListButton.addEventListener("click", clearMissingFunctionalityError);
-	employeeDetailsButton.addEventListener("click", clearMissingFunctionalityError);
+	productListButton.addEventListener("click", function(){ location.assign("http://localhost:15100/productListing"); });
+	employeeDetailsButton.addEventListener("click", function(){ location.assign("http://localhost:15100/employeeDetail") });
 });
 
 function missingFunctionalityError() {
