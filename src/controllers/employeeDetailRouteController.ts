@@ -20,16 +20,13 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 	if (Helper.handleInvalidSession(req, res))
 		return;
 
-
 	return determineCanCreateEmployee(req)
 		.then((canCreateEmployee: CanCreateEmployee): void => {
 			if (canCreateEmployee.employeeExists
 				&& !canCreateEmployee.isElevatedUser)
-
 				return res.redirect(Helper.buildNoPermissionsRedirectUrl());
-
-
 			// TODO: Serve up the page
+
 		}).catch((error: any): void => {
 			// TODO: Handle any errors that occurred
 		});
@@ -39,15 +36,13 @@ export const startWithEmployee = async (req: Request, res: Response): Promise<vo
 	if (Helper.handleInvalidSession(req, res))
 		return;
 
-
-	return ValidateActiveUser.execute(<Express.Session>req.session.id)
+	return ValidateActiveUser.execute((<Express.Session>req.session).id)
 		.then((activeUserCommandResponse: CommandResponse<ActiveUser>): Promise<void> => {
-			if (!EmployeeHelper.isElevatedUser(<ActiveUser>activeUserCommandResponse.data.classification))
+			if (!EmployeeHelper.isElevatedUser((<ActiveUser>activeUserCommandResponse.data).classification))
 				return Promise.reject(<CommandResponse<Employee>>{
 					status: 403,
 					message: Resources.getString(ResourceKey.USER_NO_PERMISSIONS)
 				});
-
 
 			// TODO: Query the employee details using the request route parameter
 			return Promise.resolve();
@@ -66,10 +61,8 @@ const saveEmployee = async (
 		isInitialEmployee?: boolean
 	) => Promise<CommandResponse<Employee>>
 ): Promise<void> => {
-
 	if (Helper.handleInvalidApiSession(req, res))
 		return;
-
 
 	let employeeExists: boolean;
 
@@ -82,7 +75,6 @@ const saveEmployee = async (
 					status: 403,
 					message: Resources.getString(ResourceKey.USER_NO_PERMISSIONS)
 				});
-
 
 			employeeExists = canCreateEmployee.employeeExists;
 
