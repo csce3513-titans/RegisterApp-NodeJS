@@ -1,12 +1,12 @@
 import Sequelize from 'sequelize';
-import * as Helper from '../helpers/helper';
-import { EmployeeModel } from '../models/employeeModel';
-import * as EmployeeRepository from '../models/employeeModel';
-import * as EmployeeHelper from './helpers/employeeHelper';
-import { Resources, ResourceKey } from '../../../resourceLookup';
-import * as DatabaseConnection from '../models/databaseConnection';
-import { CommandResponse, Employee, EmployeeSaveRequest } from '../../typeDefinitions';
-import { EmployeeClassification } from '../models/constants/entityTypes';
+import * as Helper from '../../helpers/helper';
+import { EmployeeModel } from '../../models/employeeModel';
+import * as EmployeeRepository from '../../models/employeeModel';
+import * as EmployeeHelper from '../helpers/employeeHelper';
+import { Resources, ResourceKey } from '../../../../resourceLookup';
+import * as DatabaseConnection from '../../models/databaseConnection';
+import { CommandResponse, Employee, EmployeeSaveRequest } from '../../../typeDefinitions';
+import { EmployeeClassification } from '../../models/constants/entityTypes';
 
 const validateSaveRequest = (
 	saveEmployeeRequest: EmployeeSaveRequest

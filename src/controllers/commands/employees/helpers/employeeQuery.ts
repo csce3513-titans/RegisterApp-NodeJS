@@ -1,9 +1,9 @@
-import * as Helper from '../helpers/helper';
-import { EmployeeModel } from '../models/employeeModel';
-import * as EmployeeHelper from './helpers/productHelper';
-import * as EmployeeRepository from '../models/employeeModel';
-import { Resources, ResourceKey } from '../../../resourceLookup';
-import { CommandResponse, Employee } from '../../typeDefinitions';
+import * as Helper from '../../helpers/helper';
+import { EmployeeModel } from '../../models/employeeModel';
+import * as EmployeeHelper from '../helpers/employeeHelper';
+import * as EmployeeRepository from '../../models/employeeModel';
+import { Resources, ResourceKey } from '../../../../resourceLookup';
+import { CommandResponse, Employee } from '../../../typeDefinitions';
 
 export const queryById = async (employeeId?: string): Promise<CommandResponse<Employee>> => {
     if(Helper.isBlankString(employeeId)) {
