@@ -52,7 +52,7 @@ const saveProduct = async (
 
 	return ValidateActiveUser.execute((<Express.Session>req.session).id)
 		.then((activeUserCommandResponse: CommandResponse<ActiveUser>): Promise<CommandResponse<Product>> => {
-			if (false/* TODO: Verify that the user associated with the current session is elevated or not */)
+			if (activeUserCommandResponse.data?.classification == 0) // TODO: Verify that the user associated with the current session is elevated or not
 				return Promise.reject(<CommandResponse<Product>>{
 					status: 403,
 					message: Resources.getString(ResourceKey.USER_NO_PERMISSIONS)
