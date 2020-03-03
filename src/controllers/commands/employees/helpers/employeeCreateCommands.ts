@@ -61,8 +61,8 @@ export const execute = async (
 		.then((createdTransaction: Sequelize.Transaction): Promise<EmployeeModel | null> => {
 			createTransaction = createdTransaction;
 
-			return EmployeeRepository.queryByLookupCode(
-				saveEmployeeRequest.lookupCode,
+			return EmployeeRepository.queryByEmployeeId(
+				+saveEmployeeRequest.id!,
 				createTransaction);
 		}).then((queriedEmployee: (EmployeeModel | null)): Promise<EmployeeModel> => {
 			if (queriedEmployee != null)
@@ -82,10 +82,15 @@ export const execute = async (
 			return <CommandResponse<Employee>>{
 				status: 201,
 				data: <Employee>{
+					active: createdEmployee.active,
+					lastName: createdEmployee.lastName,
+					password: createdEmployee.password,
+					firstName: createdEmployee.firstName,
+					managerId: createdEmployee.managerId,
+					classification: createdEmployee.classification,
 					id: createdEmployee.id,
-					count: createdEmployee.count,
-					lookupCode: createdEmployee.lookupCode,
-					createdOn: Helper.formatDate(createdEmployee.createdOn)
+					createdOn: createdEmployee.createdOn,
+					employeeId: createdEmployee.id
 				}
 			};
 		}).catch((error: any): Promise<CommandResponse<Employee>> => {
