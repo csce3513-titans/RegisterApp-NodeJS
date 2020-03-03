@@ -29,13 +29,18 @@
 			<button id="startTransactionButton" type="button" class="action">Start Transaction</button>
 			<br />
 			<br />
-			<button id="productListButton" type="button" class="action">Product List</button>
+			<button id="productListButton" type="button" class="action">View Products</button>
 			<br />
 			<br />
-			<button id="employeeDetailsButton" type="button" class="action">Employee Details</button>
-			<br />			
-			<br />
-			<button id="cashierReportButton" type="button" class="action">Cashier Report</button>
+			<% if (locals.isElevatedUser) { %>
+				<button id="employeeDetailsButton" type="button" class="action">Employee Details</button>
+				<br />			
+				<br />
+				<button id="salesReportButton" type="button" class="action">Sales Report</button>
+				<br />			
+				<br />
+				<button id="cashierReportButton" type="button" class="action">Cashier Report</button>
+			<% } %>
 		</div>
 	</div>
 

@@ -20,8 +20,12 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 
 	return ValidateActiveUser.execute((<Express.Session>req.session).id)
 		.then((activeUserCommandResponse: CommandResponse<ActiveUser>): void => {
-			// TODO: Examine the ActiveUser classification if you want this information
-			const isElevatedUser = true;
+			let isElevatedUser: boolean;
+			if (activeUserCommandResponse.data?.classification != 0) {
+				isElevatedUser = true;
+			} else {
+				isElevatedUser = false;
+			}
 
 			// This recommends to Firefox that it refresh the page every time
 			// it is accessed

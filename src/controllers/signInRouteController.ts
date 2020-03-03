@@ -27,7 +27,7 @@ export const signIn = async (req: Request, res: Response): Promise<void> => {
 			password: req.body.password
 		}, req.session);
 
-		return res.render(ViewNameLookup.MainMenu);
+		return res.redirect(RouteLookup.MainMenu);
 	} catch (error) {
 		res.status(error.status).render(ViewNameLookup.SignIn, <ApiResponse>{
 			errorMessage: error.message
