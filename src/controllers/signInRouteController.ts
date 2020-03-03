@@ -7,8 +7,9 @@ import { SignInRequest, ApiResponse } from './typeDefinitions';
 
 export const getView = async (req: Request, res: Response): Promise<void> => {
 	try {
-		// if ((await ActiveEmployeeExistsQuery.query()).data === false)
-		// 	return res.redirect(ViewNameLookup.EmployeeDetail);
+		//	TODO
+		if ((await ActiveEmployeeExistsQuery.query()).data === false)
+			return res.redirect(RouteLookup.EmployeeDetail);
 
 		return res.render(ViewNameLookup.SignIn);
 	} catch (error) {
