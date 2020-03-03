@@ -51,62 +51,50 @@ export const execute = async (
         password: Buffer.from(saveEmployeeRequest.password),
         firstName: saveEmployeeRequest.firstName,
         managerId: saveEmployeeRequest.managerId,
-        // employeeId: 1,                                  FIXME: what to do about dynamic employee IDs?
         classification: saveEmployeeRequest.isInitialEmployee ? 
             EmployeeClassification.GeneralManager : saveEmployeeRequest.classification,
 	};
 
-    let createEmployee: Sequelize.Transaction;
+    let createTransaction: Sequelize.Transaction;
     
-
-    // The instructions say use existing EmployeeModel.create(), yet no method exists. Will ask questions about
-    /* copy/pasted how it was done for the products for future reference
 	return DatabaseConnection.createTransaction()
-		.then((createdTransaction: Sequelize.Transaction): Promise<ProductModel | null> => {
+		.then((createdTransaction: Sequelize.Transaction): Promise<EmployeeModel | null> => {
 			createTransaction = createdTransaction;
 
-			return ProductRepository.queryByLookupCode(
-				saveProductRequest.lookupCode,
+			return EmployeeRepository.queryByLookupCode(
+				saveEmployeeRequest.lookupCode,
 				createTransaction);
-		}).then((queriedProduct: (ProductModel | null)): Promise<ProductModel> => {
-			if (queriedProduct != null)
-				return Promise.reject(<CommandResponse<Product>>{
+		}).then((queriedEmployee: (EmployeeModel | null)): Promise<EmployeeModel> => {
+			if (queriedEmployee != null)
+				return Promise.reject(<CommandResponse<Employee>>{
 					status: 409,
-					message: Resources.getString(ResourceKey.PRODUCT_LOOKUP_CODE_CONFLICT)
+					message: Resources.getString(ResourceKey.EMPLOYEE_UNABLE_TO_QUERY)
 				});
 
-			return ProductModel.create(
-				productToCreate,
+			return EmployeeModel.create(
+				employeeToCreate,
 				<Sequelize.CreateOptions>{
 					transaction: createTransaction
 				});
-		}).then((createdProduct: ProductModel): CommandResponse<Product> => {
+		}).then((createdEmployee: EmployeeModel): CommandResponse<Employee> => {
 			createTransaction.commit();
 
-			return <CommandResponse<Product>>{
+			return <CommandResponse<Employee>>{
 				status: 201,
-				data: <Product>{
-					id: createdProduct.id,
-					count: createdProduct.count,
-					lookupCode: createdProduct.lookupCode,
-					createdOn: Helper.formatDate(createdProduct.createdOn)
+				data: <Employee>{
+					id: createdEmployee.id,
+					count: createdEmployee.count,
+					lookupCode: createdEmployee.lookupCode,
+					createdOn: Helper.formatDate(createdEmployee.createdOn)
 				}
 			};
-		}).catch((error: any): Promise<CommandResponse<Product>> => {
+		}).catch((error: any): Promise<CommandResponse<Employee>> => {
 			if (createTransaction != null)
 				createTransaction.rollback();
 
-			return Promise.reject(<CommandResponse<Product>>{
+			return Promise.reject(<CommandResponse<Employee>>{
 				status: error.status || 500,
-				message: error.message || Resources.getString(ResourceKey.PRODUCT_UNABLE_TO_SAVE)
+				message: error.message || Resources.getString(ResourceKey.EMPLOYEE_UNABLE_TO_SAVE)
 			});
-        });
-        
-        */
-
-        // Temporary Error 
-        return Promise.reject(<CommandResponse<Employee>>{
-            status: 500,
-            message: Resources.getString(ResourceKey.EMPLOYEE_EMPLOYEE_ID_INVALID)
         });
 };
