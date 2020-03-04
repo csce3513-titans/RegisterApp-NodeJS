@@ -12,20 +12,20 @@ const validateSaveRequest = (
 ): CommandResponse<Employee> => {
 	let errorMessage = '';
 
-	if (Helper.isBlankString(saveEmployeeRequest.firstName)){
-        errorMessage = Resources.getString(ResourceKey.EMPLOYEE_FIRST_NAME_INVALID);
-    }
-    else if (Helper.isBlankString(saveEmployeeRequest.lastName)){
-        errorMessage = Resources.getString(ResourceKey.EMPLOYEE_LAST_NAME_INVALID);
-    }
-    else if (Helper.isBlankString(saveEmployeeRequest.password)){
-        errorMessage = Resources.getString(ResourceKey.EMPLOYEE_PASSWORD_INVALID);
-    }
+	if (Helper.isBlankString(saveEmployeeRequest.firstName))
+		errorMessage = Resources.getString(ResourceKey.EMPLOYEE_FIRST_NAME_INVALID);
 
-    // If this is the first employee, make manager
-    if(saveEmployeeRequest.isInitialEmployee) {
-        saveEmployeeRequest.classification = EmployeeClassification.GeneralManager;
-    }
+	else if (Helper.isBlankString(saveEmployeeRequest.lastName))
+		errorMessage = Resources.getString(ResourceKey.EMPLOYEE_LAST_NAME_INVALID);
+
+	else if (Helper.isBlankString(saveEmployeeRequest.password))
+		errorMessage = Resources.getString(ResourceKey.EMPLOYEE_PASSWORD_INVALID);
+
+
+	// If this is the first employee, make manager
+	if(saveEmployeeRequest.isInitialEmployee)
+		saveEmployeeRequest.classification = EmployeeClassification.GeneralManager;
+
 
 	return errorMessage === ''
 		? <CommandResponse<Employee>>{ status: 200 }
@@ -46,17 +46,17 @@ export const execute = async (
 		return Promise.reject(validationResponse);
 
 	const employeeToCreate: EmployeeModel = <EmployeeModel>{
-        active: saveEmployeeRequest.active,
-        lastName: saveEmployeeRequest.lastName,
-        password: Buffer.from(saveEmployeeRequest.password),
-        firstName: saveEmployeeRequest.firstName,
-        managerId: saveEmployeeRequest.managerId,
-        classification: saveEmployeeRequest.isInitialEmployee ? 
-            EmployeeClassification.GeneralManager : saveEmployeeRequest.classification,
+		active: saveEmployeeRequest.active,
+		lastName: saveEmployeeRequest.lastName,
+		password: Buffer.from(saveEmployeeRequest.password),
+		firstName: saveEmployeeRequest.firstName,
+		managerId: saveEmployeeRequest.managerId,
+		classification: saveEmployeeRequest.isInitialEmployee ?
+			EmployeeClassification.GeneralManager : saveEmployeeRequest.classification
 	};
 
-    let createTransaction: Sequelize.Transaction;
-    
+	let createTransaction: Sequelize.Transaction;
+
 	return DatabaseConnection.createTransaction()
 		.then((createdTransaction: Sequelize.Transaction): Promise<EmployeeModel | null> => {
 			createTransaction = createdTransaction;
@@ -89,7 +89,7 @@ export const execute = async (
 					managerId: createdEmployee.managerId,
 					classification: createdEmployee.classification,
 					id: createdEmployee.id,
-					createdOn: createdEmployee.createdOn,
+					createdOn: createdEmployee.createdOn
 				}
 			};
 		}).catch((error: any): Promise<CommandResponse<Employee>> => {
@@ -100,5 +100,5 @@ export const execute = async (
 				status: error.status || 500,
 				message: error.message || Resources.getString(ResourceKey.EMPLOYEE_UNABLE_TO_SAVE)
 			});
-        });
+		});
 };

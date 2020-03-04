@@ -3,9 +3,9 @@ import { ApiResponse } from '../typeDefinitions';
 import { ResourceKey, Resources } from '../../resourceLookup';
 import { RouteLookup, QueryParameterLookup } from '../lookups/routingLookup';
 
-const baseNoPermissionsRedirectUrl: string = (
+const baseNoPermissionsRedirectUrl: string =
 	'/?' + QueryParameterLookup.ErrorCode
-	+ '=' + ResourceKey.USER_NO_PERMISSIONS);
+	+ '=' + ResourceKey.USER_NO_PERMISSIONS;
 
 const defaultNoPermissionsRedirectBaseLocation: string = RouteLookup.MainMenu;
 
@@ -14,9 +14,9 @@ export interface ApiErrorHints {
 	redirectBaseLocation?: string;
 }
 
-export const invalidSessionRedirectUrl: string = (RouteLookup.SignIn
+export const invalidSessionRedirectUrl: string = RouteLookup.SignIn
 	+ '/?' + QueryParameterLookup.ErrorCode
-	+ '=' + ResourceKey.USER_SESSION_NOT_ACTIVE);
+	+ '=' + ResourceKey.USER_SESSION_NOT_ACTIVE;
 
 export const buildNoPermissionsRedirectUrl = (redirectBaseLocation?: string): string => {
 	return (redirectBaseLocation || defaultNoPermissionsRedirectBaseLocation) + baseNoPermissionsRedirectUrl;

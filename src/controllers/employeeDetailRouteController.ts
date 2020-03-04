@@ -39,15 +39,15 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 			if (canCreateEmployee.employeeExists
 				&& !canCreateEmployee.isElevatedUser)
 				return res.redirect(Helper.buildNoPermissionsRedirectUrl());
-			else if(!canCreateEmployee.employeeExists || canCreateEmployee.isElevatedUser){
+			else if(!canCreateEmployee.employeeExists || canCreateEmployee.isElevatedUser)
 				return res.render(ViewNameLookup.EmployeeDetail);
-			}
-			else if(!ValidateActiveUser.execute((<Express.Session>req.session).id)){
+
+			else if(!ValidateActiveUser.execute((<Express.Session>req.session).id))
 				return res.redirect(ViewNameLookup.SignIn);
-			}
-			else{
-				return res.redirect(ViewNameLookup.MainMenu);
-			}
+
+
+			return res.redirect(ViewNameLookup.MainMenu);
+
 			// TODO: Serve up the page
 
 		}).catch((error: any): void => {
@@ -69,20 +69,14 @@ export const startWithEmployee = async (req: Request, res: Response): Promise<vo
 					message: Resources.getString(ResourceKey.USER_NO_PERMISSIONS)
 				});
 			}
-			if(activeUserCommandResponse.status !== 200){
+			if(activeUserCommandResponse.status !== 200)
 				res.redirect(ViewNameLookup.SignIn);
-			}
-			else{
-				if(!EmployeeQuery.queryById((<Express.Session>req.session).id)){
-					//Does not exist
-				}
-				else{
-					res.render(ViewNameLookup.EmployeeDetail, (req.body));
-				}
 
-			}
-			
-
+			else
+			if(!EmployeeQuery.queryById((<Express.Session>req.session).id)){
+				//Does not exist
+			} else
+				res.render(ViewNameLookup.EmployeeDetail, req.body);
 			// TODO: Query the employee details using the request route parameter
 			return Promise.resolve();
 		}).then((/* TODO: Some employee details */): void => {

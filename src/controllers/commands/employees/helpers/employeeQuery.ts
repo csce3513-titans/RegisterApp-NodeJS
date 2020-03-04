@@ -6,14 +6,14 @@ import { Resources, ResourceKey } from '../../../../resourceLookup';
 import { CommandResponse, Employee } from '../../../typeDefinitions';
 
 export const queryById = async (employeeId?: string): Promise<CommandResponse<Employee>> => {
-    if(Helper.isBlankString(employeeId)) {
-        return Promise.reject(<CommandResponse<Employee>>{
-            status: 422,
+	if(Helper.isBlankString(employeeId))
+		return Promise.reject(<CommandResponse<Employee>>{
+			status: 422,
 			message: Resources.getString(ResourceKey.PRODUCT_RECORD_ID_INVALID)
-        });
-    }
+		});
 
-    return EmployeeRepository.queryById(<string>employeeId)
+
+	return EmployeeRepository.queryById(<string>employeeId)
 		.then((queriedEmployee: (EmployeeModel | null)): Promise<CommandResponse<Employee>> => {
 			if (queriedEmployee == null)
 				return Promise.reject(<CommandResponse<Employee>>{
@@ -26,4 +26,4 @@ export const queryById = async (employeeId?: string): Promise<CommandResponse<Em
 				data: EmployeeHelper.mapEmployeeData(queriedEmployee)
 			});
 		});
-}
+};
