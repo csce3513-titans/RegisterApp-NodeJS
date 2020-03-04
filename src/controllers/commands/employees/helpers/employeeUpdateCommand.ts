@@ -7,7 +7,7 @@ import { Resources, ResourceKey } from '../../../../resourceLookup';
 import * as DatabaseConnection from '../../models/databaseConnection';
 import { CommandResponse, Employee, EmployeeSaveRequest } from '../../../typeDefinitions';
 import { EmployeeClassification } from '../../models/constants/entityTypes';
-import {validateSaveRequest} from "../helpers/employeeHelper";
+import { validateSaveRequest } from '../helpers/employeeHelper';
 
 export const execute = async (
 	saveEmployeeRequest: EmployeeSaveRequest

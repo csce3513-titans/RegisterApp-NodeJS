@@ -1,5 +1,5 @@
 import express from 'express';
-import { RouteLookup } from '../controllers/lookups/routingLookup';
+// import { RouteLookup } from '../controllers/lookups/routingLookup';
 import * as EmployeeDetailRouteController from '../controllers/employeeDetailRouteController';
 // import * as SignInRouteController from '../controllers/signInRouteController';
 
