@@ -81,7 +81,7 @@ export const execute = async (
 
 			return <CommandResponse<Employee>>{
 				status: 201,
-				data: <Employee>{
+				data: <Employee><unknown>{
 					active: createdEmployee.active,
 					lastName: createdEmployee.lastName,
 					password: createdEmployee.password,
@@ -90,7 +90,6 @@ export const execute = async (
 					classification: createdEmployee.classification,
 					id: createdEmployee.id,
 					createdOn: createdEmployee.createdOn,
-					employeeId: createdEmployee.id
 				}
 			};
 		}).catch((error: any): Promise<CommandResponse<Employee>> => {
