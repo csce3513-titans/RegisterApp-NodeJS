@@ -113,8 +113,10 @@ const saveEmployee = async (
 
 			return performSave(req.body, !employeeExists);
 		}).then((saveEmployeeCommandResponse: CommandResponse<Employee>): void => {
-			// TODO: Handle the save response and send a response to the HTTP request
-			return res.redirect(saveEmployeeCommandResponse.status, RouteLookup.SignIn);
+			res.status(saveEmployeeCommandResponse.status).send({
+				employee: saveEmployeeCommandResponse.data,
+				target: RouteLookup.SignIn
+			});
 		}).catch((error: any): void => {
 			return Helper.processApiError(
 				error,

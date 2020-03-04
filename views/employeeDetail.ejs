@@ -26,73 +26,71 @@
 		</div>
 
 		<div class="inputContent">
-			<form action="/api/employeeDetail" method="POST" onsubmit="return validateForm();" class="inputContent" name="employeeDetails">
-				<table id="employeeDetails">
-					<tbody>
-						<tr class="hidden">
-							<td>ID:</td>
-							<td>
-								<input id="id" name="id" type="hidden" value="<% if (locals.employee && locals.employee.id) { %><%= locals.employee.id %><% } %>" />
-							</td>
-						</tr>
-						<tr class="hidden">
-							<td>Manager ID:</td>
-							<td>
-								<input id="managerId" name="managerId" type="hidden" value="<% if (locals.employee && locals.employee.managerId) { %><%= locals.employee.managerId %><% } %>" />
-							</td>
-						</tr>
-						<tr <% if (!locals.employee || !locals.employee.id || (locals.employee.id.trim() === "")) { %>class="hidden"<% } %>>
-							<td class="label">Employee ID:</td>
-							<td>
-								<input id="employeeId" name="employeeId" type="text" value="<% if (locals.employee && locals.employee.employeeId) { %><%= locals.employee.employeeId %><% } %>" class="update" disabled />
-							</td>
-						</tr>
-						<tr>
-							<td>First Name:</td>
-							<td>
-								<input id="firstName" name="firstName", type="text" value="<% if (locals.employee && locals.employee.firstName) { %><%= locals.employee.firstName %><% } %>"/>
-							</td>
-						</tr>
-						<tr>
-							<td>Last Name:</td>
-							<td>
-								<input id="lastName" name="lastName" type="text" value="<% if (locals.employee && locals.employee.lastName) { %><%= locals.employee.lastName %><% } %>"/>
-							</td>
-						</tr>
-						<tr>
-							<td>Password:</td>
-							<td>
-								<input id="password" name="password" type="text" value="<% if (locals.employee && locals.employee.password) { %><%= locals.employee.password %><% } %>"/>
-							</td>
-						</tr>
-						<tr>
-							<td>Confirm Password:</td>
-							<td>
-								<input id="confirmPassword" name="confirmPassword" type="text" value="<% if (locals.employee && locals.employee.confirmPassword) { %><%= locals.employee.confirmPassword %><% } %>"/>
-							</td>
-						</tr>
-						<br>
-						<tr>
-							<td>
-								<label for="employeeType">Employee Type:</label>
-							</td>
-							<td>
-								<select id="employeeType" name="employeeType">
-									<option value=0>Cashier</option>
-									<option value=1>Shift Manager</option>
-									<option value=2>General Manager</option>
-								</select><br>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<button id="employeeSave" type="submit">Submit</button>
-							</td>
-						</tr>
+			<table id="employeeDetails">
+				<tbody>
+					<tr class="hidden">
+						<td>ID:</td>
+						<td>
+							<input id="id" name="id" type="hidden" value="<% if (locals.employee && locals.employee.id) { %><%= locals.employee.id %><% } %>" />
+						</td>
+					</tr>
+					<tr class="hidden">
+						<td>Manager ID:</td>
+						<td>
+							<input id="managerId" name="managerId" type="hidden" value="<% if (locals.employee && locals.employee.managerId) { %><%= locals.employee.managerId %><% } %>" />
+						</td>
+					</tr>
+					<tr <% if (!locals.employee || !locals.employee.id || (locals.employee.id.trim() === "")) { %>class="hidden"<% } %>>
+						<td class="label">Employee ID:</td>
+						<td>
+							<input id="employeeId" name="employeeId" type="text" value="<% if (locals.employee && locals.employee.employeeId) { %><%= locals.employee.employeeId %><% } %>" class="update" disabled />
+						</td>
+					</tr>
+					<tr>
+						<td>First Name:</td>
+						<td>
+							<input id="firstName" name="firstName", type="text" value="<% if (locals.employee && locals.employee.firstName) { %><%= locals.employee.firstName %><% } %>"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Last Name:</td>
+						<td>
+							<input id="lastName" name="lastName" type="text" value="<% if (locals.employee && locals.employee.lastName) { %><%= locals.employee.lastName %><% } %>"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td>
+							<input id="password" name="password" type="text" value="<% if (locals.employee && locals.employee.password) { %><%= locals.employee.password %><% } %>"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Confirm Password:</td>
+						<td>
+							<input id="confirmPassword" name="confirmPassword" type="text" value="<% if (locals.employee && locals.employee.confirmPassword) { %><%= locals.employee.confirmPassword %><% } %>"/>
+						</td>
+					</tr>
+					<br>
+					<tr>
+						<td>
+							<label for="employeeType">Employee Type:</label>
+						</td>
+						<td>
+							<select id="employeeType" name="employeeType">
+								<option value=101>Cashier</option>
+								<option value=501>Shift Manager</option>
+								<option value=701>General Manager</option>
+							</select><br>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<button id="employeeSave" type="submit">Submit</button>
+						</td>
+					</tr>
 
-					</tbody>
-				</table>
-			</form>
+				</tbody>
+			</table>
 		</div>
 
 

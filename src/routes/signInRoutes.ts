@@ -3,7 +3,7 @@ import { RouteLookup } from '../controllers/lookups/routingLookup';
 import * as SignInRouteController from '../controllers/signInRouteController';
 
 function signInRoutes(server: express.Express) {
-	server.get('/', SignInRouteController.getView);
+	server.get(RouteLookup.SignIn, SignInRouteController.getView);
 
 	// Sign in
 	server.post(RouteLookup.SignIn, SignInRouteController.signIn);

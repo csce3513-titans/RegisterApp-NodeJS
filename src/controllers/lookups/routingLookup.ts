@@ -16,7 +16,7 @@ export enum ViewNameLookup {
 
 export enum RouteLookup {
 	// Page routing
-	SignIn = '/',
+	SignIn = '',
 	SignOut = '/signOut',
 	MainMenu = '/mainMenu',
 	ProductDetail = '/productDetail',
