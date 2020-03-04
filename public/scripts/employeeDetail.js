@@ -1,8 +1,6 @@
 let hideEmployeeSavedAlertTimer = undefined;
 
 document.addEventListener("DOMContentLoaded", () => {
-
-
 	document.getElementById("employeeSave").addEventListener("click", event =>{
 		let firstName = document.getElementById("firstName").value;
 		let lastName = document.getElementById("lastName").value;
@@ -33,10 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			document.getElementById("errorMessage").innerHTML = errorMessage;
 			return false;
 		}
-		else{
+		else
 			saveActionClick(event);
-		}
-		
 	}); 
 });
 
@@ -59,13 +55,15 @@ function saveActionClick(event) {
 	};
 
 	if(employeeIdIsDefined){
+		console.log('employee is defined');
 		ajaxPatch(saveActionUrl, saveEmployeeRequest, callbackResponse => {
 			saveActionElement.disabled = false;
 			if (isSuccessResponse(callbackResponse))
 				displayEmployeeSavedAlertModal();
 		});
 	}
-	else
+	else {
+		console.log('employee not defined');
 		ajaxPost(saveActionUrl, saveEmployeeRequest, callbackResponse => {
 			saveActionElement.disabled = false;
 			if (isSuccessResponse(callbackResponse)) {
@@ -78,6 +76,7 @@ function saveActionClick(event) {
 				}
 			}
 		});
+	}
 	// displayEmployeeSavedAlertModal();
 }
 
