@@ -8,6 +8,7 @@ logs
 # Dependencies
 node_modules
 yarn.lock
+package-lock.json
 
 # Environment variables file
 .env
