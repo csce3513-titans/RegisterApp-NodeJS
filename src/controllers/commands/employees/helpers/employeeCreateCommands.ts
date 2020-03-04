@@ -18,11 +18,10 @@ export const execute = async (
 		return Promise.reject(validationResponse);
 
 	const employeeToCreate: EmployeeModel = <EmployeeModel>{
-		active: saveEmployeeRequest.active,
+		active: saveEmployeeRequest.active || true,
 		lastName: saveEmployeeRequest.lastName,
 		password: Buffer.from(saveEmployeeRequest.password),
 		firstName: saveEmployeeRequest.firstName,
-		managerId: saveEmployeeRequest.managerId,
 		classification: isInitialEmployee ?
 			EmployeeClassification.GeneralManager : saveEmployeeRequest.classification
 	};

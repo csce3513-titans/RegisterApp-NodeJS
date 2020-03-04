@@ -1,40 +1,42 @@
 let hideEmployeeSavedAlertTimer = undefined;
 
 document.addEventListener("DOMContentLoaded", () => {
-	document.getElementById("employeeSave").addEventListener("click", event =>{
-		let firstName = document.getElementById("firstName").value;
-		let lastName = document.getElementById("lastName").value;
-		let password = document.getElementById("password").value;
-		let confirmPassword = document.getElementById("confirmPassword").value;
-		let employeeType = document.getElementById("employeeType").value;
-		if(firstName == ''){
-			let errorMessage = "First name cannot be Blank";
-			document.getElementById("error").style.display = "block";
-			document.getElementById("errorMessage").innerHTML = errorMessage;
-			return false;
-		}
-		else if(lastName == ''){
-			let errorMessage = "Last Name Cannot be Blank";
-			document.getElementById("error").style.display = "block";
-			document.getElementById("errorMessage").innerHTML = errorMessage;
-			return false;
-		}
-		else if(password == ''){
-			let errorMessage = "Password Cannot be Blank";
-			document.getElementById("error").style.display = "block";
-			document.getElementById("errorMessage").innerHTML = errorMessage;
-			return false;
-		}
-		else if(confirmPassword != password){
-			let errorMessage = "Passwords Must Match";
-			document.getElementById("error").style.display = "block";
-			document.getElementById("errorMessage").innerHTML = errorMessage;
-			return false;
-		}
-		else
-			saveActionClick(event);
-	});
 });
+
+function validateForm() {
+	let form = document.forms["employeeDetails"];
+	let error = document.getElementById("error");
+	let errorMessage = document.getElementById("errorMessage");
+
+	// let id = form["id"].value;
+	// let employeeId = form["employeeId"].value;
+	// let managerId = form["managerId"].value;
+	let firstName = form["firstName"].value;
+	let lastName = form["lastName"].value;
+	let password = form["password"].value;
+	let confirmPassword = form["confirmPassword"].value;
+	// let employeeType = form["employeeType"].value;
+
+	if (firstName === '') {
+		error.style.display = "block";
+		errorMessage.innerHTML = "First name cannot be Blank";
+		return false;
+	} else if (lastName === ''){
+		error.style.display = "block";
+		errorMessage.innerHTML = "Last Name Cannot be Blank";
+		return false;
+	} else if (password === ''){
+		error.style.display = "block";
+		errorMessage.innerHTML = "Password Cannot be Blank";
+		return false;
+	} else if (confirmPassword !== password){
+		error.style.display = "block";
+		errorMessage.innerHTML = "Passwords Must Match";
+		return false;
+	} else {
+		return true;
+	}
+}
 
 // Save
 function saveActionClick(event) {
