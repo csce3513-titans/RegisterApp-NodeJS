@@ -81,7 +81,7 @@ export const startWithEmployee = async (req: Request, res: Response): Promise<vo
 			return Promise.resolve();
 		}).then((/* TODO: Some employee details */): void => {
 			// TODO: Serve up the page
-			return res.render(ViewNameLookup.EmployeeDetail);
+			return res.render(ViewNameLookup.EmployeeDetail, req.body);
 		}).catch((error: any): void => {
 			// TODO: Handle any errors that occurred
 		});

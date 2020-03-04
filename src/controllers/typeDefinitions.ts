@@ -84,6 +84,9 @@ export interface ApiResponse {
 export interface ProductSaveResponse extends ApiResponse {
 	product: Product;
 }
+export interface EmployeeSaveResponse extends ApiResponse {
+	employee: Employee;
+}
 // End API response data
 // End response object definitions
 

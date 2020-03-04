@@ -43,11 +43,13 @@ function saveActionClick(event) {
 	const saveActionElement = event.target;
 	saveActionElement.disabled = true;
 
-	const newEmployeeId = employeeId.value;
-	const employeeIdIsDefined = newEmployeeId != null;
-	const saveActionUrl = ('/api/employee/' + (employeeIdIsDefined ? newEmployeeId : ''));
+	// const newEmployeeId = employeeId.value;
+	console.log(employeeId.value);
+	const employeeIdIsDefined = employeeId.value != '';
+	console.log(employeeIdIsDefined);
+	const saveActionUrl = ('/api/employeeDetail/' + (employeeIdIsDefined ? employeeId.value : ''));
 	const saveEmployeeRequest = {
-		employeeid: newEmployeeId,
+		employeeid: '',
 		firstname: firstName.value,
 		lastname: lastName.value,
 		password: password.value,
