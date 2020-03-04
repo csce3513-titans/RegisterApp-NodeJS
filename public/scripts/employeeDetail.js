@@ -1,8 +1,6 @@
 let hideEmployeeSavedAlertTimer = undefined;
 
 document.addEventListener("DOMContentLoaded", () => {
-
-
 	document.getElementById("employeeSave").addEventListener("click", event =>{
 		let firstName = document.getElementById("firstName").value;
 		let lastName = document.getElementById("lastName").value;
@@ -33,10 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			document.getElementById("errorMessage").innerHTML = errorMessage;
 			return false;
 		}
-		else{
+		else
 			saveActionClick(event);
-		}
-		
 	}); 
 });
 
@@ -58,40 +54,35 @@ function saveActionClick(event) {
 		classification: employeeType.value,
 	};
 
-
 	if(employeeIdIsDefined){
+		console.log('employee is defined');
 		ajaxPatch(saveActionUrl, saveEmployeeRequest, callbackResponse => {
 			saveActionElement.disabled = false;
-
 			if (isSuccessResponse(callbackResponse))
 				displayEmployeeSavedAlertModal();
 		});
-
 	}
-	else
+	else {
+		console.log('employee not defined');
 		ajaxPost(saveActionUrl, saveEmployeeRequest, callbackResponse => {
 			saveActionElement.disabled = false;
-
 			if (isSuccessResponse(callbackResponse)) {
 				displayEmployeeSavedAlertModal();
-
 				if (callbackResponse.data != null
 					&& callbackResponse.data.employee != null
 					&& callbackResponse.data.employee.id.trim() !== '') {
 					// document.getElementById('deleteActionContainer').classList.remove('hidden');
-
 					setEmployeeId(callbackResponse.data.employee.id);
 				}
 			}
 		});
-
+	}
 	// displayEmployeeSavedAlertModal();
 }
 
 function displayEmployeeSavedAlertModal() {
-	if (hideEmployeeSavedAlertTimer) {
+	if (hideEmployeeSavedAlertTimer)
 		clearTimeout(hideEmployeeSavedAlertTimer);
-	}
 
 	const savedAlertModalElement = getSavedAlertModalElement();
 	savedAlertModalElement.style.display = "none";
@@ -101,10 +92,8 @@ function displayEmployeeSavedAlertModal() {
 }
 
 function hideEmployeeSavedAlertModal() {
-	if (hideEmployeeSavedAlertTimer) {
+	if (hideEmployeeSavedAlertTimer)
 		clearTimeout(hideEmployeeSavedAlertTimer);
-	}
-
 	getSavedAlertModalElement().style.display = "none";
 }
 function getSavedAlertModalElement() {
