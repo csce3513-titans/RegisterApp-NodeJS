@@ -40,7 +40,9 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 				&& !canCreateEmployee.isElevatedUser)
 				return res.redirect(Helper.buildNoPermissionsRedirectUrl());
 			else if(!canCreateEmployee.employeeExists || canCreateEmployee.isElevatedUser)
-				return res.render(ViewNameLookup.EmployeeDetail);
+				return res.render(ViewNameLookup.EmployeeDetail, {
+					isInitialEmployee: !canCreateEmployee.employeeExists
+				});
 
 			else if(!ValidateActiveUser.execute((<Express.Session>req.session).id))
 				return res.redirect(ViewNameLookup.SignIn);

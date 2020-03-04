@@ -77,8 +77,10 @@
 						</td>
 						<td>
 							<select id="employeeType" name="employeeType">
-								<option value=101>Cashier</option>
-								<option value=501>Shift Manager</option>
+								<% if (!locals.isInitialEmployee) { %>
+									<option value=101>Cashier</option>
+									<option value=501>Shift Manager</option>
+								<% } %>
 								<option value=701>General Manager</option>
 							</select><br>
 						</td>
