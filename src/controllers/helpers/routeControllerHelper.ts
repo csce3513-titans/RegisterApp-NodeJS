@@ -3,7 +3,9 @@ import { ApiResponse } from '../typeDefinitions';
 import { ResourceKey, Resources } from '../../resourceLookup';
 import { RouteLookup, QueryParameterLookup } from '../lookups/routingLookup';
 
-const baseNoPermissionsRedirectUrl = `/?${QueryParameterLookup.ErrorCode}=${ResourceKey.USER_NO_PERMISSIONS}`;
+const baseNoPermissionsRedirectUrl: string = (
+	'/?' + QueryParameterLookup.ErrorCode
+	+ '=' + ResourceKey.USER_NO_PERMISSIONS);
 
 const defaultNoPermissionsRedirectBaseLocation: string = RouteLookup.MainMenu;
 
@@ -12,7 +14,9 @@ export interface ApiErrorHints {
 	redirectBaseLocation?: string;
 }
 
-export const invalidSessionRedirectUrl = `${RouteLookup.SignIn}/?${QueryParameterLookup.ErrorCode}=${ResourceKey.USER_SESSION_NOT_ACTIVE}`;
+export const invalidSessionRedirectUrl: string = (RouteLookup.SignIn
+	+ '/?' + QueryParameterLookup.ErrorCode
+	+ '=' + ResourceKey.USER_SESSION_NOT_ACTIVE);
 
 export const buildNoPermissionsRedirectUrl = (redirectBaseLocation?: string): string => {
 	return (redirectBaseLocation || defaultNoPermissionsRedirectBaseLocation) + baseNoPermissionsRedirectUrl;
@@ -32,9 +36,11 @@ export const processStartError = (
 	res: Response,
 	redirectBaseLocation?: string
 ): boolean => {
-	let processedStartError = false;
+	let processedStartError: boolean;
+	processedStartError = false;
 
-	if (error.status != null && error.status === 404 && error.message === Resources.getString(ResourceKey.USER_NOT_FOUND)) {
+	if ((error.status != null) && (error.status === 404)
+		&& (error.message === Resources.getString(ResourceKey.USER_NOT_FOUND))) {
 
 		res.redirect(invalidSessionRedirectUrl);
 		processedStartError = true;

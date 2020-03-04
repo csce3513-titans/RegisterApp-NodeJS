@@ -26,6 +26,7 @@
 		</div>
 
 		<div class="inputContent">
+			<!-- <form action="/" method="POST" onsubmit="return validateForm();" class="inputContent" name="employeeDetails"> -->
 			<table id="employeeDetails">
 				<tbody>
 					<tr class="hidden">
@@ -46,10 +47,55 @@
 							<input id="employeeEmployeeId" type="text" value="<% if (locals.employee && locals.employee.employeeId) { %><%= locals.employee.employeeId %><% } %>" class="update" disabled />
 						</td>
 					</tr>
-					<!-- TODO: Other employee inputs -->
+					<tr>
+						<td>First Name:</td>
+						<td>
+							<input id="firstName" type="text" value="<% if (locals.employee && locals.employee.firstName) { %><%= locals.employee.firstName %><% } %>"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Last Name:</td>
+						<td>
+							<input id="lastName" type="text" value="<% if (locals.employee && locals.employee.lastName) { %><%= locals.employee.lastName %><% } %>"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td>
+							<input id="password" type="text" value="<% if (locals.employee && locals.employee.password) { %><%= locals.employee.password %><% } %>"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Confirm Password:</td>
+						<td>
+							<input id="confirmPassword" type="text" value="<% if (locals.employee && locals.employee.confirmPassword) { %><%= locals.employee.confirmPassword %><% } %>"/>
+						</td>
+					</tr>
+					<br>
+					<tr>
+						<td>
+							<label for="employeeType">Employee Type:</label>
+						</td>
+						<td>
+							<select id="employeeType">
+								<option value=0>Cashier</option>
+								<option value=1>Shift Manager</option>
+								<option value=2>General Manager</option>
+							</select><br>
+						</td>						
+					</tr>
+					<tr>
+						<td>
+							<button id="employeeSave" type="button">Submit</button>
+						</td>
+					</tr>
+					
 				</tbody>
 			</table>
+			<!-- </form> -->
 		</div>
+		
+
 
 		<!-- TODO: An action element to initiate a save -->
 
