@@ -7,11 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	const salesReportButton = document.getElementById("salesReportButton");
 
 	transactionButton.addEventListener("click", missingFunctionalityError);
-	productListButton.addEventListener("click", function(){ console.log('Product Button Clicked.'); location.assign("http://localhost:15100/productListing"); });
+	productListButton.addEventListener("click", function(){ console.log('Product Button Clicked.'); location.replace('/productListing'); });
 
 	cashierReportButton.addEventListener("click", missingFunctionalityError);
 	salesReportButton.addEventListener("click", missingFunctionalityError);
-	employeeDetailsButton.addEventListener("click", function(){ location.assign("http://localhost:15100/employeeDetail") });
+	employeeDetailsButton.addEventListener("click", function(){ location.replace('/employeeDetail') });
 });
 
 function missingFunctionalityError() {
