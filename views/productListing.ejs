@@ -24,7 +24,7 @@
 		</div>
 
 		<div class="productsWrapper">
-			<div <% if(!locals.employee.isElevatedUser) { %> class="hidden" <% } %>>
+			<div <% if(!locals.isElevatedUser) { %> class="hidden" <% } %>>
 				<a href="/productDetail/" class="button">Create New</a>
 			</div>
 			<br />

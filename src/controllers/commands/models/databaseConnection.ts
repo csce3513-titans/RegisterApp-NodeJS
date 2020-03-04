@@ -16,7 +16,8 @@ export const DatabaseConnection: Sequelize.Sequelize =
 				max: defaultMaximumPoolSize
 			},
 			dialectOptions: {
-				ssl: process.env.SEQUELIZE_USE_SSL === 'true'			}
+				ssl: process.env.SEQUELIZE_USE_SSL === 'true'
+			}
 		});
 
 export const createTransaction = async (): Promise<Sequelize.Transaction> => {

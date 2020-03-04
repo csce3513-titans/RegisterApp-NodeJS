@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 		else
 			saveActionClick(event);
-	}); 
+	});
 });
 
 // Save
@@ -49,9 +49,9 @@ function saveActionClick(event) {
 	console.log(employeeIdIsDefined);
 	const saveActionUrl = ('/api/employeeDetail/' + (employeeIdIsDefined ? employeeId.value : ''));
 	const saveEmployeeRequest = {
-		employeeid: '',
-		firstname: firstName.value,
-		lastname: lastName.value,
+		employeeId: '',
+		firstName: firstName.value,
+		lastName: lastName.value,
 		password: password.value,
 		classification: employeeType.value,
 	};
