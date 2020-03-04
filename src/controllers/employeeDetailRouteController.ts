@@ -3,7 +3,7 @@ import * as Helper from './helpers/routeControllerHelper';
 import { Resources, ResourceKey } from '../resourceLookup';
 import * as EmployeeHelper from './commands/employees/helpers/employeeHelper';
 import * as ValidateActiveUser from './commands/activeUsers/validateActiveUserCommand';
-import { CommandResponse, Employee, EmployeeSaveRequest, ActiveUser } from './typeDefinitions';
+import { CommandResponse, Employee, EmployeeSaveRequest, EmployeeSaveResponse, ActiveUser } from './typeDefinitions';
 import { ViewNameLookup, RouteLookup } from '../controllers/lookups/routingLookup';
 import * as ActiveEmployeeExistsQuery from './commands/employees/activeEmployeeExistsQuery';
 import * as EmployeeQuery from './commands/employees/helpers/employeeQuery';
@@ -79,9 +79,13 @@ export const startWithEmployee = async (req: Request, res: Response): Promise<vo
 				res.render(ViewNameLookup.EmployeeDetail, req.body);
 			// TODO: Query the employee details using the request route parameter
 			return Promise.resolve();
-		}).then((/* TODO: Some employee details */): void => {
+		}).then((createEmployeeCommandResponse: CommandResponse<Employee>): void => {
+			res.status(createEmployeeCommandResponse.status)
+			.send(<EmployeeSaveResponse>{
+				employee: <Employee>createEmployeeCommandResponse.data
+			});
 			// TODO: Serve up the page
-			return res.render(ViewNameLookup.EmployeeDetail);
+			// return res.render(ViewNameLookup.EmployeeDetail);
 		}).catch((error: any): void => {
 			// TODO: Handle any errors that occurred
 		});
