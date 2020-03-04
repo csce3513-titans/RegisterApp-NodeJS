@@ -139,51 +139,9 @@ const saveEmployee = async (
 };
 
 export const updateEmployee = async (req: Request, res: Response): Promise<void> => {
-
-	return ValidateActiveUser.execute((<Express.Session>req.session).id)
-		.then((activeUserCommandResponse: CommandResponse<ActiveUser>): Promise<void> => {
-			if((<ActiveUser>activeUserCommandResponse.data)){
-				res.redirect(ViewNameLookup.SignIn);
-			}
-			if (!EmployeeHelper.isElevatedUser((<ActiveUser>activeUserCommandResponse.data).classification)) {
-				res.redirect(ViewNameLookup.MainMenu);
-			}
-			else{
-				const ExecuteUpdate: CommandResponse<Employee> = EmployeeUpdate.execute(req.body);
-				if(ExecuteUpdate.status !== 200){
-					return Promise.reject(ExecuteUpdate);
-				}
-				else{
-					return req.body;
-				}
-			}
-		});
-	 // TODO: invoke saveEmployee() with the appropriate save functionality
+	saveEmployee(req, res, EmployeeUpdate.execute);
 };
 
 export const createEmployee = async (req: Request, res: Response): Promise<void> => {
-	return ValidateActiveUser.execute((<Express.Session>req.session).id)
-		.then((activeUserCommandResponse: CommandResponse<ActiveUser>): Promise<void> => {
-			if (!EmployeeHelper.isElevatedUser((<ActiveUser>activeUserCommandResponse.data).classification)) {
-				res.redirect(ViewNameLookup.MainMenu);
-				return Promise.reject(<CommandResponse<Employee>>{
-					status: 403,
-					message: Resources.getString(ResourceKey.USER_NO_PERMISSIONS)
-				});
-			}
-			else if(!activeUserCommandResponse.data){
-				res.redirect(ViewNameLookup.SignIn);
-			}
-			else{
-				const ExecuteCreate: CommandResponse<Employee> = EmployeeCreate.execute(req.body);
-				if(ExecuteCreate.status !== 200){
-					return Promise.reject(ExecuteCreate);
-				}
-				else{
-					return req.body;
-				}
-			}
-
-		});
-	 // TODO: invoke saveEmployee() with the appropriate save functionality
+	saveEmployee(req, res, EmployeeUpdate.execute);
 };
