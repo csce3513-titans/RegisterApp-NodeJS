@@ -114,6 +114,7 @@ const saveEmployee = async (
 			return performSave(req.body, !employeeExists);
 		}).then((saveEmployeeCommandResponse: CommandResponse<Employee>): void => {
 			// TODO: Handle the save response and send a response to the HTTP request
+			res.redirect(saveEmployeeCommandResponse.status, RouteLookup.SignIn);
 		}).catch((error: any): void => {
 			return Helper.processApiError(
 				error,
@@ -130,5 +131,5 @@ export const updateEmployee = async (req: Request, res: Response): Promise<void>
 };
 
 export const createEmployee = async (req: Request, res: Response): Promise<void> => {
-	saveEmployee(req, res, EmployeeUpdate.execute);
+	saveEmployee(req, res, EmployeeCreate.execute);
 };

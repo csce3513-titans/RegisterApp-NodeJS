@@ -7,34 +7,7 @@ import { Resources, ResourceKey } from '../../../../resourceLookup';
 import * as DatabaseConnection from '../../models/databaseConnection';
 import { CommandResponse, Employee, EmployeeSaveRequest } from '../../../typeDefinitions';
 import { EmployeeClassification } from '../../models/constants/entityTypes';
-
-const validateSaveRequest = (
-	saveEmployeeRequest: EmployeeSaveRequest
-): CommandResponse<Employee> => {
-	let errorMessage = '';
-
-	if (Helper.isBlankString(saveEmployeeRequest.firstName))
-		errorMessage = Resources.getString(ResourceKey.EMPLOYEE_FIRST_NAME_INVALID);
-
-	else if (Helper.isBlankString(saveEmployeeRequest.lastName))
-		errorMessage = Resources.getString(ResourceKey.EMPLOYEE_LAST_NAME_INVALID);
-
-	else if (Helper.isBlankString(saveEmployeeRequest.password))
-		errorMessage = Resources.getString(ResourceKey.EMPLOYEE_PASSWORD_INVALID);
-
-
-	// If this is the first employee, make manager
-	if(saveEmployeeRequest.isInitialEmployee)
-		saveEmployeeRequest.classification = EmployeeClassification.GeneralManager;
-
-
-	return errorMessage === ''
-		? <CommandResponse<Employee>>{ status: 200 }
-		: <CommandResponse<Employee>>{
-			status: 422,
-			message: errorMessage
-		};
-};
+import {validateSaveRequest} from "../helpers/employeeHelper";
 
 export const execute = async (
 	saveEmployeeRequest: EmployeeSaveRequest

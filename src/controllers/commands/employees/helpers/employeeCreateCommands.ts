@@ -6,39 +6,11 @@ import { Resources, ResourceKey } from '../../../../resourceLookup';
 import * as DatabaseConnection from '../../models/databaseConnection';
 import { CommandResponse, Employee, EmployeeSaveRequest } from '../../../typeDefinitions';
 import { EmployeeClassification } from '../../models/constants/entityTypes';
-
-const validateSaveRequest = (
-	saveEmployeeRequest: EmployeeSaveRequest
-): CommandResponse<Employee> => {
-	let errorMessage = '';
-
-	if (Helper.isBlankString(saveEmployeeRequest.firstName))
-		errorMessage = Resources.getString(ResourceKey.EMPLOYEE_FIRST_NAME_INVALID);
-
-	else if (Helper.isBlankString(saveEmployeeRequest.lastName))
-		errorMessage = Resources.getString(ResourceKey.EMPLOYEE_LAST_NAME_INVALID);
-
-	else if (Helper.isBlankString(saveEmployeeRequest.password))
-		errorMessage = Resources.getString(ResourceKey.EMPLOYEE_PASSWORD_INVALID);
-
-
-	// If this is the first employee, make manager
-	if(saveEmployeeRequest.isInitialEmployee)
-		saveEmployeeRequest.classification = EmployeeClassification.GeneralManager;
-
-
-	return errorMessage === ''
-		? <CommandResponse<Employee>>{ status: 200 }
-		: <CommandResponse<Employee>>{
-			status: 422,
-			message: errorMessage
-		};
-};
-
-
+import {mapEmployeeData, validateSaveRequest} from './employeeHelper';
 
 export const execute = async (
-	saveEmployeeRequest: EmployeeSaveRequest
+	saveEmployeeRequest: EmployeeSaveRequest,
+	isInitialEmployee?: boolean
 ): Promise<CommandResponse<Employee>> => {
 	const validationResponse: CommandResponse<Employee> =
 		validateSaveRequest(saveEmployeeRequest);
@@ -51,27 +23,16 @@ export const execute = async (
 		password: Buffer.from(saveEmployeeRequest.password),
 		firstName: saveEmployeeRequest.firstName,
 		managerId: saveEmployeeRequest.managerId,
-		classification: saveEmployeeRequest.isInitialEmployee ?
+		classification: isInitialEmployee ?
 			EmployeeClassification.GeneralManager : saveEmployeeRequest.classification
 	};
 
 	let createTransaction: Sequelize.Transaction;
 
 	return DatabaseConnection.createTransaction()
-		.then((createdTransaction: Sequelize.Transaction): Promise<EmployeeModel | null> => {
+		.then((createdTransaction: Sequelize.Transaction): Promise<EmployeeModel> => {
 			createTransaction = createdTransaction;
-
-			return EmployeeRepository.queryByEmployeeId(
-				+saveEmployeeRequest.id!,
-				createTransaction);
-		}).then((queriedEmployee: (EmployeeModel | null)): Promise<EmployeeModel> => {
-			if (queriedEmployee != null)
-				return Promise.reject(<CommandResponse<Employee>>{
-					status: 409,
-					message: Resources.getString(ResourceKey.EMPLOYEE_UNABLE_TO_QUERY)
-				});
-
-			return EmployeeModel.create(
+			return EmployeeModel.create<EmployeeModel>(
 				employeeToCreate,
 				<Sequelize.CreateOptions>{
 					transaction: createTransaction
@@ -81,16 +42,7 @@ export const execute = async (
 
 			return <CommandResponse<Employee>>{
 				status: 201,
-				data: <Employee><unknown>{
-					active: createdEmployee.active,
-					lastName: createdEmployee.lastName,
-					password: createdEmployee.password,
-					firstName: createdEmployee.firstName,
-					managerId: createdEmployee.managerId,
-					classification: createdEmployee.classification,
-					id: createdEmployee.id,
-					createdOn: createdEmployee.createdOn
-				}
+				data: mapEmployeeData(createdEmployee)
 			};
 		}).catch((error: any): Promise<CommandResponse<Employee>> => {
 			if (createTransaction != null)
