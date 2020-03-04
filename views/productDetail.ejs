@@ -51,7 +51,7 @@
 		<div>
 			<br />
 			<div id="deleteActionContainer" <% if (!locals.product || !locals.product.id || (locals.product.id.trim() === "") || !locals.employee.isElevatedUser) { %>class="hidden"<% } %>>
-				<button id="deleteButton" type="button" class="action" <% if(LOGIC) { %> >Delete</button>
+				<button id="deleteButton" type="button" class="action <%if(!locals.employee.isElevateduser) {%> hidden <% } %>">Delete</button>
 				<br />
 				<br />
 			</div>
