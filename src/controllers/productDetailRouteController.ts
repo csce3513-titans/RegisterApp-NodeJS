@@ -30,16 +30,15 @@ const processStartProductDetailError = (res: Response, error: any): void => {
 export const start = async (req: Request, res: Response): Promise<void> => {
 	let elevated = false;
 	return ValidateActiveUser.execute((<Express.Session>req.session).id)
-		.then((activeUserCommandResponse: CommandResponse<ActiveUser>): void => {
-			elevated = activeUserCommandResponse.data?.classification! > 101 ? true : false;
-		}).then((): Promise<CommandResponse<Product>> => {
+		.then((activeUserCommandResponse: CommandResponse<ActiveUser>): Promise<CommandResponse<Product>> => {
+			elevated = <boolean>(activeUserCommandResponse.data && activeUserCommandResponse.data.classification > 101);
 			return ProductQuery.queryById(req.params[ParameterLookup.ProductId]);
 		}).then((productsCommandResponse: CommandResponse<Product>): void => {
 			return res.render(
 				ViewNameLookup.ProductDetail,
 				<ProductDetailPageResponse>{
 					product: productsCommandResponse.data,
-					isElevatedUser: elevated 
+					isElevatedUser: elevated
 				});
 		}).catch((error: any): void => {
 			return processStartProductDetailError(res, error);
