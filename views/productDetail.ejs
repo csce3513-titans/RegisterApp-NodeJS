@@ -29,33 +29,33 @@
 					<tr class="hidden">
 						<td>ID:</td>
 						<td>
-							<input id="productId" type="hidden" value="<% if (locals.product && locals.product.id) { %><%= locals.product.id %><% } %>" <% if(!locals.isElevateduser) { %> disabled <% } %>/>
+							<input id="productId" type="hidden" value="<% if (locals.product && locals.product.id) { %><%= locals.product.id %><% } %>" <% if(!locals.isElevatedUser) { %> disabled <% } %>/>
 						</td>
 					</tr>
 					<tr>
 						<td class="label">Lookup Code:</td>
 						<td>
-							<input id="productLookupCode" type="text" value="<% if (locals.product && locals.product.lookupCode) { %><%= locals.product.lookupCode %><% } %>" class="update" <% if(!locals.isElevateduser) { %> disabled <% } %>/>
+							<input id="productLookupCode" type="text" value="<% if (locals.product && locals.product.lookupCode) { %><%= locals.product.lookupCode %><% } %>" class="update" <% if(!locals.isElevatedUser) { %> disabled <% } %>/>
 						</td>
 					</tr>
 					<tr>
 						<td class="label">Count:</td>
 						<td>
-							<input id="productCount" type="number" value="<% if (locals.product && locals.product.count) { %><%= locals.product.count.toString() %><% } %>" class="update" <% if(!locals.isElevateduser) { %> disabled <% } %>/>
+							<input id="productCount" type="number" value="<% if (locals.product && locals.product.count) { %><%= locals.product.count.toString() %><% } %>" class="update" <% if(!locals.isElevatedUser) { %> disabled <% } %>/>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 
-		<div>
+		<div <% if(!locals.isElevatedUser) { %>class="hidden"<% } %>>
 			<br />
-			<div id="deleteActionContainer" <% if (!locals.product || !locals.product.id || (locals.product.id.trim() === "") || !locals.isElevatedUser) { %>class="hidden"<% } %>>
-				<button id="deleteButton" type="button" class="action <%if(!locals.isElevateduser) {%> hidden <% } %>">Delete</button>
+			<div id="deleteActionContainer" <% if (!locals.product || !locals.product.id || (locals.product.id.trim() === "")) { %>class="hidden"<% } %>>
+				<button id="deleteButton" type="button" class="action">Delete</button>
 				<br />
 				<br />
 			</div>
-		<button id="saveButton" type="button" class="action <%if(!locals.isElevateduser) {%> hidden <% } %>">Save</button>
+		<button id="saveButton" type="button" class="action">Save</button>
 		</div>
 
 		<div id="productSavedAlertModal" class="modal animate-opacity-show">
