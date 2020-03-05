@@ -16,19 +16,22 @@ interface CanCreateEmployee {
 }
 
 const determineCanCreateEmployee = async (req: Request): Promise<CanCreateEmployee> => {
-	// TODO: Logic to determine if the user associated with the current session
-	//  is able to create an employee
-	try {
-		if ((await ActiveEmployeeExistsQuery.query()).data === false)
-			// return req.redirect(ViewNameLookup.EmployeeDetail);
-			return <CanCreateEmployee>{ employeeExists: false, isElevatedUser: true };
-
-		// return req.render(ViewNameLookup.SignIn);
-	} catch (error) {
-		console.error(error);
-		// req.sendStatus(500);
-	}
-	return <CanCreateEmployee>{ employeeExists: false, isElevatedUser: false };
+	let employeeExists = false;
+	return ActiveEmployeeExistsQuery.query()
+		.then((employeeExistsResponse: CommandResponse<boolean>): Promise<CommandResponse<ActiveUser>> => {
+			employeeExists = employeeExistsResponse.data || false;
+			return ValidateActiveUser.execute((<Express.Session>req.session).id);
+		}).then((activeUserResponse: CommandResponse<ActiveUser>): Promise<CanCreateEmployee> => {
+			return Promise.resolve(<CanCreateEmployee>{
+				employeeExists,
+				isElevatedUser: (activeUserResponse.data && activeUserResponse.data.classification > 101)
+			});
+		}).catch((error: any): Promise<CanCreateEmployee> => {
+			return Promise.resolve(<CanCreateEmployee>{
+				employeeExists,
+				isElevatedUser: false
+			});
+		});
 };
 
 export const start = async (req: Request, res: Response): Promise<void> => {
