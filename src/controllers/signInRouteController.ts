@@ -24,7 +24,7 @@ export const signIn = async (req: Request, res: Response): Promise<void> => {
 			throw new Error('Session does not exist');
 
 		await SignInCommand.execute(<SignInRequest>{
-			employeeId: req.body.employee_id,
+			employeeId: req.body.employeeId,
 			password: req.body.password
 		}, req.session);
 

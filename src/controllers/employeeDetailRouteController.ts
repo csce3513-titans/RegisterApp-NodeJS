@@ -3,8 +3,8 @@ import * as Helper from './helpers/routeControllerHelper';
 import { Resources, ResourceKey } from '../resourceLookup';
 import * as EmployeeHelper from './commands/employees/helpers/employeeHelper';
 import * as ValidateActiveUser from './commands/activeUsers/validateActiveUserCommand';
-import { CommandResponse, Employee, EmployeeSaveRequest, ActiveUser } from './typeDefinitions';
-import { ViewNameLookup, RouteLookup } from '../controllers/lookups/routingLookup';
+import { CommandResponse, Employee, EmployeeSaveRequest, EmployeeSaveResponse, ActiveUser } from './typeDefinitions';
+import { ViewNameLookup, RouteLookup, QueryParameterLookup} from '../controllers/lookups/routingLookup';
 import * as ActiveEmployeeExistsQuery from './commands/employees/activeEmployeeExistsQuery';
 import * as EmployeeQuery from './commands/employees/helpers/employeeQuery';
 import * as EmployeeUpdate from './commands/employees/helpers/employeeUpdateCommand';
@@ -118,10 +118,18 @@ const saveEmployee = async (
 
 			return performSave(req.body, !employeeExists);
 		}).then((saveEmployeeCommandResponse: CommandResponse<Employee>): void => {
-			res.status(saveEmployeeCommandResponse.status).send({
-				employee: saveEmployeeCommandResponse.data,
-				target: RouteLookup.SignIn
-			});
+			const response: EmployeeSaveResponse = <EmployeeSaveResponse>{
+				employee: <Employee>saveEmployeeCommandResponse.data
+			};
+
+			if (!employeeExists) {
+				response.redirectUrl = (RouteLookup.SignIn
+					+ '?' + QueryParameterLookup.EmployeeId
+					+ '=' + (<Employee>saveEmployeeCommandResponse.data).employeeId);
+			}
+
+			res.status(saveEmployeeCommandResponse.status)
+				.send(response);
 		}).catch((error: any): void => {
 			return Helper.processApiError(
 				error,

@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function validateForm() {
-	let employeeID = document.forms["signInForm"]["employee_id"].value;
+	let employeeID = document.forms["signInForm"]["employeeId"].value;
 	let password = document.forms["signInForm"]["password"].value;
 
 	// Verify neither field is blank and employeeID is numeric

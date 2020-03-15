@@ -27,8 +27,8 @@
 		</div>
 
 		<form action="/" method="POST" onsubmit="return validateForm();" class="inputContent" name="signInForm">
-			<label for="employee_id">Employee ID</label><br>
-			<input type="number" id="employee_id" name="employee_id" autocomplete="on"><br>
+			<label for="employeeId">Employee ID</label><br>
+			<input id="employeeId" type="number" name="employeeId" value="<% if (locals.employeeId && (locals.employeeId.trim() !== '')) { %><%= locals.employeeId %><% } %>" /><br>
 
 			<label for="password">Password</label><br>
 			<input type="password" id="password" name="password"><br>

@@ -73,6 +73,11 @@ export interface ProductListingPageResponse extends PageResponse {
 	products: Product[];
 	isElevatedUser: boolean;
 }
+export interface EmployeeDetailPageResponse extends PageResponse {
+	employee: Employee;
+	isInitialEmployee: boolean;
+	employeeTypes: EmployeeType[];
+}
 // End page response data
 
 // API response data
