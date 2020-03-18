@@ -20,6 +20,13 @@ export interface EmployeeSaveRequest {
 	classification: number;
 	isInitialEmployee?: boolean;
 }
+
+export interface TransactionPageResponse {
+	pastTransaction?: Transaction | null;
+}
+export interface TransactionResponse {
+	transaction: any;
+}
 // End request object definitions
 
 // Response object definitions
@@ -52,6 +59,20 @@ export interface ActiveUser {
 export interface EmployeeType {
 	value: number;
 	label: string;
+}
+
+// TODO: Transaction types
+export interface Transaction {
+	id: string;
+	createdOn: Date;
+	employeeId: string;
+}
+
+export interface TransactionEntry {
+	id: string;
+	transactionId: string;
+	lookupCode: string;
+	quantity: number;
 }
 // End response data object definitions
 
