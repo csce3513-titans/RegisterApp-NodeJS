@@ -65,11 +65,12 @@ module.exports = {
 		'no-dupe-class-members': 'error',
 		'no-var': 'error',
 		'prefer-const': ['error', {
-			destructuring: 'any',
+			destructuring: 'all',
 			ignoreReadBeforeAssign: false
 		}],
 		'no-lonely-if': 'error',
-		'no-extra-parens': ['warn', 'all', {
+		'no-extra-parens': 'off',
+		'@typescript-eslint/no-extra-parens': ['warn', 'all', {
 			ignoreJSX: 'multi-line',
 			nestedBinaryExpressions: false
 		}],
