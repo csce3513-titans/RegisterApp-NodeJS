@@ -5,6 +5,7 @@ import { Model, DataTypes, InitOptions, ModelAttributes, ModelAttributeColumnOpt
 
 export class ProductModel extends Model {
 	public count!: number;
+	public price!: number;
 	public lookupCode!: string;
 
 	public readonly id!: string;
@@ -24,6 +25,11 @@ ProductModel.init(
 			type: DataTypes.INTEGER,
 			allowNull: true
 		},
+		price: <ModelAttributeColumnOptions>{
+			field: ProductFieldName.PRICE,
+			type: DataTypes.BIGINT,
+			allowNull: true
+		},
 		createdOn: <ModelAttributeColumnOptions>{
 			field: ProductFieldName.CREATED_ON,
 			type: new DataTypes.DATE(),
@@ -39,8 +45,8 @@ ProductModel.init(
 		freezeTableName: true,
 		sequelize: DatabaseConnection,
 		tableName: DatabaseTableName.PRODUCT
-	});
-
+	}
+);
 
 // Database interaction
 export const queryById = async (

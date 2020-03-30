@@ -9,6 +9,7 @@ export enum DatabaseTableName {
 export enum ProductFieldName {
 	ID = 'id',
 	COUNT = 'count',
+	PRICE = 'price',
 	CREATED_ON = 'createdon',
 	LOOKUP_CODE = 'lookupcode'
 }
@@ -34,16 +35,20 @@ export enum ActiveUserFieldName {
 	Classification = 'classification'
 }
 
-// TODO: Finish creating transaction models
 export enum TransactionFieldName {
 	ID = 'id',
-	CREATED_ON = 'createdon',
-	EMPLOYEE_ID = 'employeeid'
+	Total = 'total',
+	CashierId = 'cashierid',
+	CreatedOn = 'createdon',
+	Type = 'transactiontype',
+	ReferenceId = 'transactionreferenceid'
 }
 
 export enum TransactionEntryFieldName {
 	ID = 'id',
-	TRANSACTION_ID = 'transactionid',
-	LOOKUP_CODE = 'lookupcode',
-	QUANTITY = 'quantity'
+	Price = 'price',
+	Quantity = 'quantity',
+	CreatedOn = 'createdon',
+	ProductId = 'productid',
+	TransactionId = 'transactionid'
 }
