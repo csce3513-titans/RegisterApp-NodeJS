@@ -6,12 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	const employeeDetailsButton = document.getElementById("employeeDetailsButton");
 	const salesReportButton = document.getElementById("salesReportButton");
 
-	transactionButton.addEventListener("click", missingFunctionalityError);
-	productListButton.addEventListener("click", function(){ console.log('Product Button Clicked.'); location.assign('/productListing'); });
+	transactionButton.addEventListener("click", () => location.assign('/transaction'));
+	productListButton.addEventListener("click", () => location.assign('/productListing'));
 
 	cashierReportButton.addEventListener("click", missingFunctionalityError);
 	salesReportButton.addEventListener("click", missingFunctionalityError);
-	employeeDetailsButton.addEventListener("click", function(){ location.assign('/employeeDetail') });
+	employeeDetailsButton.addEventListener("click", () => location.assign('/employeeDetail'));
 });
 
 function missingFunctionalityError() {

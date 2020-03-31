@@ -5,6 +5,10 @@
 
 	<link rel="stylesheet" type="text/css" href="/styles/master.css">
 
+	<script>
+		var transactionId = "<%- locals.transactionId %>";
+	</script>
+
 	<script type="text/javascript" src="/scripts/master.js" defer></script>
 	<script type="text/javascript" src="/scripts/transaction.js" defer></script>
 </head>
@@ -12,6 +16,8 @@
 	<div class="header">
 		<h1 class="primary-message">Transaction</h1>
 	</div>
+
+
 
 	<div id="main" class="main">
 		<div id="error" <% if (!locals.errorMessage || (locals.errorMessage === "")) { %> class="hidden" <% } %>>
