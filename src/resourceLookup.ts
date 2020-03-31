@@ -35,7 +35,9 @@ export enum ResourceKey {
 
 	// Database - transaction
 	/** Transaction unable to save */
-	TRANSACTION_UNABLE_TO_CREATE = '0010001',
+	TRANSACTION_UNABLE_TO_CREATE = '0010101',
+	/** Unable to add product to transaction */
+	TRANSACTION_UNABLE_TO_ADD = '0010102',
 
 	// Database - employee
 	/** Employee was not found. */

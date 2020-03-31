@@ -1,7 +1,6 @@
 import Sequelize from 'sequelize';
 import * as Helper from '../../helpers/helper';
 import { EmployeeModel } from '../../models/employeeModel';
-import * as EmployeeRepository from '../../models/employeeModel';
 import { Resources, ResourceKey } from '../../../../resourceLookup';
 import * as DatabaseConnection from '../../models/databaseConnection';
 import { CommandResponse, Employee, EmployeeSaveRequest } from '../../../typeDefinitions';
@@ -12,8 +11,7 @@ export const execute = async (
 	saveEmployeeRequest: EmployeeSaveRequest,
 	isInitialEmployee?: boolean
 ): Promise<CommandResponse<Employee>> => {
-	const validationResponse: CommandResponse<Employee> =
-		validateSaveRequest(saveEmployeeRequest);
+	const validationResponse: CommandResponse<Employee> = validateSaveRequest(saveEmployeeRequest);
 	if (validationResponse.status !== 200)
 		return Promise.reject(validationResponse);
 

@@ -7,14 +7,14 @@ module.exports.routes = function(server: Express) {
 	server.get(RouteLookup.Transaction, routeController.getPage);
 
 	// Add product to transaction
-	server.post(RouteLookup.API + RouteLookup.Transaction + RouteLookup.TransactionIdParameter + RouteLookup.ProductIdParameter, routeController.addTransactionEntry);
+	server.post(RouteLookup.API + RouteLookup.Transaction + RouteLookup.TransactionIdParameter + RouteLookup.ProductCodeParameter, routeController.addTransactionEntry);
 
 	// Update product in transaction
-	server.put(RouteLookup.API + RouteLookup.Transaction + RouteLookup.TransactionIdParameter + RouteLookup.ProductIdParameter, routeController.updateTransactionEntry);
+	server.put(RouteLookup.API + RouteLookup.Transaction + RouteLookup.TransactionIdParameter + RouteLookup.ProductCodeParameter, routeController.updateTransactionEntry);
 
 	// Close a transaction
 	// Query parameter `?action=complete|cancel` specifies what to do
 	server.delete(RouteLookup.API + RouteLookup.Transaction + RouteLookup.TransactionIdParameter, routeController.closeTransaction);
 	// Remove a product from a transaction
-	server.delete(RouteLookup.API + RouteLookup.Transaction + RouteLookup.TransactionIdParameter + RouteLookup.ProductIdParameter, routeController.removeTransactionEntry);
+	server.delete(RouteLookup.API + RouteLookup.Transaction + RouteLookup.TransactionIdParameter + RouteLookup.ProductCodeParameter, routeController.removeTransactionEntry);
 };
