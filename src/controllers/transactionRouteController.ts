@@ -7,10 +7,11 @@ import { TransactionEntryModel, queryById as queryTransactionEntryById,
 import * as ValidateActiveUser from './commands/activeUsers/validateActiveUserCommand';
 import * as TransactionCreateCommand from './commands/transactions/transactionCreateCommand';
 import { ViewNameLookup, ParameterLookup, RouteLookup } from './lookups/routingLookup';
-import { CommandResponse, TransactionPageResponse, TransactionResponse,
-	Transaction, TransactionEntry, ApiResponse, ActiveUser } from './typeDefinitions';
+import { TransactionPageResponse, TransactionResponse, Transaction,
+	TransactionEntry, ApiResponse, ActiveUser } from './typeDefinitions';
+import { execute as createTransactionEntry } from './commands/transactions/createTransactionEntryCommand';
 
-export const getPage = async (req: Request, res: Response): Promise<void> => {
+export const getPage = async (req: Request, res: Response) => {
 	try {
 		const cashierId = (await ValidateActiveUser.execute((<Express.Session>req.session).id))!.data!.employeeId;
 
@@ -26,19 +27,19 @@ export const getPage = async (req: Request, res: Response): Promise<void> => {
 	}
 };
 
-export const addTransactionEntry = async (req: Request, res: Response): Promise<void> => {
+export const addTransactionEntry = async (req: Request, res: Response) => {
 	try {
 		await ValidateActiveUser.execute((<Express.Session>req.session).id);
 
-		const transaction = await queryTransactionById(req.params.transactionId);
+		const response = await createTransactionEntry(req.params.transactionId, req.params.productCode);
 
-		res.send();
+		res.status(response.status).send(response.data!);
 	} catch (error) {
 		return Helper.processApiError(error, res);
 	}
 };
 
-export const updateTransactionEntry = async (req: Request, res: Response): Promise<void> => {
+export const updateTransactionEntry = async (req: Request, res: Response) => {
 	try {
 		await ValidateActiveUser.execute((<Express.Session>req.session).id);
 
@@ -50,7 +51,7 @@ export const updateTransactionEntry = async (req: Request, res: Response): Promi
 	}
 };
 
-export const closeTransaction = async (req: Request, res: Response): Promise<void> => {
+export const closeTransaction = async (req: Request, res: Response) => {
 	try {
 		await ValidateActiveUser.execute((<Express.Session>req.session).id);
 
@@ -62,7 +63,7 @@ export const closeTransaction = async (req: Request, res: Response): Promise<voi
 	}
 };
 
-export const removeTransactionEntry = async (req: Request, res: Response): Promise<void> => {
+export const removeTransactionEntry = async (req: Request, res: Response) => {
 	try {
 		await ValidateActiveUser.execute((<Express.Session>req.session).id);
 

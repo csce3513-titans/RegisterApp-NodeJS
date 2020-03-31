@@ -69,10 +69,12 @@ export interface Transaction {
 }
 
 export interface TransactionEntry {
-	id: string;
-	transactionId: string;
-	lookupCode: string;
+	price: number;
 	quantity: number;
+	productId: string;
+	transactionId: string;
+	id: string;
+	createdOn: Date;
 }
 // End response data object definitions
 
