@@ -22,7 +22,7 @@ export interface EmployeeSaveRequest {
 }
 
 export interface TransactionPageResponse {
-	pastTransaction?: Transaction | null;
+	transactionId: string;
 }
 export interface TransactionResponse {
 	transaction: any;

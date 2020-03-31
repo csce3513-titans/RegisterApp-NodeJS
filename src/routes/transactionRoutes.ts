@@ -5,11 +5,7 @@ import * as routeController from '../controllers/transactionRouteController';
 module.exports.routes = function(server: Express) {
 	// Get page
 	server.get(RouteLookup.Transaction, routeController.getPage);
-	// Get transaction
-	server.get(RouteLookup.API + RouteLookup.Transaction + RouteLookup.TransactionIdParameter, routeController.getTransaction);
 
-	// Create transaction
-	server.post(RouteLookup.API + RouteLookup.Transaction, routeController.createTransaction);
 	// Add product to transaction
 	server.post(RouteLookup.API + RouteLookup.Transaction + RouteLookup.TransactionIdParameter + RouteLookup.ProductIdParameter, routeController.addTransactionEntry);
 
