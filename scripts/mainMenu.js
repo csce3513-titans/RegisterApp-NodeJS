@@ -1,15 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
 	const transactionButton = document.getElementById("startTransactionButton");
 	const productListButton = document.getElementById("productListButton");
+
 	const cashierReportButton = document.getElementById("cashierReportButton");
 	const employeeDetailsButton = document.getElementById("employeeDetailsButton");
 	const salesReportButton = document.getElementById("salesReportButton");
 
-	transactionButton.addEventListener("click", () => location.assign('/transaction'));
-	productListButton.addEventListener("click", () => location.assign('/productListing'));
+	transactionButton.addEventListener("click", function(){ location.replace('/transaction'); });
+	productListButton.addEventListener("click", function(){ location.replace('/productListing'); });
+
 	cashierReportButton.addEventListener("click", missingFunctionalityError);
 	salesReportButton.addEventListener("click", missingFunctionalityError);
-	employeeDetailsButton.addEventListener("click", () => location.assign('/employeeDetail'));
+	employeeDetailsButton.addEventListener("click", function(){ location.replace('/employeeDetail') });
 });
 
 function missingFunctionalityError() {

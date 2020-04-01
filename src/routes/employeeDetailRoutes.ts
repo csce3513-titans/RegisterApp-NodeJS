@@ -8,16 +8,16 @@ function employeeDetailRoutes(server: express.Express) {
 		RouteLookup.EmployeeDetail,
 		EmployeeDetailRouteController.start);
 	server.get(
-		(RouteLookup.EmployeeDetail + RouteLookup.EmployeeIdParameter),
+		RouteLookup.EmployeeDetail + RouteLookup.EmployeeIdParameter,
 		EmployeeDetailRouteController.startWithEmployee);
 
 	server.patch(
-		(RouteLookup.API + RouteLookup.EmployeeDetail
-			+ RouteLookup.EmployeeIdParameter),
+		RouteLookup.API + RouteLookup.EmployeeDetail
+			+ RouteLookup.EmployeeIdParameter,
 		EmployeeDetailRouteController.updateEmployee);
 
 	server.post(
-		(RouteLookup.API + RouteLookup.EmployeeDetail),
+		RouteLookup.API + RouteLookup.EmployeeDetail,
 		EmployeeDetailRouteController.createEmployee);
 }
 

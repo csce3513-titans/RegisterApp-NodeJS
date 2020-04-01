@@ -24,7 +24,7 @@ const determineCanCreateEmployee = async (req: Request): Promise<CanCreateEmploy
 		}).then((activeUserResponse: CommandResponse<ActiveUser>): Promise<CanCreateEmployee> => {
 			return Promise.resolve(<CanCreateEmployee>{
 				employeeExists,
-				isElevatedUser: (activeUserResponse.data && activeUserResponse.data.classification > 101)
+				isElevatedUser: activeUserResponse.data && activeUserResponse.data.classification > 101
 			});
 		}).catch((error: any): Promise<CanCreateEmployee> => {
 			return Promise.resolve(<CanCreateEmployee>{
@@ -122,11 +122,11 @@ const saveEmployee = async (
 				employee: <Employee>saveEmployeeCommandResponse.data
 			};
 
-			if (!employeeExists) {
-				response.redirectUrl = (RouteLookup.SignIn
+			if (!employeeExists)
+				response.redirectUrl = RouteLookup.SignIn
 					+ '?' + QueryParameterLookup.EmployeeId
-					+ '=' + (<Employee>saveEmployeeCommandResponse.data).employeeId);
-			}
+					+ '=' + (<Employee>saveEmployeeCommandResponse.data).employeeId;
+
 
 			res.status(saveEmployeeCommandResponse.status)
 				.send(response);
