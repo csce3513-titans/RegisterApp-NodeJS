@@ -12,6 +12,9 @@ import { TransactionPageResponse, TransactionResponse, Transaction,
 import { execute as createTransactionEntry } from './commands/transactions/createTransactionEntryCommand';
 
 export const getPage = async (req: Request, res: Response) => {
+	if (await Helper.handleInvalidSession(req, res))
+		return;
+
 	try {
 		const cashierId = (await ValidateActiveUser.execute((<Express.Session>req.session).id))!.data!.employeeId;
 

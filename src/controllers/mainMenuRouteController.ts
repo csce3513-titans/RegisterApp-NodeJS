@@ -15,7 +15,7 @@ export const getView = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const start = async (req: Request, res: Response): Promise<void> => {
-	if (Helper.handleInvalidSession(req, res))
+	if (await Helper.handleInvalidSession(req, res))
 		return;
 
 	return ValidateActiveUser.execute((<Express.Session>req.session).id)

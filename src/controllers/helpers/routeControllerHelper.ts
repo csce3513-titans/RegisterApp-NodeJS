@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ApiResponse } from '../typeDefinitions';
 import { ResourceKey, Resources } from '../../resourceLookup';
 import { RouteLookup, QueryParameterLookup } from '../lookups/routingLookup';
+import * as ValidateActiveUser from "../commands/activeUsers/validateActiveUserCommand";
 
 const baseNoPermissionsRedirectUrl: string =
 	'/?' + QueryParameterLookup.ErrorCode
@@ -22,14 +23,23 @@ export const buildNoPermissionsRedirectUrl = (redirectBaseLocation?: string): st
 	return (redirectBaseLocation || defaultNoPermissionsRedirectBaseLocation) + baseNoPermissionsRedirectUrl;
 };
 
-export const handleInvalidSession = (req: Request, res: Response): boolean => {
-	if (req.session != null)
-		return false;
-
-	res.redirect(invalidSessionRedirectUrl);
-
-	return true;
+export const handleInvalidSession = async (req: Request, res: Response): Promise<boolean> => {
+	if (await checkInvalidSession(req)) {
+		res.redirect(invalidSessionRedirectUrl);
+		return true;
+	}
+	return false;
 };
+
+export const checkInvalidSession = (req: Request): Promise<boolean> => {
+	return ValidateActiveUser.execute((<Express.Session>req.session).id)
+		.then(() => {
+			return false;
+		})
+		.catch(() => {
+			return true;
+		});
+}
 
 export const processStartError = (
 	error: any,

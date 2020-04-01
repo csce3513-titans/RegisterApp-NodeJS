@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { ViewNameLookup, RouteLookup } from '../controllers/lookups/routingLookup';
+import { checkInvalidSession } from './helpers/routeControllerHelper';
 import * as ActiveEmployeeExistsQuery from './commands/employees/activeEmployeeExistsQuery';
 import * as SignInCommand from './commands/employees/employeeSignInCommand';
 import * as ClearActiveUserCommand from './commands/activeUsers/clearActiveUserCommand';
@@ -7,11 +8,14 @@ import { SignInRequest, ApiResponse } from './typeDefinitions';
 
 export const getView = async (req: Request, res: Response): Promise<void> => {
 	try {
-		//	TODO
 		if ((await ActiveEmployeeExistsQuery.query()).data === false)
 			return res.redirect(RouteLookup.EmployeeDetail);
 
-		return res.render(ViewNameLookup.SignIn);
+		if (await checkInvalidSession(req))
+			return res.render(ViewNameLookup.SignIn);
+
+		return res.redirect(RouteLookup.MainMenu);
+
 	} catch (error) {
 		console.error(error);
 		res.sendStatus(500);

@@ -35,7 +35,7 @@ const determineCanCreateEmployee = async (req: Request): Promise<CanCreateEmploy
 };
 
 export const start = async (req: Request, res: Response): Promise<void> => {
-	if (Helper.handleInvalidSession(req, res))
+	if (await Helper.handleInvalidSession(req, res))
 		return;
 	return determineCanCreateEmployee(req)
 		.then((canCreateEmployee: CanCreateEmployee): void => {
@@ -62,7 +62,7 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const startWithEmployee = async (req: Request, res: Response): Promise<void> => {
-	if (Helper.handleInvalidSession(req, res))
+	if (await Helper.handleInvalidSession(req, res))
 		return;
 
 	return ValidateActiveUser.execute((<Express.Session>req.session).id)
