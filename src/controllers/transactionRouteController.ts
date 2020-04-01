@@ -11,6 +11,13 @@ import { TransactionPageResponse, TransactionResponse, Transaction,
 	TransactionEntry, ApiResponse, ActiveUser } from './typeDefinitions';
 import { execute as createTransactionEntry } from './commands/transactions/createTransactionEntryCommand';
 
+//	TODO
+export const start = async (req: Request, res: Response): Promise<void> => {
+	return res.render(
+		ViewNameLookup.Transaction
+	)
+}
+
 export const getPage = async (req: Request, res: Response) => {
 	try {
 		const cashierId = (await ValidateActiveUser.execute((<Express.Session>req.session).id))!.data!.employeeId;
