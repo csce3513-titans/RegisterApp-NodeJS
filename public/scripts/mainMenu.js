@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const employeeDetailsButton = document.getElementById("employeeDetailsButton");
 	const salesReportButton = document.getElementById("salesReportButton");
 
-	transactionButton.addEventListener("click", missingFunctionalityError);
+	transactionButton.addEventListener("click", function(){ location.assign('/transaction') });
 	productListButton.addEventListener("click", function(){ console.log('Product Button Clicked.'); location.assign('/productListing'); });
 
 	cashierReportButton.addEventListener("click", missingFunctionalityError);

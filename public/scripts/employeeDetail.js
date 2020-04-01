@@ -87,7 +87,7 @@ function completeSaveAction(callbackResponse) {
 	if ((callbackResponse.data.redirectUrl != null)
 		&& (callbackResponse.data.redirectUrl !== "")) {
 
-		window.location.replace(callbackResponse.data.redirectUrl);
+		window.location.replace('/' + callbackResponse.data.redirectUrl);
 		return;
 	}
 
