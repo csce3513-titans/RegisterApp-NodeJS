@@ -35,8 +35,6 @@ const determineCanCreateEmployee = async (req: Request): Promise<CanCreateEmploy
 };
 
 export const start = async (req: Request, res: Response): Promise<void> => {
-	if (await Helper.handleInvalidSession(req, res))
-		return;
 	return determineCanCreateEmployee(req)
 		.then((canCreateEmployee: CanCreateEmployee): void => {
 			if (canCreateEmployee.employeeExists
