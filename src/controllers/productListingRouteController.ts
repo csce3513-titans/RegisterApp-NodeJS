@@ -3,6 +3,7 @@ import { ViewNameLookup } from './lookups/routingLookup';
 import { Resources, ResourceKey } from '../resourceLookup';
 import * as ProductsQuery from './commands/products/productsQuery';
 import { CommandResponse, Product, ProductListingPageResponse } from './typeDefinitions';
+import * as Helper from './helpers/routeControllerHelper';
 
 const processStartProductListingError = (error: any, res: Response): void => {
 	res.setHeader(
@@ -34,4 +35,12 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 		}).catch((error: any): void => {
 			return processStartProductListingError(error, res);
 		});
+};
+
+export const searchByPartialLookUpCode = async (req: Request, res: Response) => {
+	if (await Helper.handleInvalidApiSession(req, res))
+		return;
+
+	const productsResponse: CommandResponse<Product[]> = await ProductsQuery.queryByPartialLookupCode(req.params.productCode);
+	res.status(productsResponse.status).json(productsResponse.data);
 };

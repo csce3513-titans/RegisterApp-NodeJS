@@ -51,7 +51,7 @@ const saveProduct = async (
 	performSave: (productSaveRequest: ProductSaveRequest) => Promise<CommandResponse<Product>>
 ): Promise<void> => {
 
-	if (Helper.handleInvalidApiSession(req, res))
+	if (await Helper.handleInvalidApiSession(req, res))
 		return;
 
 
@@ -91,7 +91,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
 };
 
 export const deleteProduct = async (req: Request, res: Response): Promise<void> => {
-	if (Helper.handleInvalidApiSession(req, res))
+	if (await Helper.handleInvalidApiSession(req, res))
 		return;
 
 

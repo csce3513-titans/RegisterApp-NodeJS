@@ -98,7 +98,7 @@ const saveEmployee = async (
 		isInitialEmployee?: boolean
 	) => Promise<CommandResponse<Employee>>
 ): Promise<void> => {
-	if (Helper.handleInvalidApiSession(req, res))
+	if (await Helper.handleInvalidApiSession(req, res))
 		return;
 	let employeeExists: boolean;
 

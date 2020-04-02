@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { ApiResponse } from '../typeDefinitions';
 import { ResourceKey, Resources } from '../../resourceLookup';
 import { RouteLookup, QueryParameterLookup } from '../lookups/routingLookup';
-import * as ValidateActiveUser from "../commands/activeUsers/validateActiveUserCommand";
+import * as ValidateActiveUser from '../commands/activeUsers/validateActiveUserCommand';
 
 const baseNoPermissionsRedirectUrl: string =
 	'/?' + QueryParameterLookup.ErrorCode
@@ -31,7 +31,7 @@ export const handleInvalidSession = async (req: Request, res: Response): Promise
 	return false;
 };
 
-export const checkInvalidSession = (req: Request): Promise<boolean> => {
+export const checkInvalidSession = async (req: Request): Promise<boolean> => {
 	return ValidateActiveUser.execute((<Express.Session>req.session).id)
 		.then(() => {
 			return false;
@@ -39,7 +39,7 @@ export const checkInvalidSession = (req: Request): Promise<boolean> => {
 		.catch(() => {
 			return true;
 		});
-}
+};
 
 export const processStartError = (
 	error: any,
@@ -63,8 +63,8 @@ export const processStartError = (
 	return processedStartError;
 };
 
-export const handleInvalidApiSession = (req: Request, res: Response): boolean => {
-	if (req.session != null)
+export const handleInvalidApiSession = async (req: Request, res: Response): Promise<boolean> => {
+	if (!await checkInvalidSession(req))
 		return false;
 
 	res.status(404)

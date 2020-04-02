@@ -20,6 +20,8 @@ app.set('port', process.env.PORT || 15100);
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
+app.set('json spaces', 2);
+
 // app.set('trust proxy', 1); // TODO: This is for use with the session. Probably not necessary. trust first proxy
 app.use(compression());
 
