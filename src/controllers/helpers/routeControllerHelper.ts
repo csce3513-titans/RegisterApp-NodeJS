@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { ApiResponse } from '../typeDefinitions';
 import { ResourceKey, Resources } from '../../resourceLookup';
 import { RouteLookup, QueryParameterLookup } from '../lookups/routingLookup';
-import * as ValidateActiveUser from "../commands/activeUsers/validateActiveUserCommand";
+import * as ValidateActiveUser from '../commands/activeUsers/validateActiveUserCommand';
 
 const baseNoPermissionsRedirectUrl: string =
 	'/?' + QueryParameterLookup.ErrorCode
@@ -39,7 +39,7 @@ export const checkInvalidSession = (req: Request): Promise<boolean> => {
 		.catch(() => {
 			return true;
 		});
-}
+};
 
 export const processStartError = (
 	error: any,

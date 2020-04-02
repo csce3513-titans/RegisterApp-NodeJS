@@ -1,5 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
 	// TODO: Anything you want to do when the page is loaded?
+	const employeeId = (new URLSearchParams(window.location.search)).get('employeeId');
+
+	if (employeeId) {
+	document.getElementById("employeeId").value = employeeId;
+	}
 });
 
 function validateForm() {
