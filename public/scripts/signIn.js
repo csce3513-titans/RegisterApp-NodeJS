@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const employeeId = (new URLSearchParams(window.location.search)).get('employeeId');
 
 	if (employeeId) {
-	document.getElementById("employeeId").value = employeeId;
+		document.getElementById("employeeId").value = employeeId;
 	}
 });
 
