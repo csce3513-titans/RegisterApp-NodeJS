@@ -17,8 +17,6 @@
 		<h1 class="primary-message">Transaction</h1>
 	</div>
 
-
-
 	<div id="main" class="main">
 		<div id="error" <% if (!locals.errorMessage || (locals.errorMessage === "")) { %> class="hidden" <% } %>>
 			<h4 id="errorMessage" class="error-message">
@@ -28,9 +26,38 @@
 			</h4>
 		</div>
 
-		<div class="inputContent">
-
+		<!-- Use product model -->
+		<div class="searchWrapper">
+			<% if (locals.products) { %>
+				<ul id="searchProducts">
+					<% locals.products.forEach((product) => { %>
+						<li>
+							<input type="hidden" name="productId" value="<%= product.id %>" />
+							<span name="productLookupCode"><%= product.lookupCode %></span>
+							<br />&nbsp;&nbsp;<span name="productCount"><%= product.count %></span>
+							<br />&nbsp;&nbsp;<span name="productPrice"><%= product.price %></span>
+						</li>
+					<% }); %>
+				</ul>
+			<% } %>
 		</div>
+
+		<!-- Use transactionentry model -->
+		<div class="cartWrapper">
+			<% if (locals.cartItems) { %>
+				<ul id="cartItems">
+					<% locals.cartItems.forEach((cartItems) => { %>
+						<li>
+							<input type="hidden" name="productId" value="<%= cartItems.productId %>" />
+							<span name="productLookupCode"><%= cartItems.lookupCode %></span>
+							<br />&nbsp;&nbsp;<span name="productCount"><%= cartItems.quantity %></span>
+							<br />&nbsp;&nbsp;<span name="productPrice"><%= cartItems.price %></span>
+						</li>
+					<% }); %>
+				</ul>
+			<% } %>
+		</div>
+
 	</div>
 
 	<div class="footer <% if (locals.isInitialEmployee) { %>hidden<% } %>">
