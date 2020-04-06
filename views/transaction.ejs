@@ -11,6 +11,18 @@
 
 	<script type="text/javascript" src="/scripts/master.js" defer></script>
 	<script type="text/javascript" src="/scripts/transaction.js" defer></script>
+
+	<style>
+		.column {
+			float: left;
+			width: 50%;
+		}
+		.row:after {
+			content: "";
+			display: table;
+			clear: both;
+		}
+	</style>
 </head>
 <body>
 	<div class="header">
@@ -26,38 +38,54 @@
 			</h4>
 		</div>
 
-		<!-- Use product model -->
-		<div class="searchWrapper">
-			<% if (locals.products) { %>
-				<ul id="searchProducts">
-					<% locals.products.forEach((product) => { %>
-						<li>
-							<input type="hidden" name="productId" value="<%= product.id %>" />
-							<span name="productLookupCode"><%= product.lookupCode %></span>
-							<br />&nbsp;&nbsp;<span name="productCount"><%= product.count %></span>
-							<br />&nbsp;&nbsp;<span name="productPrice"><%= product.price %></span>
-						</li>
-					<% }); %>
-				</ul>
-			<% } %>
-		</div>
+		<div class="row">
+			<!-- Use product model -->
+			<div class="column">
+				<div class="searchWrapper">
+					<input type="text" id="search" name="search"><br>
+						<!-- <% if (locals.products) { %>
+							<ul id="searchProducts">
+								<% locals.products.forEach((product) => { %>
+									<li>
+										<input type="hidden" name="productId" value="<%= product.id %>" />
+										<span name="productLookupCode"><%= product.lookupCode %></span>
+										<br />&nbsp;&nbsp;<span name="productCount"><%= product.count %></span>
+										<br />&nbsp;&nbsp;<span name="productPrice"><%= product.price %></span>
+									</li>
+								<% }); %>
+							</ul>
+						<% } %> -->
+						<ul>
+							<li>Item1</li>
+							<li>Item2</li>
+							<li>Item3</li>
+						</ul>
+				</div>
+			</div>
 
-		<!-- Use transactionentry model -->
-		<div class="cartWrapper">
-			<% if (locals.cartItems) { %>
-				<ul id="cartItems">
-					<% locals.cartItems.forEach((cartItems) => { %>
-						<li>
-							<input type="hidden" name="productId" value="<%= cartItems.productId %>" />
-							<span name="productLookupCode"><%= cartItems.lookupCode %></span>
-							<br />&nbsp;&nbsp;<span name="productCount"><%= cartItems.quantity %></span>
-							<br />&nbsp;&nbsp;<span name="productPrice"><%= cartItems.price %></span>
-						</li>
-					<% }); %>
-				</ul>
-			<% } %>
+			<!-- Use transactionentry model -->
+			<div class="column">
+				<div class="cartWrapper">
+			<!-- <% if (locals.cartItems) { %>
+						<ul id="cartItems">
+							<% locals.cartItems.forEach((cartItems) => { %>
+								<li>
+									<input type="hidden" name="productId" value="<%= cartItems.productId %>" />
+									<span name="productLookupCode"><%= cartItems.lookupCode %></span>
+									<br />&nbsp;&nbsp;<span name="productCount"><%= cartItems.quantity %></span>
+									<br />&nbsp;&nbsp;<span name="productPrice"><%= cartItems.price %></span>
+								</li>
+							<% }); %>
+						</ul>
+					<% } %> -->
+					<ul>
+						<li>Item1</li>
+						<li>Item2</li>
+						<li>Item3</li>
+					</ul>
+				</div>
+			</div>
 		</div>
-
 	</div>
 
 	<div class="footer <% if (locals.isInitialEmployee) { %>hidden<% } %>">
