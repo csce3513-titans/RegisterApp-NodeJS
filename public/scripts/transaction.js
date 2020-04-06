@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	getCheckoutActionElement().addEventListener('click', checkoutActionClick);
 	getCancelActionElement().addEventListener('click', cancelActionClick);
 	getAddToCartActionElement().addEventListener('click', addToCartActionClick);
+	getProductSearchElement().addEventListener('input', searchForProducts);
 
 });
 
 function addToCartActionClick(event){
-
 	const addToCartActionElement = event.target;
 	addToCartActionElement.disable = true;
 
@@ -52,6 +52,30 @@ function checkoutActionClick(event){
 function cancelActionClick(event){
 
 }
+
+function searchForProducts() {
+	removeSearchResultElements();
+	ajaxGet(`/api/productListing/${this.value}`, response => {
+		buildSearchResultElements(response.data);
+	});
+}
+
+function buildSearchResultElements(searchResults) {
+	const parent = getProductSearchResultContainer();
+	searchResults.forEach(searchResult => {
+		let searchResultElement = document.createElement('li');
+		searchResultElement.innerHTML = searchResult;
+		parent.appendChild(searchResultElement);
+	});
+}
+
+function removeSearchResultElements() {
+	const parent = getProductSearchResultContainer();
+	while (parent.firstChild) {
+		parent.firstChild.remove();
+	}
+}
+
 
 function displayProductAddedAlertModal() {
 	if (hideProductAddedAlertTimer)
@@ -123,4 +147,12 @@ function getProductCount() {
 }
 function getProductCountElement() {
 	return document.getElementById('productCount');
+}
+
+function getProductSearchElement() {
+	return document.getElementById('search');
+}
+
+function getProductSearchResultContainer() {
+	return document.getElementById('searchResults');
 }

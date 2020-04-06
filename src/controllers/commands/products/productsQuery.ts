@@ -22,7 +22,10 @@ export const queryByPartialLookupCode = async (lookupCode: string): Promise<Comm
 			lookupCode : {
 				[Sequelize.Op.like]: `%${lookupCode}%`
 			}
-		}
+		},
+		order: [
+			['lookupCode', 'ASC']
+		]
 	}).then((queriedProducts: ProductModel[]): CommandResponse<Product[]> => {
 		return <CommandResponse<Product[]>>{
 			status: 200,
