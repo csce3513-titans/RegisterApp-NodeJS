@@ -1,14 +1,14 @@
 // transactionId is populated in the global scope at rendering time
 // Be sure to include this transactionId in future AJAX calls to the backend!
-console.log(transactionId);
+// console.log(transactionId);
 
 let hideProductAddedAlertTimer = undefined;
 
 document.addEventListener('DOMContentLoaded', () => {
 
-	getCheckoutActionElement().addEventListener('click', checkoutActionClick);
-	getCancelActionElement().addEventListener('click', cancelActionClick);
-	getAddToCartActionElement().addEventListener('click', addToCartActionClick);
+	// getCheckoutActionElement().addEventListener('click', checkoutActionClick);
+	// getCancelActionElement().addEventListener('click', cancelActionClick);
+	// getAddToCartActionElement().addEventListener('click', addToCartActionClick);
 	getProductSearchElement().addEventListener('input', searchForProducts);
 
 });
@@ -76,7 +76,6 @@ function removeSearchResultElements() {
 	}
 }
 
-
 function displayProductAddedAlertModal() {
 	if (hideProductAddedAlertTimer)
 		clearTimeout(hideProductAddedAlertTimer);
@@ -94,7 +93,6 @@ function hideProductAddedAlertModal() {
 
 	getProductAddedAlertModalElement().style.display = 'none';
 }
-
 
 // Getters and setters
 function getProductAddedAlertModalElement() {
