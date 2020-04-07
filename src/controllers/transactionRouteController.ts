@@ -4,20 +4,20 @@ import { Resources, ResourceKey } from '../resourceLookup';
 import { TransactionModel, queryById as queryTransactionById } from '../controllers/commands/models/transactionModel';
 import { TransactionEntryModel, queryById as queryTransactionEntryById,
 	queryByTransactionIdAndProductId } from '../controllers/commands/models/transactionEntryModel';
-import * as ValidateActiveUser from './commands/activeUsers/validateActiveUserCommand';
+import { execute as validateActiveUserCommand } from './commands/activeUsers/validateActiveUserCommand';
 import * as TransactionCreateCommand from './commands/transactions/transactionCreateCommand';
-import { ViewNameLookup, ParameterLookup, RouteLookup } from './lookups/routingLookup';
-import { TransactionPageResponse, TransactionResponse, Transaction,
-	TransactionEntry, ApiResponse, ActiveUser } from './typeDefinitions';
+import { ViewNameLookup } from './lookups/routingLookup';
+import { TransactionPageResponse, ApiResponse } from './typeDefinitions';
 import { execute as createTransactionEntryCommand } from './commands/transactions/createTransactionEntryCommand';
 import { execute as updateTransactionEntryCommand } from './commands/transactions/updateTransactionEntryCommand';
+import { execute as closeTransactionCommand } from './commands/transactions/closeTransactionCommand';
 
 export const getPage = async (req: Request, res: Response) => {
 	if (await Helper.handleInvalidSession(req, res))
 		return;
 
 	try {
-		const cashierId = (await ValidateActiveUser.execute((<Express.Session>req.session).id))!.data!.employeeId;
+		const cashierId = (await validateActiveUserCommand((<Express.Session>req.session).id))!.data!.employeeId;
 
 		const transactionId = (await TransactionCreateCommand.execute(cashierId))!.data!.id;
 		return res.render(
@@ -62,12 +62,11 @@ export const updateTransactionEntry = async (req: Request, res: Response) => {
 
 export const closeTransaction = async (req: Request, res: Response) => {
 	try {
-		if (await Helper.handleInvalidSession(req, res))
-			return;
+		const user = (await validateActiveUserCommand((<Express.Session>req.session).id)).data!;
 
-		const transaction = await queryTransactionById(req.params.transactionId);
+		const response = await closeTransactionCommand(req.params.transactionId, user.employeeId);
 
-		res.send();
+		res.status(response.status).send(response.message ? { errorMessage: response.message } : response.data);
 	} catch (error) {
 		return Helper.processApiError(error, res);
 	}

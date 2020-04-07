@@ -6,6 +6,7 @@ import { Model, DataTypes, InitOptions, ModelAttributes, ModelAttributeColumnOpt
 export class TransactionEntryModel extends Model {
 	public price!: number;
 	public quantity!: number;
+	/** The product's lookup code */
 	public productId!: string;
 	public transactionId!: string;
 
