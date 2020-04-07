@@ -3,8 +3,13 @@ import { DatabaseConnection } from './databaseConnection';
 import { TransactionFieldName, DatabaseTableName } from './constants/databaseNames';
 import { Model, DataTypes, InitOptions, ModelAttributes, ModelAttributeColumnOptions } from 'sequelize';
 
+export enum TransactionTypes {
+	SALE,
+	RETURN
+}
+
 export class TransactionModel extends Model {
-	public type!: number; // TODO: The idea is to map this to different types of transactions: Sale, Return, etc.
+	public type!: TransactionTypes;
 	public total!: number;
 	public cashierId!: string;
 	public referenceId!: string;
