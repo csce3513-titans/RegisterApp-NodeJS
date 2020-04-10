@@ -13,36 +13,97 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-function addToCartActionClick(event){
-	const addToCartActionElement = event.target;
-	addToCartActionElement.disable = true;
+function validateAddItem(){
+	return true;
+}
+
+function addToCartActionClick(item){
+	if(!validateAddItem(item)){
+		return;
+	}
+
+	const parent = document.getElementById('cart');
+	const child = document.getElementById(item);
+
+	if(parent.contains(child)){
+		child.childNodes[0].value++;
+	}
+	else
+		buildCartElements(item);
 
 	const transactionIdIsDefined = transactionId != null && transactionId.trim() !== '';
-	const productId = getProductId();
-	const productIdIsDefined = productId != null && productId.trim() !== '';
 	const addToCartActionUrl = ('/api/transaction/' + (transactionIdIsDefined ? transactionId : ''));
 	const addTransactionRequest = {
 		price: getProductPrice(),
 		quantity: 1,
-		productId,
+		productId: item,
 		transactionId
 	};
 
 	if (transactionIdIsDefined)
 		ajaxPut(addToCartActionUrl, addTransactionRequest, callbackResponse => {
-			addToCartActionElement.disabled = false;
-
 			if (isSuccessResponse(callbackResponse))
 				displayProductAddedAlertModal();
 		});
+
 	else
 		ajaxPost(addToCartActionUrl, addTransactionRequest, callbackResponse => {
-			addToCartActionElement.disabled = false;
-
 			if (isSuccessResponse(callbackResponse)) {
 				displayProductAddedAlertModal();
 			}
 		});
+}
+
+function quantityChanged(item, value){
+	if(value != null && value > 0){
+		const transactionIdIsDefined = transactionId != null && transactionId.trim() !== '';
+		const addToCartActionUrl = ('/api/transaction/' + (transactionIdIsDefined ? transactionId : ''));
+		const addTransactionRequest = {
+			price: 10,
+			quantity: value,
+			productId: item,
+			transactionId
+		};
+
+		ajaxPut(addToCartActionUrl, addTransactionRequest, callbackResponse => {
+			if (isSuccessResponse(callbackResponse))
+				displayProductAddedAlertModal();
+		});
+	}
+
+}
+
+function removeFromCartActionClick(item){
+	let elementToRemove = document.getElementById(item);
+	const parent = getCart();
+	parent.removeChild(elementToRemove);
+}
+
+function buildCartElements(item){
+	const parent = getCart();
+	let quantityElement = document.createElement('input');
+	let cartElement = document.createElement('li');
+	let removeFromCartElement = document.createElement('button');
+	let spanElement = document.createElement('span');
+	quantityElement.value = 1;
+	quantityElement.size = 1;
+	quantityElement.type = 'number';
+	quantityElement.onchange = function(){
+		quantityChanged(item, quantityElement.value);
+	};
+	cartElement.id = item;
+	spanElement.innerHTML = item;
+	removeFromCartElement.innerHTML = 'Remove';
+	removeFromCartElement.id = 'removeFromCart';
+	removeFromCartElement.type = 'button';
+	removeFromCartElement.onclick = function(){
+		removeFromCartActionClick(cartElement.id);
+	};
+	cartElement.insertAdjacentElement('afterbegin', spanElement);
+	cartElement.insertAdjacentElement('afterbegin', quantityElement);
+	cartElement.insertAdjacentElement('beforeend', removeFromCartElement);
+
+	parent.append(cartElement);
 }
 
 function checkoutActionClick(event){
@@ -64,8 +125,16 @@ function buildSearchResultElements(searchResults) {
 	const parent = getProductSearchResultContainer();
 	searchResults.forEach(searchResult => {
 		let searchResultElement = document.createElement('li');
+		let addToCartElement = document.createElement('button');
 		searchResultElement.innerHTML = searchResult;
-		parent.appendChild(searchResultElement);
+		addToCartElement.innerHTML = 'Add to Cart';
+		addToCartElement.id = 'addToCart';
+		addToCartElement.value = searchResult;
+		addToCartElement.type = 'button';
+		addToCartElement.onclick = function(){
+			addToCartActionClick(addToCartElement.value);
+		};
+		parent.appendChild(searchResultElement).appendChild(addToCartElement);
 	});
 }
 
@@ -102,8 +171,8 @@ function getProductAddedAlertModalElement() {
 function getCheckoutActionElement() {
 	return document.getElementById('checkoutButton');
 }
-function getAddActionElement() {
-	return document.getElementById('addToCartButton');
+function getAddToCartActionElement() {
+	return document.getElementById('addToCart');
 }
 
 function getCancelActionElement() {

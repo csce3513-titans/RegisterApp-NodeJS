@@ -43,7 +43,7 @@
 			<div class="column">
 				<div class="searchWrapper">
 					<input type="text" id="search" name="search"><br>
-						<!-- <% if (locals.products) { %>
+						<% if (locals.products) { %>
 							<ul id="searchProducts">
 								<% locals.products.forEach((product) => { %>
 									<li>
@@ -54,7 +54,7 @@
 									</li>
 								<% }); %>
 							</ul>
-						<% } %> -->
+						<% } %>
 						<ul id="searchResults">
 						</ul>
 				</div>
@@ -62,9 +62,9 @@
 
 			<!-- Use transactionentry model -->
 			<div class="column">
-				<div class="cartWrapper">
-			<!-- <% if (locals.cartItems) { %>
-						<ul id="cartItems">
+				<div class="cartWrapper" id="cart">
+			<!-- <% if (locals.cartItems) { %> -->
+						<!-- <ul id="cartItems">
 							<% locals.cartItems.forEach((cartItems) => { %>
 								<li>
 									<input type="hidden" name="productId" value="<%= cartItems.productId %>" />
@@ -73,8 +73,8 @@
 									<br />&nbsp;&nbsp;<span name="productPrice"><%= cartItems.price %></span>
 								</li>
 							<% }); %>
-						</ul>
-					<% } %> -->
+						</ul> -->
+					<!-- <% } %> -->
 					<ul>
 <!--						<li>Item1</li>-->
 <!--						<li>Item2</li>-->
