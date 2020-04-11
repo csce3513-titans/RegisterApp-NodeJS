@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+function cancelTransaction(){
+	
+}
+
 function validateAddItem(){
 	return true;
 }
