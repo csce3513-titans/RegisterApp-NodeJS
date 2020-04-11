@@ -11,7 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
 	// getAddToCartActionElement().addEventListener('click', addToCartActionClick);
 	getProductSearchElement().addEventListener('input', searchForProducts);
 
+	const cancelTransactionButton = document.getElementById("cancelTransactionButton");
+	cancelTransactionButton.addEventListener("click", () => cancelTransaction);
+
 });
+
+function cancelTransaction(event) {
+	/* const deleteActionElement = event.target;
+	const deleteActionUrl = '/api/transaction/' + get */
+
+}
 
 function addToCartActionClick(event){
 	const addToCartActionElement = event.target;
@@ -104,10 +113,6 @@ function getCheckoutActionElement() {
 }
 function getAddActionElement() {
 	return document.getElementById('addToCartButton');
-}
-
-function getCancelActionElement() {
-	return document.getElementById('cancelButton');
 }
 
 function getProductId() {

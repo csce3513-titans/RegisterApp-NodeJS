@@ -40,7 +40,8 @@
 
 		<div class="row">
 			<!-- Use product model -->
-			<div class="column">
+			<div id="search" class="column">
+				<h2>Search</h2>
 				<div class="searchWrapper">
 					<input type="text" id="search" name="search"><br>
 						<!-- <% if (locals.products) { %>
@@ -61,9 +62,10 @@
 			</div>
 
 			<!-- Use transactionentry model -->
-			<div class="column">
+			<div id="cart" class="column">
+				<h2>Cart</h2>
 				<div class="cartWrapper">
-			<!-- <% if (locals.cartItems) { %>
+			<!-- 	<% if (locals.cartItems) { %>
 						<ul id="cartItems">
 							<% locals.cartItems.forEach((cartItems) => { %>
 								<li>
@@ -76,12 +78,14 @@
 						</ul>
 					<% } %> -->
 					<ul>
-<!--						<li>Item1</li>-->
-<!--						<li>Item2</li>-->
-<!--						<li>Item3</li>-->
+						<li>testItem1</li>
+						<li>testItem2</li>
+ 						<li>testItem3</li>
 					</ul>
 				</div>
+				<button id="cancelTransactionButton" type="button" class="action">Cancel Transaction</button>
 			</div>
+
 		</div>
 	</div>
 
