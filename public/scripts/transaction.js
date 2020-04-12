@@ -7,17 +7,32 @@ let hideProductAddedAlertTimer = undefined;
 document.addEventListener('DOMContentLoaded', () => {
 
 	// getCheckoutActionElement().addEventListener('click', checkoutActionClick);
-	// getCancelActionElement().addEventListener('click', cancelActionClick);
 	// getAddToCartActionElement().addEventListener('click', addToCartActionClick);
 	getProductSearchElement().addEventListener('input', searchForProducts);
 
-	const cancelTransactionButton = document.getElementById("cancelTransactionButton");
-	cancelTransactionButton.addEventListener("click", () => cancelTransaction);
+	getCancelTransactionButton.addEventListener("click", cancelTransaction);
 
 });
 
 function cancelTransaction(){
-	ajaxDelete('/api/transaction/')
+	console.log("cancelling transaction");
+	const cancelTransactionElement = event.target;
+	const cancelTransactionUrl = '/api/transaction/' + getTransactionId();
+
+	cancelTransactionElement.disabled = true;
+
+	ajaxDelete(cancelTransactionUrl, response => {
+		cancelTransactionElement.disabled = false;
+
+		if(isSuccessResponse(response)) {
+			if (response.data != null
+					&& response.data.redirectUrl != null
+					&& response.data.redirectUrl !== '')
+				window.location.replace(response.data.redirectUrl);
+			else
+				window.location.replace('/mainMenu');
+		}
+	});
 }
 
 function validateAddItem(){
@@ -114,10 +129,6 @@ function buildCartElements(item){
 }
 
 function checkoutActionClick(event){
-
-}
-
-function cancelActionClick(event){
 
 }
 
@@ -226,4 +237,8 @@ function getProductSearchElement() {
 
 function getProductSearchResultContainer() {
 	return document.getElementById('searchResults');
+}
+
+function getCancelTransactionButton() {
+	return document.getElementById('cancelTransactionButton');
 }
