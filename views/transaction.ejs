@@ -44,48 +44,19 @@
 				<h2>Search</h2>
 				<div class="searchWrapper">
 					<input type="text" id="search" name="search"><br>
-<!-- 						<% if (locals.products) { %>
-							<ul id="searchProducts">
-								<% locals.products.forEach((product) => { %>
-									<li>
-										<input type="hidden" name="productId" value="<%= product.id %>" />
-										<span name="productLookupCode"><%= product.lookupCode %></span>
-										<br />&nbsp;&nbsp;<span name="productCount"><%= product.count %></span>
-										<br />&nbsp;&nbsp;<span name="productPrice"><%= product.price %></span>
-									</li>
-								<% }); %>
-							</ul>
-						<% } %> -->
 					<ul id="searchResults">
 					</ul>
 				</div>
 			</div>
 
 			<!-- Use transactionentry model -->
-			<div id="cart" class="column">
+			<div class="column">
 				<h2>Cart</h2>
-				<div class="cartWrapper">
-			<!-- 	<% if (locals.cartItems) { %>
-						<ul id="cartItems">
-							<% locals.cartItems.forEach((cartItems) => { %>
-								<li>
-									<input type="hidden" name="productId" value="<%= cartItems.productId %>" />
-									<span name="productLookupCode"><%= cartItems.lookupCode %></span>
-									<br />&nbsp;&nbsp;<span name="productCount"><%= cartItems.quantity %></span>
-									<br />&nbsp;&nbsp;<span name="productPrice"><%= cartItems.price %></span>
-								</li>
-							<% }); %>
-						</ul> -->
-					<!-- <% } %> -->
-					<ul>
-						<li>testItem1</li>
-						<li>testItem2</li>
- 						<li>testItem3</li>
-					</ul>
-				</div>
+				<div id="cart" class="cartWrapper">
+				</div>	
+				<br>		
 				<button id="cancelTransactionButton" type="button" class="action">Cancel Transaction</button>
 			</div>
-
 		</div>
 	</div>
 

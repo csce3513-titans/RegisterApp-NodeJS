@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function cancelTransaction(){
-	
+	ajaxDelete('/api/transaction/')
 }
 
 function validateAddItem(){
@@ -123,6 +123,7 @@ function cancelActionClick(event){
 
 function searchForProducts() {
 	removeSearchResultElements();
+	console.log(this.value);
 	ajaxGet(`/api/productListing/${this.value}`, response => {
 		buildSearchResultElements(response.data);
 	});

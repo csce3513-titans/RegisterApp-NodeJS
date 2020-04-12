@@ -15,17 +15,19 @@ function ajaxPut(resourceRelativeUri, data, callback) {
 }
 
 function ajaxPatch(resourceRelativeUri, data, callback) {
-	console.log("ajaxPatch...");
+	// console.log("ajaxPatch...");
 	return ajax(resourceRelativeUri, 'PATCH', data, callback);
 }
 
 function ajaxPost(resourceRelativeUri, data, callback) {
-	console.log("ajaxPost...");
-	console.log(data);
+	// console.log("ajaxPost...");
+	// console.log(data);
 	return ajax(resourceRelativeUri, 'POST', data, callback);
 }
 
 function ajaxDelete(resourceRelativeUri, callback) {
+	console.log("ajaxDelete...");
+	console.log(data);
 	return ajax(resourceRelativeUri, 'DELETE', null, callback);
 }
 
