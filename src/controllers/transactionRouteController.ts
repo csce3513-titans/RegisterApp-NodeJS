@@ -61,6 +61,9 @@ export const updateTransactionEntry = async (req: Request, res: Response) => {
 };
 
 export const closeTransaction = async (req: Request, res: Response) => {
+	if (await Helper.handleInvalidApiSession(req, res))
+		return;
+
 	try {
 		const user = (await validateActiveUserCommand((<Express.Session>req.session).id)).data!;
 

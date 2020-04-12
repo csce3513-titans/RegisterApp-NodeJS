@@ -1,6 +1,6 @@
 import { TransactionEntryModel, queryByTransactionId } from '../models/transactionEntryModel';
 import { ProductModel, queryByLookupCode } from '../models/productModel';
-import { queryById as queryTransactionById, TransactionTypes } from '../models/transactionModel';
+import {queryById as queryTransactionById, TransactionModel, TransactionTypes} from '../models/transactionModel';
 import { CommandResponse, TransactionEntry } from '../../typeDefinitions';
 import { ResourceKey, Resources } from '../../../resourceLookup';
 
@@ -19,36 +19,23 @@ export const execute = async (transactionId: string, cashierId: string) => {
 				message: Resources.getString(ResourceKey.USER_NO_PERMISSIONS)
 			};
 
-		const entries = await queryByTransactionId(transaction.id);
-		const products: Record<string, ProductModel> = { };
-		for (const entry of entries) {
-			const product = await queryByLookupCode(entry.productId);
-			if (!product || (transaction.type === TransactionTypes.SALE && entry.quantity > product.count))
-				return <CommandResponse<TransactionEntry>>{
-					status: 400,
-					message: Resources.getString(ResourceKey.TRANSACTION_NOT_ENOUGH_IN_STOCK)
-				};
+		await TransactionEntryModel.destroy({
+			where: {
+				transactionId
+			}
+		});
 
-			products[entry.id] = product;
-		}
+		await TransactionModel.destroy({
+			where: {
+				id: transactionId
+			}
+		});
 
-		for (const entry of entries) {
-			if (transaction.type === TransactionTypes.SALE)
-				products[entry.id].count -= entry.quantity;
-			else if (transaction.type === TransactionTypes.RETURN)
-				products[entry.id].count += entry.quantity;
-
-			await products[entry.id].save();
-			await entry.destroy();
-		}
-
-		await transaction.destroy(); // For now the transaction is deleted. No records are kept
-
-		return <CommandResponse<TransactionEntry>>{ status: 200 };
+		return <CommandResponse<TransactionEntry>>{ status: 204 };
 	} catch (error) {
 		throw <CommandResponse<TransactionEntry>>{
 			status: error.status ?? 500,
-			message: error.message ?? Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_ADD)
+			message: error.message ?? Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_CLOSE)
 		};
 	}
 };

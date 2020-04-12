@@ -20,7 +20,7 @@ export const execute = async (transactionId: string, productCode: string, quanti
 				message: Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_UPDATE)
 			};
 
-		if (transaction.type === TransactionTypes.SALE && product.count)
+		if (transaction.type === TransactionTypes.SALE && quantity > product.count)
 			return <CommandResponse<TransactionEntry>>{
 				status: 400,
 				message: Resources.getString(ResourceKey.TRANSACTION_NOT_ENOUGH_IN_STOCK)

@@ -9,71 +9,38 @@ document.addEventListener('DOMContentLoaded', () => {
 	// getCheckoutActionElement().addEventListener('click', checkoutActionClick);
 	// getAddToCartActionElement().addEventListener('click', addToCartActionClick);
 	getProductSearchElement().addEventListener('input', searchForProducts);
-
-	getCancelTransactionButton.addEventListener("click", cancelTransaction);
+	getCancelTransactionButton().addEventListener("click", cancelTransaction);
 
 });
 
 function cancelTransaction(){
-	console.log("cancelling transaction");
-	const cancelTransactionElement = event.target;
-	const cancelTransactionUrl = '/api/transaction/' + getTransactionId();
-
-	cancelTransactionElement.disabled = true;
-
-	ajaxDelete(cancelTransactionUrl, response => {
-		cancelTransactionElement.disabled = false;
-
-		if(isSuccessResponse(response)) {
-			if (response.data != null
-					&& response.data.redirectUrl != null
-					&& response.data.redirectUrl !== '')
-				window.location.replace(response.data.redirectUrl);
-			else
-				window.location.replace('/mainMenu');
+	ajaxDelete(`/api/transaction/${transactionId}`, response => {
+		if (isSuccessResponse(response)) {
+			window.location.replace('/mainMenu');
 		}
 	});
 }
 
-function validateAddItem(){
-	return true;
-}
+function addToCartActionClick(lookupcode){
+	const addToCartActionUrl = (`/api/transaction/${transactionId}/${lookupcode}`);
 
-function addToCartActionClick(item){
-	if(!validateAddItem(item)){
-		return;
-	}
-
-	const parent = document.getElementById('cart');
-	const child = document.getElementById(item);
-
-	if(parent.contains(child)){
-		child.childNodes[0].value++;
-	}
-	else
-		buildCartElements(item);
-
-	const transactionIdIsDefined = transactionId != null && transactionId.trim() !== '';
-	const addToCartActionUrl = ('/api/transaction/' + (transactionIdIsDefined ? transactionId : ''));
-	const addTransactionRequest = {
-		price: getProductPrice(),
-		quantity: 1,
-		productId: item,
-		transactionId
-	};
-
-	if (transactionIdIsDefined)
-		ajaxPut(addToCartActionUrl, addTransactionRequest, callbackResponse => {
-			if (isSuccessResponse(callbackResponse))
-				displayProductAddedAlertModal();
-		});
-
-	else
-		ajaxPost(addToCartActionUrl, addTransactionRequest, callbackResponse => {
+	const productInCart = document.getElementById(lookupcode);
+	if (productInCart) {
+		const quantity = Number(productInCart.childNodes[0].value) + 1;
+		ajaxPut(addToCartActionUrl, { quantity }, callbackResponse => {
 			if (isSuccessResponse(callbackResponse)) {
-				displayProductAddedAlertModal();
+				// displayProductAddedAlertModal();
+				productInCart.childNodes[0].value++;
 			}
 		});
+	} else {
+		ajaxPost(addToCartActionUrl, null, callbackResponse => {
+			if (isSuccessResponse(callbackResponse)) {
+				// displayProductAddedAlertModal();
+				buildCartElements(lookupcode);
+			}
+		});
+	}
 }
 
 function quantityChanged(item, value){
@@ -134,10 +101,11 @@ function checkoutActionClick(event){
 
 function searchForProducts() {
 	removeSearchResultElements();
-	console.log(this.value);
-	ajaxGet(`/api/productListing/${this.value}`, response => {
-		buildSearchResultElements(response.data);
-	});
+	if (this.value !== '') {
+		ajaxGet(`/api/productListing/${this.value}`, response => {
+			buildSearchResultElements(response.data);
+		});
+	}
 }
 
 function buildSearchResultElements(searchResults) {
@@ -200,9 +168,7 @@ function getProductId() {
 function getProductPrice() {
 	return getProductPriceElement().value;
 }
-function getTransactionId() {
-	return getTransactionIdElement().value;
-}
+
 function getCart() {
 	return document.getElementById('cart');
 }

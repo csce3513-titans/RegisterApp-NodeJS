@@ -27,7 +27,6 @@ function ajaxPost(resourceRelativeUri, data, callback) {
 
 function ajaxDelete(resourceRelativeUri, callback) {
 	console.log("ajaxDelete...");
-	console.log(data);
 	return ajax(resourceRelativeUri, 'DELETE', null, callback);
 }
 
@@ -165,7 +164,7 @@ function signOutActionClickHandler() {
 		if ((callbackResponse.data != null)
 			&& (callbackResponse.data.redirectUrl != null)
 			&& (callbackResponse.data.redirectUrl !== "")) {
-	
+
 			window.location.replace(callbackResponse.data.redirectUrl);
 		} else {
 			window.location.replace("/");
