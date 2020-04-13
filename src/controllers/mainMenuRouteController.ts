@@ -21,7 +21,7 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 	return ValidateActiveUser.execute((<Express.Session>req.session).id)
 		.then((activeUserCommandResponse: CommandResponse<ActiveUser>): void => {
 			let isElevatedUser: boolean;
-			if (activeUserCommandResponse.data?.classification != 0)
+			if (activeUserCommandResponse.data?.classification !== 0)
 				isElevatedUser = true;
 			 else
 				isElevatedUser = false;
@@ -36,8 +36,7 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 			return res.render(
 				ViewNameLookup.MainMenu,
 				<MainMenuPageResponse>{
-					isElevatedUser,
-					errorMessage: Resources.getString(req.query[QueryParameterLookup.ErrorCode])
+					isElevatedUser
 				});
 		}).catch((error: any): void => {
 			if (!Helper.processStartError(error, res)) {
