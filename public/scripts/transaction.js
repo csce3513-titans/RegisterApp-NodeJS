@@ -6,7 +6,7 @@ let hideProductAddedAlertTimer = undefined;
 
 document.addEventListener('DOMContentLoaded', () => {
 
-	// getCheckoutActionElement().addEventListener('click', checkoutActionClick);
+	getCompleteTransActionElement().addEventListener('click', completeTransaction);
 	// getAddToCartActionElement().addEventListener('click', addToCartActionClick);
 	getProductSearchElement().addEventListener('input', searchForProducts);
 	getCancelTransactionButton().addEventListener("click", cancelTransaction);
@@ -18,6 +18,30 @@ function cancelTransaction(){
 		if (isSuccessResponse(response)) {
 			window.location.replace('/mainMenu');
 		}
+	});
+}
+
+function completeTransaction(){
+	const transactionIdIsDefined = transactionId != null && transactionId.trim() !== '';
+	const completeTransActionUrl = ('/api/transaction/' + (transactionIdIsDefined ? transactionId : ''));
+	const completeTransactionRequest = {
+		transactionId
+	};
+
+	ajaxPost(completeTransActionUrl, completeTransactionRequest, callbackResponse => {
+		if (isSuccessResponse(callbackResponse)){
+			if (callbackResponse.data != null
+				&& callbackResponse.data.redirectUrl != null
+				&& callbackResponse.data.redirectUrl !== '')
+
+				window.location.replace(callbackResponse.data.redirectUrl);
+			else
+				window.location.replace('/');
+		}
+		else
+			displayError('Transaction not completed.');
+
+
 	});
 }
 
@@ -95,10 +119,6 @@ function buildCartElements(item){
 	parent.append(cartElement);
 }
 
-function checkoutActionClick(event){
-
-}
-
 function searchForProducts() {
 	removeSearchResultElements();
 	if (this.value !== '') {
@@ -155,8 +175,8 @@ function getProductAddedAlertModalElement() {
 	return document.getElementById('productAddedAlertModal');
 }
 
-function getCheckoutActionElement() {
-	return document.getElementById('checkoutButton');
+function getCompleteTransActionElement() {
+	return document.getElementById('completeTransactionButton');
 }
 function getAddToCartActionElement() {
 	return document.getElementById('addToCart');
