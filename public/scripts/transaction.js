@@ -7,7 +7,6 @@ let hideProductAddedAlertTimer = undefined;
 document.addEventListener('DOMContentLoaded', () => {
 
 	getCompleteTransActionElement().addEventListener('click', completeTransaction);
-	// getAddToCartActionElement().addEventListener('click', addToCartActionClick);
 	getProductSearchElement().addEventListener('input', searchForProducts);
 	getCancelTransactionButton().addEventListener("click", cancelTransaction);
 
@@ -45,7 +44,13 @@ function completeTransaction(){
 	});
 }
 
-function addToCartActionClick(lookupcode){
+function addToCartActionClick(event){
+	const searchResultElement = event.target.parentElement;
+	const lookupcode = searchResultElement.querySelector('#lookupCodeElement').innerHTML;
+	const price = Number(searchResultElement.querySelector('#priceElement').innerHTML.slice(1));
+
+	const totalPriceElement = document.getElementById('cartTotal');
+
 	const addToCartActionUrl = (`/api/transaction/${transactionId}/${lookupcode}`);
 
 	const productInCart = document.getElementById(lookupcode);
@@ -55,13 +60,15 @@ function addToCartActionClick(lookupcode){
 			if (isSuccessResponse(callbackResponse)) {
 				// displayProductAddedAlertModal();
 				productInCart.childNodes[0].value++;
+				totalPriceElement.innerHTML = Number(totalPriceElement.innerHTML) + price;
 			}
 		});
 	} else {
 		ajaxPost(addToCartActionUrl, null, callbackResponse => {
 			if (isSuccessResponse(callbackResponse)) {
 				// displayProductAddedAlertModal();
-				buildCartElements(lookupcode);
+				buildCartElements(lookupcode, price);
+				totalPriceElement.innerHTML = Number(totalPriceElement.innerHTML) + price;
 			}
 		});
 	}
@@ -86,35 +93,41 @@ function quantityChanged(item, value){
 
 }
 
-function removeFromCartActionClick(item){
-	let elementToRemove = document.getElementById(item);
+function removeFromCartActionClick(cartItem){
 	const parent = getCart();
-	parent.removeChild(elementToRemove);
+	parent.removeChild(cartItem);
 }
 
-function buildCartElements(item){
+function buildCartElements(lookupCode, price) {
 	const parent = getCart();
-	let quantityElement = document.createElement('input');
+
 	let cartElement = document.createElement('li');
-	let removeFromCartElement = document.createElement('button');
-	let spanElement = document.createElement('span');
+	cartElement.id = lookupCode;
+
+	let quantityElement = document.createElement('input');
 	quantityElement.value = 1;
 	quantityElement.size = 1;
 	quantityElement.type = 'number';
-	quantityElement.onchange = function(){
-		quantityChanged(item, quantityElement.value);
-	};
-	cartElement.id = item;
-	spanElement.innerHTML = item;
+	quantityElement.onchange = () => quantityChanged(lookupCode, quantityElement.value);
+
+	let removeFromCartElement = document.createElement('button');
 	removeFromCartElement.innerHTML = 'Remove';
 	removeFromCartElement.id = 'removeFromCart';
 	removeFromCartElement.type = 'button';
-	removeFromCartElement.onclick = function(){
-		removeFromCartActionClick(cartElement.id);
-	};
-	cartElement.insertAdjacentElement('afterbegin', spanElement);
+	removeFromCartElement.onclick = () => removeFromCartActionClick(cartElement);
+
+	let priceElement = document.createElement('p');
+	priceElement.id = 'price';
+	priceElement.innerHTML = price;
+	priceElement.className = "hidden";
+
+	let lookupCodeElement = document.createElement('span');
+	lookupCodeElement.innerHTML = lookupCode;
+
+	cartElement.insertAdjacentElement('afterbegin', lookupCodeElement);
 	cartElement.insertAdjacentElement('afterbegin', quantityElement);
 	cartElement.insertAdjacentElement('beforeend', removeFromCartElement);
+	cartElement.appendChild(priceElement);
 
 	parent.append(cartElement);
 }
@@ -132,16 +145,26 @@ function buildSearchResultElements(searchResults) {
 	const parent = getProductSearchResultContainer();
 	searchResults.forEach(searchResult => {
 		let searchResultElement = document.createElement('li');
+
+		let lookupCodeElement = document.createElement('p');
+		lookupCodeElement.id = 'lookupCodeElement';
+		lookupCodeElement.innerHTML = searchResult.lookupCode;
+
+		let priceElement = document.createElement('p');
+		priceElement.id = 'priceElement';
+		priceElement.innerHTML = '$' + searchResult.price;
+
 		let addToCartElement = document.createElement('button');
-		searchResultElement.innerHTML = searchResult;
 		addToCartElement.innerHTML = 'Add to Cart';
 		addToCartElement.id = 'addToCart';
-		addToCartElement.value = searchResult;
-		addToCartElement.type = 'button';
-		addToCartElement.onclick = function(){
-			addToCartActionClick(addToCartElement.value);
-		};
-		parent.appendChild(searchResultElement).appendChild(addToCartElement);
+		// addToCartElement.value = searchResult.lookupCode;
+		// addToCartElement.onclick = () => addToCartActionClick(addToCartElement.value);
+		addToCartElement.onclick = addToCartActionClick;
+
+		searchResultElement.appendChild(lookupCodeElement)
+		searchResultElement.appendChild(priceElement)
+		searchResultElement.appendChild(addToCartElement);
+		parent.appendChild(searchResultElement);
 	});
 }
 

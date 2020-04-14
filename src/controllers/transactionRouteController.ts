@@ -10,7 +10,8 @@ import { ViewNameLookup } from './lookups/routingLookup';
 import { TransactionPageResponse, ApiResponse } from './typeDefinitions';
 import { execute as createTransactionEntryCommand } from './commands/transactions/createTransactionEntryCommand';
 import { execute as updateTransactionEntryCommand } from './commands/transactions/updateTransactionEntryCommand';
-import { execute as closeTransactionCommand } from './commands/transactions/closeTransactionCommand';
+import { execute as cancelTransactionCommand } from './commands/transactions/cancelTransactionCommand';
+import { execute as completeTransactionCommand} from './commands/transactions/completeTransactionCommand';
 
 export const getPage = async (req: Request, res: Response) => {
 	if (await Helper.handleInvalidSession(req, res))
@@ -60,14 +61,26 @@ export const updateTransactionEntry = async (req: Request, res: Response) => {
 	}
 };
 
-export const closeTransaction = async (req: Request, res: Response) => {
+export const completeTransaction = async (req: Request, res: Response) => {
+	try {
+		const user = (await validateActiveUserCommand((<Express.Session>req.session).id)).data!;
+
+		const response = await completeTransactionCommand(req.params.transactionId, user.employeeId);
+
+		res.status(response.status).send(response.message ? { errorMessage: response.message } : response.data);
+	} catch (error) {
+		return Helper.processApiError(error, res);
+	}
+};
+
+export const cancelTransaction = async (req: Request, res: Response) => {
 	if (await Helper.handleInvalidApiSession(req, res))
 		return;
 
 	try {
 		const user = (await validateActiveUserCommand((<Express.Session>req.session).id)).data!;
 
-		const response = await closeTransactionCommand(req.params.transactionId, user.employeeId);
+		const response = await cancelTransactionCommand(req.params.transactionId, user.employeeId);
 
 		res.status(response.status).send(response.message ? { errorMessage: response.message } : response.data);
 	} catch (error) {

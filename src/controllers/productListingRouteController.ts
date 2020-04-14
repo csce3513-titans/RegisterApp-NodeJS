@@ -42,5 +42,10 @@ export const searchByPartialLookUpCode = async (req: Request, res: Response) => 
 		return;
 
 	const productsResponse: CommandResponse<Product[]> = await ProductsQuery.queryByPartialLookupCode(req.params.productCode);
-	res.status(productsResponse.status).json(productsResponse.data!.map(product => product.lookupCode));
+	res.status(productsResponse.status).json(productsResponse.data!.map(product => {
+		return {
+			lookupCode: product.lookupCode,
+			price: product.price
+		};
+	}));
 };
