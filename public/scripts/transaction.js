@@ -21,7 +21,6 @@ function cancelTransaction(){
 }
 
 function completeTransaction(){
-	const transactionIdIsDefined = transactionId != null && transactionId.trim() !== '';
 	const completeTransActionUrl = ('/api/transaction/' + transactionId);
 	const completeTransactionRequest = {
 		transactionId
@@ -74,8 +73,7 @@ function addToCartActionClick(event){
 
 function quantityChanged(item, value){
 	if(value != null && value > 0) {
-		const transactionIdIsDefined = transactionId != null && transactionId.trim() !== '';
-		const addToCartActionUrl = ('/api/transaction/' + (transactionIdIsDefined ? transactionId : ''));
+		const addToCartActionUrl = (`/api/transaction/${transactionId}/${item}`);
 		const addTransactionRequest = {
 			price: 10,
 			quantity: value,
