@@ -124,12 +124,14 @@ function buildCartElements(lookupCode, price) {
 
 	let cartElement = document.createElement('li');
 	cartElement.id = lookupCode;
+	cartElement.className = "cartItem";
 
 	let quantityElement = document.createElement('input');
+	quantityElement.id = "quantity";
 	quantityElement.value = 1;
 	quantityElement.size = 1;
 	quantityElement.type = 'number';
-	quantityElement.onchange = () => quantityChanged(lookupCode, quantityElement.value);
+	quantityElement.onchange = () => quantityChanged(cartElement, Number(quantityElement.value));
 
 	let removeFromCartElement = document.createElement('button');
 	removeFromCartElement.innerHTML = 'Remove';
