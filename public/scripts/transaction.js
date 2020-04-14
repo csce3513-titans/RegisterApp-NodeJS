@@ -21,7 +21,6 @@ function cancelTransaction(){
 }
 
 function completeTransaction(){
-	const transactionIdIsDefined = transactionId != null && transactionId.trim() !== '';
 	const completeTransActionUrl = ('/api/transaction/' + transactionId);
 	const completeTransactionRequest = {
 		transactionId
@@ -125,17 +124,12 @@ function buildCartElements(lookupCode, price) {
 
 	let cartElement = document.createElement('li');
 	cartElement.id = lookupCode;
-	cartElement.className = "cartItem";
 
 	let quantityElement = document.createElement('input');
-	quantityElement.id = 'quantity';
 	quantityElement.value = 1;
 	quantityElement.size = 1;
 	quantityElement.type = 'number';
-	quantityElement.onchange = () => {
-		if (quantityElement.value !== '')
-			quantityChanged(cartElement, Number(quantityElement.value));
-	};
+	quantityElement.onchange = () => quantityChanged(lookupCode, quantityElement.value);
 
 	let removeFromCartElement = document.createElement('button');
 	removeFromCartElement.innerHTML = 'Remove';
@@ -146,7 +140,7 @@ function buildCartElements(lookupCode, price) {
 	let priceElement = document.createElement('p');
 	priceElement.id = 'price';
 	priceElement.innerHTML = price;
-	priceElement.className = 'hidden';
+	priceElement.className = "hidden";
 
 	let lookupCodeElement = document.createElement('span');
 	lookupCodeElement.innerHTML = lookupCode;
