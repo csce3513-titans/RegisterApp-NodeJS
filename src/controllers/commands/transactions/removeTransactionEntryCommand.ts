@@ -38,7 +38,7 @@ export const execute = async (transactionId: string, productCode: string) => {
 	} catch (error) {
 		throw <CommandResponse<TransactionEntry>>{
 			status: error.status ?? 500,
-			message: error.message ?? Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_ADD)
+			message: error.message ?? Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_UPDATE)
 		};
 	}
 };
