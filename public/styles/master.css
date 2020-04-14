@@ -26,6 +26,7 @@ span.hidden,
 input.hidden,
 tr.hidden,
 th.hidden,
+p.hidden,
 td.hidden {
 	display: none
 }

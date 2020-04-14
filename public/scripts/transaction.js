@@ -47,7 +47,7 @@ function addToCartActionClick(event){
 	const lookupcode = searchResultElement.querySelector('#lookupCodeElement').innerHTML;
 	const price = Number(searchResultElement.querySelector('#priceElement').innerHTML.slice(1));
 
-	const totalPriceElement = document.getElementById('cartTotal');
+	const totalPriceElement = getCartTotalElement();
 
 	const addToCartActionUrl = (`/api/transaction/${transactionId}/${lookupcode}`);
 
@@ -72,38 +72,52 @@ function addToCartActionClick(event){
 	}
 }
 
-function quantityChanged(item, value){
-	if(value != null && value > 0) {
-		const transactionIdIsDefined = transactionId != null && transactionId.trim() !== '';
-		const addToCartActionUrl = ('/api/transaction/' + (transactionIdIsDefined ? transactionId : ''));
-		const addTransactionRequest = {
-			price: 10,
-			quantity: value,
-			productId: item,
-			transactionId
-		};
+function quantityChanged(cartItem, quantity) {
+	if (isNaN(quantity)) return;
 
-		ajaxPut(addToCartActionUrl, addTransactionRequest, callbackResponse => {
-			if (isSuccessResponse(callbackResponse))
-				displayProductAddedAlertModal();
+	if (quantity > 0) {
+		ajaxPut(`/api/transaction/${transactionId}/${cartItem.id}`, { quantity }, callbackResponse => {
+			if (isSuccessResponse(callbackResponse)) {
+				reCalculateCartTotal();
+			}
+
 		});
-	}
-	else if(value == 0) {
-		ajaxDelete(`/api/transaction/${transactionId}/${item}`, callbackResponse => {
-			if (isSuccessResponse(callbackResponse))
-					console.log(`${item} was removed from the cart.`)
+	} else if (quantity === 0) {
+		ajaxDelete(`/api/transaction/${transactionId}/${cartItem.id}`, callbackResponse => {
+			if (isSuccessResponse(callbackResponse)) {
+				cartItem.remove();
+				reCalculateCartTotal();
+			}
 		})
 	}
 }
 
-function removeFromCartActionClick(cartItem){
-	const parent = getCart();
-	parent.removeChild(cartItem);
-
+function removeFromCartActionClick(cartItem) {
 	ajaxDelete(`/api/transaction/${transactionId}/${cartItem.id}`, callbackResponse => {
-		if (isSuccessResponse(callbackResponse))
-				console.log(`${cartItem} was removed from the cart.`)
+		if (isSuccessResponse(callbackResponse)) {
+			const cartTotalElement = getCartTotalElement();
+			const existingTotal = Number(cartTotalElement.innerHTML);
+			const quantity = Number(cartItem.querySelector('#quantity').value);
+			const price = Number(cartItem.querySelector('#price').innerHTML);
+
+			cartTotalElement.innerHTML = existingTotal - (quantity * price);
+			cartItem.remove();
+		}
 	})
+}
+
+function reCalculateCartTotal() {
+	let newTotal = 0;
+	const cart = getCart();
+	cart.childNodes.forEach(cartItem => {
+		if (cartItem.className === "cartItem") {
+			const quantity = Number(cartItem.querySelector('#quantity').value);
+			const price = Number(cartItem.querySelector('#price').innerHTML);
+
+			newTotal += (quantity * price);
+		}
+	});
+	getCartTotalElement().innerHTML = newTotal;
 }
 
 function buildCartElements(lookupCode, price) {
@@ -111,12 +125,17 @@ function buildCartElements(lookupCode, price) {
 
 	let cartElement = document.createElement('li');
 	cartElement.id = lookupCode;
+	cartElement.className = "cartItem";
 
 	let quantityElement = document.createElement('input');
+	quantityElement.id = 'quantity';
 	quantityElement.value = 1;
 	quantityElement.size = 1;
 	quantityElement.type = 'number';
-	quantityElement.onchange = () => quantityChanged(lookupCode, quantityElement.value);
+	quantityElement.onchange = () => {
+		if (quantityElement.value !== '')
+			quantityChanged(cartElement, Number(quantityElement.value));
+	};
 
 	let removeFromCartElement = document.createElement('button');
 	removeFromCartElement.innerHTML = 'Remove';
@@ -127,7 +146,7 @@ function buildCartElements(lookupCode, price) {
 	let priceElement = document.createElement('p');
 	priceElement.id = 'price';
 	priceElement.innerHTML = price;
-	priceElement.className = "hidden";
+	priceElement.className = 'hidden';
 
 	let lookupCodeElement = document.createElement('span');
 	lookupCodeElement.innerHTML = lookupCode;
@@ -165,8 +184,6 @@ function buildSearchResultElements(searchResults) {
 		let addToCartElement = document.createElement('button');
 		addToCartElement.innerHTML = 'Add to Cart';
 		addToCartElement.id = 'addToCart';
-		// addToCartElement.value = searchResult.lookupCode;
-		// addToCartElement.onclick = () => addToCartActionClick(addToCartElement.value);
 		addToCartElement.onclick = addToCartActionClick;
 
 		searchResultElement.appendChild(lookupCodeElement)
@@ -258,4 +275,8 @@ function getProductSearchResultContainer() {
 
 function getCancelTransactionButton() {
 	return document.getElementById('cancelTransactionButton');
+}
+
+function getCartTotalElement() {
+	return document.getElementById('cartTotal');
 }

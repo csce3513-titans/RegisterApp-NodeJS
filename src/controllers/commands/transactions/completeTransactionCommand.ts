@@ -1,5 +1,5 @@
 import { TransactionEntryModel, queryByTransactionId } from '../models/transactionEntryModel';
-import { ProductModel, queryByLookupCode } from '../models/productModel';
+import { ProductModel, queryByLookupCode, queryById} from '../models/productModel';
 import { queryById as queryTransactionById, TransactionTypes } from '../models/transactionModel';
 import { CommandResponse, TransactionEntry } from '../../typeDefinitions';
 import { ResourceKey, Resources } from '../../../resourceLookup';
@@ -22,7 +22,7 @@ export const execute = async (transactionId: string, cashierId: string) => {
 		const entries = await queryByTransactionId(transaction.id);
 		const products: Record<string, ProductModel> = { };
 		for (const entry of entries) {
-			const product = await queryByLookupCode(entry.productId);
+			const product = await queryById(entry.productId);
 			if (!product || (transaction.type === TransactionTypes.SALE && entry.quantity > product.count))
 				return <CommandResponse<TransactionEntry>>{
 					status: 400,
