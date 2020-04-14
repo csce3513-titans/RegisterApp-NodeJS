@@ -12,6 +12,7 @@ import { execute as createTransactionEntryCommand } from './commands/transaction
 import { execute as updateTransactionEntryCommand } from './commands/transactions/updateTransactionEntryCommand';
 import { execute as cancelTransactionCommand } from './commands/transactions/cancelTransactionCommand';
 import { execute as completeTransactionCommand} from './commands/transactions/completeTransactionCommand';
+import { execute as removeTransactionEntryCommand} from './commands/transactions/removeTransactionEntryCommand';
 
 export const getPage = async (req: Request, res: Response) => {
 	if (await Helper.handleInvalidSession(req, res))
@@ -93,9 +94,9 @@ export const removeTransactionEntry = async (req: Request, res: Response) => {
 		if (await Helper.handleInvalidSession(req, res))
 			return;
 
-		const entry = await queryByTransactionIdAndProductId(req.params.transactionId, req.params.productId);
+		const response = await removeTransactionEntryCommand(req.params.transactionId, req.params.productCode);
 
-		res.send();
+		res.status(response.status).send(response.message ? { errorMessage: response.message } : response.data);
 	} catch (error) {
 		return Helper.processApiError(error, res);
 	}

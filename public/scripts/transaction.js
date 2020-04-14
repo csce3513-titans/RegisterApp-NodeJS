@@ -88,21 +88,21 @@ function quantityChanged(item, value){
 				displayProductAddedAlertModal();
 		});
 	}
-	
-	// TODO: Most sites will remove the item from the cart when quantity of 0 is entered
-	else if(value === 0) {
-		console.log("This state is currently not triggering");
-		removeFromCartActionClick(item);
+	else if(value == 0) {
+		ajaxDelete(`/api/transaction/${transactionId}/${item}`, callbackResponse => {
+			if (isSuccessResponse(callbackResponse))
+					console.log(`${item} was removed from the cart.`)
+		})
 	}
 }
 
 function removeFromCartActionClick(cartItem){
 	const parent = getCart();
-	parent.removeChild(elementToRemove);
+	parent.removeChild(cartItem);
 
-	ajaxDelete(`/api/transaction/${transactionId}/${item}`, callbackResponse => {
+	ajaxDelete(`/api/transaction/${transactionId}/${cartItem.id}`, callbackResponse => {
 		if (isSuccessResponse(callbackResponse))
-				console.log(`${item} was removed from the cart.`)
+				console.log(`${cartItem} was removed from the cart.`)
 	})
 }
 
