@@ -21,8 +21,7 @@ function cancelTransaction(){
 }
 
 function completeTransaction(){
-	const transactionIdIsDefined = transactionId != null && transactionId.trim() !== '';
-	const completeTransActionUrl = ('/api/transaction/' + (transactionIdIsDefined ? transactionId : ''));
+	const completeTransActionUrl = ('/api/transaction/' + transactionId));
 	const completeTransactionRequest = {
 		transactionId
 	};
@@ -39,8 +38,6 @@ function completeTransaction(){
 		}
 		else
 			displayError('Transaction not completed.');
-
-
 	});
 }
 
