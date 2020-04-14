@@ -22,7 +22,7 @@ function cancelTransaction(){
 }
 
 function completeTransaction(){
-	const completeTransActionUrl = ('/api/transaction/' + transactionId));
+	const completeTransActionUrl = ('/api/transaction/' + transactionId);
 	const completeTransactionRequest = {
 		transactionId
 	};
@@ -65,7 +65,7 @@ function addToCartActionClick(lookupcode){
 }
 
 function quantityChanged(item, value){
-	if(value != null && value > 0){
+	if(value != null && value > 0) {
 		const transactionIdIsDefined = transactionId != null && transactionId.trim() !== '';
 		const addToCartActionUrl = ('/api/transaction/' + (transactionIdIsDefined ? transactionId : ''));
 		const addTransactionRequest = {
@@ -80,13 +80,23 @@ function quantityChanged(item, value){
 				displayProductAddedAlertModal();
 		});
 	}
-
+	
+	// TODO: Most sites will remove the item from the cart when quantity of 0 is entered
+	else if(value === 0) {
+		console.log("This state is currently not triggering");
+		removeFromCartActionClick(item);
+	}
 }
 
 function removeFromCartActionClick(item){
 	let elementToRemove = document.getElementById(item);
 	const parent = getCart();
 	parent.removeChild(elementToRemove);
+
+	ajaxDelete(`/api/transaction/${transactionId}/${item}`, callbackResponse => {
+		if (isSuccessResponse(callbackResponse))
+				console.log(`${item} was removed from the cart.`)
+	})
 }
 
 function buildCartElements(item){
@@ -154,7 +164,7 @@ function displayProductAddedAlertModal() {
 		clearTimeout(hideProductAddedAlertTimer);
 
 	const productAddedAlertModalElement = getProductAddedAlertModalElement();
-	productAddedAlertModalElement.style.display = 'none';
+	// productAddedAlertModalElement.style.display = 'none';
 	productAddedAlertModalElement.style.display = 'block';
 
 	hideProductAddedAlertTimer = setTimeout(hideProductAddedAlertModal, 1200);
