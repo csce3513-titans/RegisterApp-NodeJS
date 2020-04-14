@@ -21,21 +21,9 @@ function cancelTransaction(){
 }
 
 function completeTransaction(){
-	const completeTransActionUrl = ('/api/transaction/' + transactionId));
-	const completeTransactionRequest = {
-		transactionId
-	};
-
-	ajaxPost(completeTransActionUrl, completeTransactionRequest, callbackResponse => {
-		if (isSuccessResponse(callbackResponse)){
-			if (callbackResponse.data != null
-				&& callbackResponse.data.redirectUrl != null
-				&& callbackResponse.data.redirectUrl !== '')
-
-				window.location.replace(callbackResponse.data.redirectUrl);
-			else
-				window.location.replace('/');
-		}
+	ajaxPost(`/api/transaction/${transactionId}`, { transactionId }, callbackResponse => {
+		if (isSuccessResponse(callbackResponse))
+			window.location.replace('/mainMenu');
 		else
 			displayError('Transaction not completed.');
 	});
