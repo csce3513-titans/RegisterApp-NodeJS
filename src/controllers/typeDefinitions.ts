@@ -34,6 +34,7 @@ export interface TransactionResponse {
 export interface Product {
 	id: string;
 	count: number;
+	price: number;
 	createdOn: string;
 	lookupCode: string;
 }
