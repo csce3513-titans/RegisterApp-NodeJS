@@ -7,6 +7,10 @@
 
 	<script>
 		var transactionId = "<%- locals.transactionId %>";
+		<% if (locals.transactionEntries) {%>
+			// my IDE thinks the line below is an error, but its the only clean solution i could find so I'm leaving it
+			var transactionEntries = <%- JSON.stringify(locals.transactionEntries) %>
+		<% } %>
 	</script>
 
 	<script type="text/javascript" src="/scripts/master.js" defer></script>

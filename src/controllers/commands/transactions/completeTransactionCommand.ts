@@ -39,10 +39,10 @@ export const execute = async (transactionId: string, cashierId: string) => {
 				products[entry.id].count += entry.quantity;
 
 			await products[entry.id].save();
-			await entry.destroy();
 		}
 
-		await transaction.destroy(); // For now the transaction is deleted. No records are kept
+		transaction.completed = true;
+		transaction.save();
 
 		return <CommandResponse<TransactionEntry>>{ status: 200 };
 	} catch (error) {

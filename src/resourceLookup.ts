@@ -41,6 +41,7 @@ export enum ResourceKey {
 	TRANSACTION_UNABLE_TO_UPDATE = '0010103',
 	TRANSACTION_NOT_ENOUGH_IN_STOCK = '0010104',
 	TRANSACTION_UNABLE_TO_CLOSE = '0010105',
+	TRANSACTION_UNABLE_TO_RESUME = '0010106',
 
 	// Database - employee
 	/** Employee was not found. */

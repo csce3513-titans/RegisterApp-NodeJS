@@ -13,6 +13,7 @@ export class TransactionModel extends Model {
 	public total!: number;
 	public cashierId!: string;
 	public referenceId!: string;
+	public completed!: boolean;
 
 	public readonly id!: string;
 	public readonly createdOn!: Date;
@@ -50,6 +51,11 @@ TransactionModel.init(
 			field: TransactionFieldName.ReferenceId,
 			type: DataTypes.UUID,
 			allowNull: true
+		},
+		completed: <ModelAttributeColumnOptions>{
+			field: TransactionFieldName.Completed,
+			type: DataTypes.BOOLEAN,
+			allowNull: false
 		}
 	}, <InitOptions>{
 		timestamps: false,

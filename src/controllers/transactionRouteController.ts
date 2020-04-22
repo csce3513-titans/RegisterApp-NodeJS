@@ -4,10 +4,12 @@ import { Resources, ResourceKey } from '../resourceLookup';
 import { TransactionModel, queryById as queryTransactionById } from '../controllers/commands/models/transactionModel';
 import { TransactionEntryModel, queryById as queryTransactionEntryById,
 	queryByTransactionIdAndProductId } from '../controllers/commands/models/transactionEntryModel';
-import { execute as validateActiveUserCommand } from './commands/activeUsers/validateActiveUserCommand';
-import * as TransactionCreateCommand from './commands/transactions/transactionCreateCommand';
 import { ViewNameLookup } from './lookups/routingLookup';
 import { TransactionPageResponse, ApiResponse } from './typeDefinitions';
+import { execute as getTransactionEntriesCommand} from './commands/transactions/getTransactionEntriesCommand';
+import { execute as getUnfinishedTransactionCommand } from './commands/transactions/getUnfinishedTransactionCommand';
+import { execute as transactionCreateCommand } from './commands/transactions/createTransactionCommand';
+import { execute as validateActiveUserCommand } from './commands/activeUsers/validateActiveUserCommand';
 import { execute as createTransactionEntryCommand } from './commands/transactions/createTransactionEntryCommand';
 import { execute as updateTransactionEntryCommand } from './commands/transactions/updateTransactionEntryCommand';
 import { execute as cancelTransactionCommand } from './commands/transactions/cancelTransactionCommand';
@@ -15,19 +17,31 @@ import { execute as completeTransactionCommand} from './commands/transactions/co
 import { execute as removeTransactionEntryCommand} from './commands/transactions/removeTransactionEntryCommand';
 
 export const getPage = async (req: Request, res: Response) => {
-	if (await Helper.handleInvalidSession(req, res))
-		return;
-
 	try {
-		const cashierId = (await validateActiveUserCommand((<Express.Session>req.session).id))!.data!.employeeId;
+		if (await Helper.handleInvalidSession(req, res))
+			return;
 
-		const transactionId = (await TransactionCreateCommand.execute(cashierId))!.data!.id;
-		return res.render(
-			ViewNameLookup.Transaction,
-			<TransactionPageResponse>{
-				transactionId
-			}
-		);
+		const cashierId = (await validateActiveUserCommand((<Express.Session>req.session).id))!.data!.employeeId;
+		const unfinishedTransactionId = (await getUnfinishedTransactionCommand(cashierId))?.data?.id;
+
+		if (unfinishedTransactionId) {
+			const transactionEntries = (await getTransactionEntriesCommand(unfinishedTransactionId))!.data;
+			return res.render(
+				ViewNameLookup.Transaction,
+				<TransactionPageResponse>{
+					transactionId: unfinishedTransactionId,
+					transactionEntries
+				}
+			);
+		} else {
+			const newTransactionId = (await transactionCreateCommand(cashierId))!.data!.id;
+			return res.render(
+				ViewNameLookup.Transaction,
+				<TransactionPageResponse>{
+					transactionId: newTransactionId
+				}
+			);
+		}
 	} catch (error) {
 		return Helper.processApiError(error, res);
 	}

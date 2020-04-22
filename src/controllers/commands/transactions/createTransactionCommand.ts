@@ -4,7 +4,8 @@ import {ResourceKey, Resources} from '../../../resourceLookup';
 
 export const execute = async (cashierId: string): Promise<CommandResponse<Transaction>> => {
 	return TransactionModel.create(<TransactionModel>{
-		cashierId
+		cashierId,
+		completed: false
 	}).then((createdTransaction: TransactionModel): CommandResponse<Transaction> => {
 		return <CommandResponse<Transaction>>{
 			data: <Transaction>{

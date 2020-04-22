@@ -41,7 +41,8 @@ export enum TransactionFieldName {
 	CashierId = 'cashierid',
 	CreatedOn = 'createdon',
 	Type = 'transactiontype',
-	ReferenceId = 'transactionreferenceid'
+	ReferenceId = 'transactionreferenceid',
+	Completed = 'completed'
 }
 
 export enum TransactionEntryFieldName {

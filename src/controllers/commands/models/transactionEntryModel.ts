@@ -2,6 +2,7 @@ import Sequelize from 'sequelize';
 import { DatabaseConnection } from './databaseConnection';
 import { TransactionEntryFieldName, DatabaseTableName } from './constants/databaseNames';
 import { Model, DataTypes, InitOptions, ModelAttributes, ModelAttributeColumnOptions } from 'sequelize';
+import {ProductModel} from './productModel';
 
 export class TransactionEntryModel extends Model {
 	public price!: number;
@@ -54,6 +55,9 @@ TransactionEntryModel.init(
 		tableName: DatabaseTableName.TRANSACTION_ENTRY
 	}
 );
+
+// Used for JOINS to fetch the associated product lookupcode when resuming transactions
+TransactionEntryModel.belongsTo(ProductModel, { foreignKey: TransactionEntryFieldName.ProductId });
 
 // Database interaction
 export const queryById = async (

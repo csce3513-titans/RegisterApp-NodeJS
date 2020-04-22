@@ -5,11 +5,18 @@
 let hideProductAddedAlertTimer = undefined;
 
 document.addEventListener('DOMContentLoaded', () => {
-
 	getCompleteTransActionElement().addEventListener('click', completeTransaction);
 	getProductSearchElement().addEventListener('input', searchForProducts);
 	getCancelTransactionButton().addEventListener("click", cancelTransaction);
 
+	// Re-populate an unfinished transaction's cart
+	if (transactionEntries) {
+		transactionEntries.forEach(entry => {
+			buildCartElements(entry.lookupCode, Number(entry.price), Number(entry.quantity));
+		});
+	}
+
+	reCalculateCartTotal();
 });
 
 function cancelTransaction(){
@@ -119,7 +126,7 @@ function reCalculateCartTotal() {
 	getCartTotalElement().innerHTML = newTotal;
 }
 
-function buildCartElements(lookupCode, price) {
+function buildCartElements(lookupCode, price, quantity) {
 	const parent = getCart();
 
 	let cartElement = document.createElement('li');
@@ -128,7 +135,7 @@ function buildCartElements(lookupCode, price) {
 
 	let quantityElement = document.createElement('input');
 	quantityElement.id = "quantity";
-	quantityElement.value = 1;
+	quantityElement.value = quantity || 1;
 	quantityElement.size = 1;
 	quantityElement.type = 'number';
 	quantityElement.onchange = () => quantityChanged(cartElement, Number(quantityElement.value));
