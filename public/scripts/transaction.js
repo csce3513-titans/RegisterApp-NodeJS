@@ -54,6 +54,7 @@ function addToCartActionClick(event){
 	const price = Number(searchResultElement.querySelector('#priceElement').innerHTML.slice(1));
 
 	const totalPriceElement = getCartTotalElement();
+	const totalItemsElement = getNumbItemsElement();
 
 	const addToCartActionUrl = (`/api/transaction/${transactionId}/${lookupcode}`);
 
@@ -65,6 +66,12 @@ function addToCartActionClick(event){
 				// displayProductAddedAlertModal();
 				productInCart.childNodes[0].value++;
 				totalPriceElement.innerHTML = Number(totalPriceElement.innerHTML) + price;
+				if(Number(totalItemsElement.innerHTML == 0)){
+					totalItemsElement.innerHTML = Number(totalItemsElement.innerHTML) + 2;
+				}
+				else{
+					totalItemsElement.innerHTML = Number(totalItemsElement.innerHTML) + 1;
+				}
 			}
 		});
 	} else {
@@ -73,6 +80,7 @@ function addToCartActionClick(event){
 				// displayProductAddedAlertModal();
 				buildCartElements(lookupcode, price);
 				totalPriceElement.innerHTML = Number(totalPriceElement.innerHTML) + price;
+				totalItemsElement.innerHTML = Number(totalItemsElement.innerHTML) + 1;
 			}
 		});
 	}
@@ -102,11 +110,14 @@ function removeFromCartActionClick(cartItem) {
 	ajaxDelete(`/api/transaction/${transactionId}/${cartItem.id}`, callbackResponse => {
 		if (isSuccessResponse(callbackResponse)) {
 			const cartTotalElement = getCartTotalElement();
+			const numbItemsElement = getNumbItemsElement();
 			const existingTotal = Number(cartTotalElement.innerHTML);
+			const existingCount = Number(numbItemsElement.innerHTML);
 			const quantity = Number(cartItem.querySelector('#quantity').value);
 			const price = Number(cartItem.querySelector('#price').innerHTML);
 
 			cartTotalElement.innerHTML = existingTotal - (quantity * price);
+			numbItemsElement.innerHTML = existingCount - (quantity);
 			cartItem.remove();
 		}
 	})
@@ -114,6 +125,7 @@ function removeFromCartActionClick(cartItem) {
 
 function reCalculateCartTotal() {
 	let newTotal = 0;
+	// let newCount = 0;
 	const cart = getCart();
 	cart.childNodes.forEach(cartItem => {
 		if (cartItem.className === "cartItem") {
@@ -121,9 +133,11 @@ function reCalculateCartTotal() {
 			const price = Number(cartItem.querySelector('#price').innerHTML);
 
 			newTotal += (quantity * price);
+			// newCount += quantity;
 		}
 	});
 	getCartTotalElement().innerHTML = newTotal;
+	getNumbItemsElement().innerHTML = quantity;
 }
 
 function buildCartElements(lookupCode, price, quantity) {
@@ -282,4 +296,7 @@ function getCancelTransactionButton() {
 
 function getCartTotalElement() {
 	return document.getElementById('cartTotal');
+}
+function getNumbItemsElement() {
+	return document.getElementById('numbItems');
 }
