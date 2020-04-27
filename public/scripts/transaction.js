@@ -125,7 +125,7 @@ function removeFromCartActionClick(cartItem) {
 
 function reCalculateCartTotal() {
 	let newTotal = 0;
-	// let newCount = 0;
+	let newCount = 0;
 	const cart = getCart();
 	cart.childNodes.forEach(cartItem => {
 		if (cartItem.className === "cartItem") {
@@ -133,11 +133,11 @@ function reCalculateCartTotal() {
 			const price = Number(cartItem.querySelector('#price').innerHTML);
 
 			newTotal += (quantity * price);
-			// newCount += quantity;
+			newCount = quantity;
 		}
 	});
 	getCartTotalElement().innerHTML = newTotal;
-	getNumbItemsElement().innerHTML = quantity;
+	getNumbItemsElement().innerHTML = newCount;
 }
 
 function buildCartElements(lookupCode, price, quantity) {
