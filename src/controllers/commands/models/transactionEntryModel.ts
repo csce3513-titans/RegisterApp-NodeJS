@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 import { DatabaseConnection } from './databaseConnection';
 import { TransactionEntryFieldName, DatabaseTableName } from './constants/databaseNames';
 import { Model, DataTypes, InitOptions, ModelAttributes, ModelAttributeColumnOptions } from 'sequelize';
-import {ProductModel} from './productModel';
+import { ProductModel } from './productModel';
 
 export class TransactionEntryModel extends Model {
 	public price!: number;

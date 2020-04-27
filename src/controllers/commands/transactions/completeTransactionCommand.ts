@@ -1,5 +1,5 @@
-import { TransactionEntryModel, queryByTransactionId } from '../models/transactionEntryModel';
-import { ProductModel, queryByLookupCode, queryById} from '../models/productModel';
+import { queryByTransactionId } from '../models/transactionEntryModel';
+import { ProductModel, queryById} from '../models/productModel';
 import { queryById as queryTransactionById, TransactionTypes } from '../models/transactionModel';
 import { CommandResponse, TransactionEntry } from '../../typeDefinitions';
 import { ResourceKey, Resources } from '../../../resourceLookup';
@@ -10,7 +10,7 @@ export const execute = async (transactionId: string, cashierId: string) => {
 		if (!transaction)
 			return <CommandResponse<TransactionEntry>>{
 				status: 404,
-				message: Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_CLOSE)
+				message: Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_COMPLETE)
 			};
 
 		if (cashierId !== transaction.cashierId) // TODO: Should probably allow managers to do this
@@ -42,13 +42,13 @@ export const execute = async (transactionId: string, cashierId: string) => {
 		}
 
 		transaction.completed = true;
-		transaction.save();
+		await transaction.save();
 
 		return <CommandResponse<TransactionEntry>>{ status: 200 };
 	} catch (error) {
 		throw <CommandResponse<TransactionEntry>>{
 			status: error.status ?? 500,
-			message: error.message ?? Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_ADD)
+			message: error.message ?? Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_COMPLETE)
 		};
 	}
 };

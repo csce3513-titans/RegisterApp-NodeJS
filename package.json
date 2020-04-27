@@ -28,7 +28,6 @@
 		"clean": "rimraf dist",
 		"build-ts": "tsc",
 		"lint": "eslint --no-error-on-unmatched-pattern ./src/**/* && ejslint ./views/**/*",
-		"test": "jest --forceExit --coverage --verbose",
 		"postinstall": "npm run rebuild"
 	},
 	"dependencies": {

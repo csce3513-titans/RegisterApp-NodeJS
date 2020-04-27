@@ -14,21 +14,21 @@ export const execute = async (transactionId: string, productCode: string) => {
 		if (!transaction)
 			return <CommandResponse<TransactionEntry>>{
 				status: 404,
-				message: Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_UPDATE)
+				message: Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_REMOVE)
 			};
 
 		const product = await queryByLookupCode(productCode);
 		if (!product)
 			return <CommandResponse<TransactionEntry>>{
 				status: 404,
-				message: Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_UPDATE)
+				message: Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_REMOVE)
 			};
 
 		const entry = await TransactionEntryModel.findOne({ where: { transactionId, productId: product.id } });
 		if (!entry)
 			return <CommandResponse<TransactionEntry>>{
 				status: 404,
-				message: Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_UPDATE)
+				message: Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_REMOVE)
 			};
 
 		await entry.destroy();
@@ -38,7 +38,7 @@ export const execute = async (transactionId: string, productCode: string) => {
 	} catch (error) {
 		throw <CommandResponse<TransactionEntry>>{
 			status: error.status ?? 500,
-			message: error.message ?? Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_UPDATE)
+			message: error.message ?? Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_REMOVE)
 		};
 	}
 };

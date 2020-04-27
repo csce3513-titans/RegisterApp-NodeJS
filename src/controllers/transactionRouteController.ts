@@ -1,9 +1,6 @@
 import { Request, Response } from 'express';
 import * as Helper from './helpers/routeControllerHelper';
 import { Resources, ResourceKey } from '../resourceLookup';
-import { TransactionModel, queryById as queryTransactionById } from '../controllers/commands/models/transactionModel';
-import { TransactionEntryModel, queryById as queryTransactionEntryById,
-	queryByTransactionIdAndProductId } from '../controllers/commands/models/transactionEntryModel';
 import { ViewNameLookup } from './lookups/routingLookup';
 import { TransactionPageResponse, ApiResponse } from './typeDefinitions';
 import { execute as getTransactionEntriesCommand} from './commands/transactions/getTransactionEntriesCommand';
@@ -13,8 +10,8 @@ import { execute as validateActiveUserCommand } from './commands/activeUsers/val
 import { execute as createTransactionEntryCommand } from './commands/transactions/createTransactionEntryCommand';
 import { execute as updateTransactionEntryCommand } from './commands/transactions/updateTransactionEntryCommand';
 import { execute as cancelTransactionCommand } from './commands/transactions/cancelTransactionCommand';
-import { execute as completeTransactionCommand} from './commands/transactions/completeTransactionCommand';
-import { execute as removeTransactionEntryCommand} from './commands/transactions/removeTransactionEntryCommand';
+import { execute as completeTransactionCommand } from './commands/transactions/completeTransactionCommand';
+import { execute as removeTransactionEntryCommand } from './commands/transactions/removeTransactionEntryCommand';
 
 export const getPage = async (req: Request, res: Response) => {
 	try {
@@ -33,15 +30,15 @@ export const getPage = async (req: Request, res: Response) => {
 					transactionEntries
 				}
 			);
-		} else {
-			const newTransactionId = (await transactionCreateCommand(cashierId))!.data!.id;
-			return res.render(
-				ViewNameLookup.Transaction,
-				<TransactionPageResponse>{
-					transactionId: newTransactionId
-				}
-			);
 		}
+
+		const newTransactionId = (await transactionCreateCommand(cashierId))!.data!.id;
+		return res.render(
+			ViewNameLookup.Transaction,
+			<TransactionPageResponse>{
+				transactionId: newTransactionId
+			}
+		);
 	} catch (error) {
 		return Helper.processApiError(error, res);
 	}
