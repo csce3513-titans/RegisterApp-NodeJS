@@ -60,11 +60,11 @@ function addToCartActionClick(event){
 
 	const productInCart = document.getElementById(lookupcode);
 	if (productInCart) {
-		const quantity = Number(productInCart.childNodes[0].value) + 1;
+		const quantity = Number(productInCart.childNodes[1].value) + 1;
 		ajaxPut(addToCartActionUrl, { quantity }, callbackResponse => {
 			if (isSuccessResponse(callbackResponse)) {
 				// displayProductAddedAlertModal();
-				productInCart.childNodes[0].value++;
+				productInCart.childNodes[1].value = quantity;
 				totalPriceElement.innerHTML = Number(totalPriceElement.innerHTML) + price;
 				if(Number(totalItemsElement.innerHTML == 0)){
 					totalItemsElement.innerHTML = Number(totalItemsElement.innerHTML) + 2;
@@ -72,13 +72,14 @@ function addToCartActionClick(event){
 				else{
 					totalItemsElement.innerHTML = Number(totalItemsElement.innerHTML) + 1;
 				}
+				updateLineTotal(productInCart);
 			}
 		});
 	} else {
 		ajaxPost(addToCartActionUrl, null, callbackResponse => {
 			if (isSuccessResponse(callbackResponse)) {
 				// displayProductAddedAlertModal();
-				buildCartElements(lookupcode, price);
+				buildCartElements(lookupcode, price, 1);
 				totalPriceElement.innerHTML = Number(totalPriceElement.innerHTML) + price;
 				totalItemsElement.innerHTML = Number(totalItemsElement.innerHTML) + 1;
 			}
@@ -93,6 +94,7 @@ function quantityChanged(cartItem, quantity) {
 		ajaxPut(`/api/transaction/${transactionId}/${cartItem.id}`, { quantity }, callbackResponse => {
 			if (isSuccessResponse(callbackResponse)) {
 				reCalculateCartTotal();
+				updateLineTotal(cartItem);
 			}
 
 		});
@@ -140,6 +142,12 @@ function reCalculateCartTotal() {
 	getNumbItemsElement().innerHTML = newCount;
 }
 
+function updateLineTotal(cartElement) {
+	const price = cartElement.childNodes[4].innerHTML;
+	const quantity = cartElement.childNodes[1].value;
+	cartElement.childNodes[0].innerHTML = `$${price * quantity}    `;
+}
+
 function buildCartElements(lookupCode, price, quantity) {
 	const parent = getCart();
 
@@ -168,8 +176,14 @@ function buildCartElements(lookupCode, price, quantity) {
 	let lookupCodeElement = document.createElement('span');
 	lookupCodeElement.innerHTML = lookupCode;
 
+	let lineTotalElement = document.createElement('span');
+	lineTotalElement.id = 'lineTotal';
+	// lineTotalElement.className = "hidden";
+	lineTotalElement.innerHTML = `$${price * quantity}    `;
+
 	cartElement.insertAdjacentElement('afterbegin', lookupCodeElement);
 	cartElement.insertAdjacentElement('afterbegin', quantityElement);
+	cartElement.insertAdjacentElement('afterbegin', lineTotalElement);
 	cartElement.insertAdjacentElement('beforeend', removeFromCartElement);
 	cartElement.appendChild(priceElement);
 
