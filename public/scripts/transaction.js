@@ -60,11 +60,11 @@ function addToCartActionClick(event){
 
 	const productInCart = document.getElementById(lookupcode);
 	if (productInCart) {
-		const quantity = Number(productInCart.childNodes[1].value) + 1;
+		const quantity = Number(productInCart.childNodes[2].value) + 1;
 		ajaxPut(addToCartActionUrl, { quantity }, callbackResponse => {
 			if (isSuccessResponse(callbackResponse)) {
 				// displayProductAddedAlertModal();
-				productInCart.childNodes[1].value = quantity;
+				productInCart.childNodes[2].value = quantity;
 				totalPriceElement.innerHTML = Number(totalPriceElement.innerHTML) + price;
 				if(Number(totalItemsElement.innerHTML == 0)){
 					totalItemsElement.innerHTML = Number(totalItemsElement.innerHTML) + 2;
@@ -130,7 +130,7 @@ function reCalculateCartTotal() {
 	let newCount = 0;
 	const cart = getCart();
 	cart.childNodes.forEach(cartItem => {
-		if (cartItem.className === "cartItem") {
+		if (cartItem?.className?.split(' ')[0] === 'cartItem') {
 			const quantity = Number(cartItem.querySelector('#quantity').value);
 			const price = Number(cartItem.querySelector('#price').innerHTML);
 
@@ -144,8 +144,8 @@ function reCalculateCartTotal() {
 
 function updateLineTotal(cartElement) {
 	const price = cartElement.childNodes[4].innerHTML;
-	const quantity = cartElement.childNodes[1].value;
-	cartElement.childNodes[0].innerHTML = `$${price * quantity}    `;
+	const quantity = cartElement.childNodes[2].value;
+	cartElement.childNodes[0].innerHTML = `$${price * quantity}`;
 }
 
 function buildCartElements(lookupCode, price, quantity) {
