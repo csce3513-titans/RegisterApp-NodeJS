@@ -66,7 +66,7 @@ function addToCartActionClick(event){
 				// displayProductAddedAlertModal();
 				productInCart.childNodes[2].value = quantity;
 				totalPriceElement.innerHTML = Number(totalPriceElement.innerHTML) + price;
-				if(Number(totalItemsElement.innerHTML == 0)){
+				if(Number(totalItemsElement.innerHTML) == 0){
 					totalItemsElement.innerHTML = Number(totalItemsElement.innerHTML) + 2;
 				}
 				else{
@@ -120,6 +120,10 @@ function removeFromCartActionClick(cartItem) {
 
 			cartTotalElement.innerHTML = existingTotal - (quantity * price);
 			numbItemsElement.innerHTML = existingCount - (quantity);
+			if(cartTotalElement.innerHTML < 0 || numbItemsElement.innerHTML < 0){
+				cartTotalElement.innerHTML = 0;
+				numbItemsElement.innerHTML = 0;
+			}
 			cartItem.remove();
 		}
 	})
