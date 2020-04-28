@@ -154,16 +154,20 @@ function buildCartElements(lookupCode, price, quantity) {
 	let cartElement = document.createElement('li');
 	cartElement.id = lookupCode;
 	cartElement.className = "cartItem";
+	cartElement.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
 
 	let quantityElement = document.createElement('input');
 	quantityElement.id = "quantity";
+	quantityElement.classList.add("cart-quantity");
 	quantityElement.value = quantity || 1;
 	quantityElement.size = 1;
+	quantityElement.maxLength = 3;
 	quantityElement.type = 'number';
 	quantityElement.onchange = () => quantityChanged(cartElement, Number(quantityElement.value));
 
 	let removeFromCartElement = document.createElement('button');
-	removeFromCartElement.innerHTML = 'Remove';
+	removeFromCartElement.innerHTML = '✕';
+	removeFromCartElement.classList.add("btn", "btn-danger");
 	removeFromCartElement.id = 'removeFromCart';
 	removeFromCartElement.type = 'button';
 	removeFromCartElement.onclick = () => removeFromCartActionClick(cartElement);
@@ -181,8 +185,8 @@ function buildCartElements(lookupCode, price, quantity) {
 	// lineTotalElement.className = "hidden";
 	lineTotalElement.innerHTML = `$${price * quantity}    `;
 
-	cartElement.insertAdjacentElement('afterbegin', lookupCodeElement);
 	cartElement.insertAdjacentElement('afterbegin', quantityElement);
+	cartElement.insertAdjacentElement('afterbegin', lookupCodeElement);
 	cartElement.insertAdjacentElement('afterbegin', lineTotalElement);
 	cartElement.insertAdjacentElement('beforeend', removeFromCartElement);
 	cartElement.appendChild(priceElement);
