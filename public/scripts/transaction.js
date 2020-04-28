@@ -120,6 +120,10 @@ function removeFromCartActionClick(cartItem) {
 
 			cartTotalElement.innerHTML = existingTotal - (quantity * price);
 			numbItemsElement.innerHTML = existingCount - (quantity);
+			if(cartTotalElement.innerHTML < 0 || numbItemsElement.innerHTML < 0){
+				cartTotalElement.innerHTML = 0;
+				numbItemsElement.innerHTML = 0;
+			}
 			cartItem.remove();
 		}
 	})
