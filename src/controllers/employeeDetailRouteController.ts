@@ -50,12 +50,8 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 
 
 			return res.redirect(ViewNameLookup.MainMenu);
-
-			// TODO: Serve up the page
-
 		}).catch((error: any): void => {
 			res.sendStatus(500);
-			// TODO: Handle any errors that occurred
 		});
 };
 
@@ -77,16 +73,14 @@ export const startWithEmployee = async (req: Request, res: Response): Promise<vo
 
 			else
 			if(!EmployeeQuery.queryById((<Express.Session>req.session).id)){
-				//Does not exist
+				// Does not exist
 			} else
 				res.render(ViewNameLookup.EmployeeDetail, req.body);
-			// TODO: Query the employee details using the request route parameter
 			return Promise.resolve();
-		}).then((/* TODO: Some employee details */): void => {
-			// TODO: Serve up the page
+		}).then((/* Some employee details */): void => {
 			return res.render(ViewNameLookup.EmployeeDetail, req.body);
 		}).catch((error: any): void => {
-			// TODO: Handle any errors that occurred
+			// Handle any errors that occurred
 		});
 };
 

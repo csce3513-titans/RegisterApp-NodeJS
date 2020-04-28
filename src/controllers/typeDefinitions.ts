@@ -62,7 +62,6 @@ export interface EmployeeType {
 	label: string;
 }
 
-// TODO: Transaction types
 export interface Transaction {
 	id: string;
 	createdOn: Date;

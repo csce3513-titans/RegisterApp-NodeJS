@@ -63,7 +63,6 @@ function addToCartActionClick(event){
 		const quantity = Number(productInCart.childNodes[2].value) + 1;
 		ajaxPut(addToCartActionUrl, { quantity }, callbackResponse => {
 			if (isSuccessResponse(callbackResponse)) {
-				// displayProductAddedAlertModal();
 				productInCart.childNodes[2].value = quantity;
 				totalPriceElement.innerHTML = Number(totalPriceElement.innerHTML) + price;
 				if(Number(totalItemsElement.innerHTML) == 0){
@@ -78,7 +77,6 @@ function addToCartActionClick(event){
 	} else {
 		ajaxPost(addToCartActionUrl, null, callbackResponse => {
 			if (isSuccessResponse(callbackResponse)) {
-				// displayProductAddedAlertModal();
 				buildCartElements(lookupcode, price, 1);
 				totalPriceElement.innerHTML = Number(totalPriceElement.innerHTML) + price;
 				totalItemsElement.innerHTML = Number(totalItemsElement.innerHTML) + 1;

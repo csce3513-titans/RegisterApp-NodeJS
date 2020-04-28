@@ -57,7 +57,7 @@ const saveProduct = async (
 
 	return ValidateActiveUser.execute((<Express.Session>req.session).id)
 		.then((activeUserCommandResponse: CommandResponse<ActiveUser>): Promise<CommandResponse<Product>> => {
-			if (activeUserCommandResponse.data && activeUserCommandResponse.data.classification <= 101) // TODO: Verify that the user associated with the current session is elevated or not
+			if (activeUserCommandResponse.data && activeUserCommandResponse.data.classification <= 101)
 				return Promise.reject(<CommandResponse<Product>>{
 					status: 403,
 					message: Resources.getString(ResourceKey.USER_NO_PERMISSIONS)
@@ -94,8 +94,6 @@ export const deleteProduct = async (req: Request, res: Response): Promise<void> 
 	if (await Helper.handleInvalidApiSession(req, res))
 		return;
 
-
-	// TODO: Verify that the user associated with the current session is elevated or not
 	return ProductDeleteCommand.execute(req.params[ParameterLookup.ProductId])
 		.then((deleteProductCommandResponse: CommandResponse<void>): void => {
 			res.status(deleteProductCommandResponse.status)
