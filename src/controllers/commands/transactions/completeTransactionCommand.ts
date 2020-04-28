@@ -13,7 +13,7 @@ export const execute = async (transactionId: string, cashierId: string) => {
 				message: Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_COMPLETE)
 			};
 
-		if (cashierId !== transaction.cashierId) // TODO: Should probably allow managers to do this
+		if (cashierId !== transaction.cashierId) 
 			return <CommandResponse<TransactionEntry>>{
 				status: 403,
 				message: Resources.getString(ResourceKey.USER_NO_PERMISSIONS)
