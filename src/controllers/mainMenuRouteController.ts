@@ -23,7 +23,7 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 			let isElevatedUser: boolean;
 			if (activeUserCommandResponse.data?.classification !== 0)
 				isElevatedUser = true;
-			 else
+			else
 				isElevatedUser = false;
 
 
@@ -33,10 +33,12 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 				'Cache-Control',
 				'no-cache, max-age=0, must-revalidate, no-store');
 
+			const errorCode = req.query[QueryParameterLookup.ErrorCode];
 			return res.render(
 				ViewNameLookup.MainMenu,
 				<MainMenuPageResponse>{
-					isElevatedUser
+					isElevatedUser,
+					errorMessage: errorCode ? Resources.getString(String(errorCode)) : undefined
 				});
 		}).catch((error: any): void => {
 			if (!Helper.processStartError(error, res)) {
