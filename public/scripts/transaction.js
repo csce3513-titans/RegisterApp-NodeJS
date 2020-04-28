@@ -135,7 +135,7 @@ function reCalculateCartTotal() {
 			const price = Number(cartItem.querySelector('#price').innerHTML);
 
 			newTotal += (quantity * price);
-			newCount = quantity;
+			newCount += quantity;
 		}
 	});
 	getCartTotalElement().innerHTML = newTotal;
