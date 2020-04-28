@@ -76,6 +76,9 @@ input.update {
 .btn-std {
 	width: 200px;
 }
+.cart-quantity {
+	width: 40px;
+}
  
 button.action,
 a.button,
