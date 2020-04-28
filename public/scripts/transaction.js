@@ -197,9 +197,9 @@ function buildCartElements(lookupCode, price, quantity) {
 }
 
 function searchForProducts() {
-	removeSearchResultElements();
 	if (this.value !== '') {
 		ajaxGet(`/api/productListing/${this.value}`, response => {
+			removeSearchResultElements();
 			buildSearchResultElements(response.data);
 		});
 	}
