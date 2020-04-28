@@ -66,7 +66,7 @@ function addToCartActionClick(event){
 				// displayProductAddedAlertModal();
 				productInCart.childNodes[1].value = quantity;
 				totalPriceElement.innerHTML = Number(totalPriceElement.innerHTML) + price;
-				if(Number(totalItemsElement.innerHTML == 0)){
+				if(Number(totalItemsElement.innerHTML) == 0){
 					totalItemsElement.innerHTML = Number(totalItemsElement.innerHTML) + 2;
 				}
 				else{
