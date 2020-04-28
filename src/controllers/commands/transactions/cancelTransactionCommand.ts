@@ -10,7 +10,7 @@ export const execute = async (transactionId: string, cashierId: string) => {
 		if (!transaction)
 			return <CommandResponse<TransactionEntry>>{
 				status: 404,
-				message: Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_CLOSE)
+				message: Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_COMPLETE)
 			};
 
 		if (cashierId !== transaction.cashierId) // TODO: Should probably allow managers to do this
@@ -35,7 +35,7 @@ export const execute = async (transactionId: string, cashierId: string) => {
 	} catch (error) {
 		throw <CommandResponse<TransactionEntry>>{
 			status: error.status ?? 500,
-			message: error.message ?? Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_CLOSE)
+			message: error.message ?? Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_CREATE)
 		};
 	}
 };

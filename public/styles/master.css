@@ -1,5 +1,5 @@
 div.header {
-	padding-top: 1px;
+	padding: 30px 0px;
 	text-align: right;
 }
 
@@ -67,14 +67,16 @@ input[type=number] {
 }
 
 input.update {
-	border: solid;
 	line-height: 1.75em;
 	width: calc(100% - 6px);
 	background-color: #FFFFFF;
 	font-size: 16px;
 	padding: 0em .25em 0em .25em;
 }
-
+.btn-std {
+	width: 200px;
+}
+ 
 button.action,
 a.button,
 input.submit {
@@ -143,7 +145,6 @@ table td.label {
 }
 
 tbody tr {
-	font-family: OpenSans-Regular;
 	font-size: 16px;
 	color: #808080;
 	line-height: 1.2;
@@ -191,5 +192,9 @@ table.hidden, tr.hidden, th.hidden, td.hidden {
 
 .gray-blue {
 	color: #607D8B!important;
+}
+
+.transactionSearchResult {
+	margin-bottom: 0px !important;
 }
 /* End saved alert modal */

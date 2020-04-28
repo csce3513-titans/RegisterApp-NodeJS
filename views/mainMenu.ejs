@@ -5,12 +5,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 
 	<link rel="stylesheet" type="text/css" href="/styles/master.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
 	<script type="text/javascript" src="/scripts/master.js" defer></script>
 	<script type="text/javascript" src="/scripts/mainMenu.js" defer></script>
 </head>
 
 <body>
+	<nav class="navbar navbar-light bg-light">
+		<span class="navbar-brand mb-0 h1">Titans Merchant Software</span>
+		<img class="form-inline my-2 my-lg-0" width=40 id="signOutImage" src="/images/Sign-Out.png" alt="Sign Out" />
+	</nav>
 
 	<div class="header">
 		<h1 class="primary-message">Main Menu</h1>
@@ -26,20 +31,20 @@
 		</div>
 
 		<div id="mainMenuButtonContainer">
-			<button id="startTransactionButton" type="button" class="action">Start Transaction</button>
+			<button id="startTransactionButton" type="button" class="btn btn-outline-success btn-std">Start Transaction</button>
 			<br />
 			<br />
-			<button id="productListButton" type="button" class="action">View Products</button>
+			<button id="productListButton" type="button" class="btn btn-outline-primary btn-std">View Products</button>
 			<br />
 			<br />
 			<% if (locals.isElevatedUser) { %>
-				<button id="employeeDetailsButton" type="button" class="action">Employee Details</button>
+				<button id="employeeDetailsButton" type="button" class="btn btn-outline-danger btn-std">Employee Details</button>
 				<br />			
 				<br />
-				<button id="salesReportButton" type="button" class="action">Sales Report</button>
+				<button id="salesReportButton" type="button" class="btn btn-outline-secondary btn-std" disabled>Sales Report</button>
 				<br />			
 				<br />
-				<button id="cashierReportButton" type="button" class="action">Cashier Report</button>
+				<button id="cashierReportButton" type="button" class="btn btn-outline-secondary btn-std" disabled>Cashier Report</button>
 			<% } %>
 		</div>
 	</div>
@@ -59,11 +64,10 @@
 			}
 		</script>
 	</div>
-
-	<div class="footer">
-		<img id="signOutImage" src="/images/Sign-Out.png" alt="Sign Out" class="footer" />
-	</div>
 		
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 
 </html>

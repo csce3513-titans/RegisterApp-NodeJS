@@ -203,16 +203,20 @@ function buildSearchResultElements(searchResults) {
 	const parent = getProductSearchResultContainer();
 	searchResults.forEach(searchResult => {
 		let searchResultElement = document.createElement('li');
+		searchResultElement.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
 
 		let lookupCodeElement = document.createElement('p');
 		lookupCodeElement.id = 'lookupCodeElement';
 		lookupCodeElement.innerHTML = searchResult.lookupCode;
+		lookupCodeElement.classList.add("transactionSearchResult");
 
 		let priceElement = document.createElement('p');
 		priceElement.id = 'priceElement';
 		priceElement.innerHTML = '$' + searchResult.price;
+		priceElement.classList.add("transactionSearchResult");
 
 		let addToCartElement = document.createElement('button');
+		addToCartElement.classList.add("btn", "btn-primary");
 		addToCartElement.innerHTML = 'Add to Cart';
 		addToCartElement.id = 'addToCart';
 		addToCartElement.onclick = addToCartActionClick;

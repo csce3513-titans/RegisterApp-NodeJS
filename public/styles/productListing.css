@@ -9,6 +9,11 @@
 	width: 15em;
 }
 
+.createdOn {
+	font-size: 0.7rem;
+	padding-left: 20px;
+}
+
 .products li {
 	cursor: pointer;
 	background-color: #EEE;
@@ -17,6 +22,7 @@
 	height: 3.5em;
 	border-radius: 4px;
 	text-align: left;
+	width: 230px;
 }
 
 .products li:hover {
